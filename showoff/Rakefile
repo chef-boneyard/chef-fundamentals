@@ -1,0 +1,4 @@
+task :mkdir_sections do
+  require 'json'
+  JSON.parse(IO.read("showoff.json"))['sections'].each {|dir| FileUtils.mkdir_p(dir)}
+end

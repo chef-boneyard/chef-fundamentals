@@ -1,0 +1,21 @@
+.content, .slide p {
+    vertical-align: text-top;
+    color: #333;
+    font-family: helvetica, arial;
+    text-align: left;
+}
+
+h1, h2, h3 {
+    color: #333;
+    font-family: Rockwell;
+}
+
+pre,code {font-family: Menlo;}
+
+.bullets ol,dl,ul {
+    text-align: left;
+    list-style-type: disc;
+    font-family: helvetica;
+    color: #333;
+    padding: 0px;
+}

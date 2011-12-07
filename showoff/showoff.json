@@ -1,0 +1,9 @@
+{
+  "name": "Chef Fundamentals",
+  "sections": [
+    "introduction",
+    "getting-started",
+    "anatomy-of-a-chef-run",
+    "example-cookbook"
+  ]
+}
