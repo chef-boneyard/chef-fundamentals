@@ -1,21 +1,106 @@
-.content, .slide p {
-    vertical-align: text-top;
+/* Get around style override for margin-top*/
+div.content {
+    margin-top: -32px !important;
+}
+
+#preso, .content, .slide {
+    background: #efedde;
     color: #333;
-    font-family: helvetica, arial;
+    font-family: Rockwell, Helvetica, Arial, sans-serif;
     text-align: left;
 }
 
-h1, h2, h3 {
+h1,h2, h3 {
+    text-align: right;
     color: #333;
     font-family: Rockwell;
 }
 
-pre,code {font-family: Menlo;}
+h1 {
+    font-size: 4em;
+    color: #efedde;
+    background-color: #2e2f2c;
+    padding: 0 0 0.25em;
+}
+
+pre { margin: 1em 40px; padding: 0.25em; }
+
+pre,code {
+    font-family: Menlo, monospace;
+    background: #f2f1f0;
+}
+
+.content p {
+    font-size: 3em;
+    text-align: left;
+}
+
+.content > p {
+    font-size: 3em;
+    margin: 1em;
+    text-align: left;
+}
 
 .bullets ol,dl,ul {
     text-align: left;
     list-style-type: disc;
-    font-family: helvetica;
+    font-family: Rockwell, Helvetica, Arial, sans-serif;
     color: #333;
     padding: 0px;
+}
+
+.content ol {
+    margin-left: 40px;
+    font-size: 3em;
+    text-align: left;
+    padding-left: 40px;
+}
+
+.content ol > li {
+    list-style: decimal;
+    display: list-item;
+}
+
+.content > ul {
+    list-style: disc;
+}
+
+.content > ul {
+    font-size: 3em;
+    text-align: left;
+    padding-left: 20px;
+}
+.content > ul > li {
+    padding: .25em;
+    margin-left: 40px;
+}
+
+.bullets > ul {
+    list-style: none;
+    font-size: 3em;
+    padding-left: 0px;
+}
+.bullets > ul > li {
+    text-align: center;
+    padding: 25px;
+}
+
+.content ul ul {
+    list-style: disc;
+    margin: 10px 10px;
+    padding-left: 20px;
+    text-align: left;
+}
+
+.bullets ul ul > li { font-size: 80%; }
+
+.command h1 {
+    white-space: pre;
+    font-family: Menlo, monospace;
+    font-size: 3em;
+}
+
+.code {
+    white-space: pre;
+    font-family: Menlo, monospace;
 }
