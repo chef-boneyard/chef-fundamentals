@@ -6,11 +6,14 @@ OPS150-04.01
 
 December, 2011
 
+.notes These course materials are Copyright © 2010-2011 Opscode, Inc. All rights reserved.
+This work is licensed under a Creative Commons Attribution Share Alike 3.0 License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/; or send a letter to Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA.
+
 # Introduction
 
 Welcome to Chef Fundamentals!
 
-# Section Objectives
+# Objectives
 
 At completion of this unit you should...
 
@@ -62,21 +65,6 @@ End to end guide to the basics of Chef including:
 * Understand Chef architecture
 * Create and modify cookbooks
 * Work with Chef Server API
-
-# Course Outline
-
-* Unit 0 - Introduction
-* Unit 1 - Getting Started
-* Unit 2 - Anatomy of a Chef Run
-* Unit 3 - Example Cookbook
-* Unit 4 - Roles
-* Unit 5 - Adding Cookbooks
-* Unit 6 - Node Attributes
-* Unit 7 - Introduction to Search
-* Unit 8 - Adding a New Node
-* Unit 9 - Data Bags
-* Unit 10 - Troubleshooting
-* Unit 11 - Chef Development and Further Resources
 
 # Agenda: Day 1
 
@@ -134,7 +122,7 @@ All Opscode’s Chef training materials are licensed under Creative
 Commons. See the license header slide in each presentation for
 information.
 
-# Section Summary
+# Summary
 
 You should now be familiar with the instructor and students and what
 we’re going to cover.
