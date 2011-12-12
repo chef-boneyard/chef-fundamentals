@@ -12,6 +12,8 @@ task :mkdir_sections do
         f.puts copyright_header
         f.puts section_objectives
         f.puts section_summary
+        f.puts section_exercise
+        f.puts "## #{section_header(dir)}"
       end
     end
   end
