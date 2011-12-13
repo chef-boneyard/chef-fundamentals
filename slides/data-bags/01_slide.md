@@ -107,7 +107,7 @@ contents.
     puts user #=> data_bag_item[USERNAME]
     puts user['id'] #=> USERNAME
 
-This returns a data_bag_item object. It is like a hash.
+This returns a `data_bag_item` object. It is like a hash.
 
 Access the item’s keys like hash keys.
 
@@ -131,7 +131,6 @@ We have a user but it doesn’t have any useful data that we can use in a recipe
 
     % knife data bag show users USERNAME
 
-    @@@javascript    
     {
       "id": "USERNAME",
       "groups": "sysadmin",
@@ -175,6 +174,7 @@ When running chef-client on the node, we’ll see that the user is created, amon
 # Summary
 
 You should now be able to...
+
 * Describe data bags
 * Create new data bags as JSON.
 * Search data bags.
