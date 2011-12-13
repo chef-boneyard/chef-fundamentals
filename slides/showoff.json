@@ -1,9 +1,20 @@
 {
   "name": "Chef Fundamentals",
   "sections": [
+    /* Day 1 */
     "introduction",
     "getting-started",
     "anatomy-of-a-chef-run",
-    "example-cookbook"
+    "example-cookbook",
+    /* Day 2 */
+    "roles",
+    "adding-cookbooks",
+    "node-attributes",
+    /* Day 3 */
+    "introduction-to-search",
+    "adding-a-new-node",
+    "data-bags",
+    "troubleshooting",
+    "chef-development"
   ]
 }
