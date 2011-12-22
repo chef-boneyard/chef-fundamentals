@@ -1,3 +1,11 @@
+/*
+  shrink.js copyright (c) 2011 Alex Chaffee <alex@stinky.com>
+
+  "I plan to incorporate it into Showoff proper as an option once I
+get a chance -- which has a vanilla MIT license.  I hereby give you
+permission to use it in your training materials in the meantime."
+
+*/
 // TODO: make it bind to a good event, not a timeout
 setTimeout(function() {
 $(".content").bind("showoff:show", function (event) {
