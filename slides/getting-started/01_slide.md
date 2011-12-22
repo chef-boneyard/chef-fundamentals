@@ -536,7 +536,7 @@ configuration.
 Options passed on the command-line override values in the
 configuration file.
 
-    @@@bash
+    @@@sh
     chef-client -l debug
     chef-client -N node-name
     chef-client -S https://api.opscode.com/organizations/OTHER
