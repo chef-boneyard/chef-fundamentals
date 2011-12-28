@@ -3,7 +3,7 @@
 ```
 gem install bundler
 bundle install
-cd source
+cd slides
 showoff serve
 ```
 
