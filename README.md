@@ -45,8 +45,15 @@ https://github.com/schacon/showoff
 
 # Contributing
 
+See CONTRIBUTING for information on how you can contribute changes to
+these materials.
+
+# License and Authors
+
 See LICENSE.txt for licensing of these materials and how you may use
 them.
 
-See CONTRIBUTING for information on how you can contribute changes to
-these materials.
+## Authors:
+
+Joshua Timberman <joshua@opscode.com>
+Aaron Peterson <aaron@opscode.com>

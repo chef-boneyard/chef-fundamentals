@@ -23,3 +23,6 @@ For example:
 When making changes in the repository, please do not modify the
 "showoff.json" file. Also please do not replace images without new
 sources such as OmniGraffle.
+
+If you would like to be credited for contributions, add your name to
+the __Authors__ section of the README.md.
