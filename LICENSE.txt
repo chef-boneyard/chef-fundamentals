@@ -5,7 +5,7 @@ Chef Fundamentals is created and sponsored by Opscode, Inc.
 Unless otherwise indicated, these materials are Copyright © 2010-2011
 Opscode, Inc. All rights reserved.
 
-Slides and notes are placed under Creative Commons
+Slides, guides and notes are placed under Creative Commons
 Attribution-ShareAlike license (CC BY-SA). You are free:
 
 to Share — to copy, distribute and transmit the work
@@ -25,7 +25,8 @@ Share Alike — If you alter, transform, or build upon this work, you
 may distribute the resulting work only under the same or similar
 license to this one.
 
-Supporting code and example code on slides, unless otherwise noted:
+Supporting code and significant example code on slides, unless
+otherwise noted:
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

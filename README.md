@@ -42,3 +42,11 @@ This is spartan and will be embellished.
 
 http://daringfireball.net/projects/markdown/syntax
 https://github.com/schacon/showoff
+
+# Contributing
+
+See LICENSE.txt for licensing of these materials and how you may use
+them.
+
+See CONTRIBUTING for information on how you can contribute changes to
+these materials.
