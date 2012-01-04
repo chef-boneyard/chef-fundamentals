@@ -36,7 +36,14 @@ This is spartan and will be embellished.
 * Create sections as directories.
 * Use PNGs for images.
 * Directory names should be lower case words as a title, "getting-started"
-* Each directory should have a 01_slide.md
+* Each directory should have a 01_slide.md, multiple sections may be
+  broken up later.
+
+# Guides Directory
+
+See the `instructor-setup.md` guide in the guides directory for
+information on how to set up the lab environments for students to use
+in the hands on portion of the course.
 
 # Resources
 
