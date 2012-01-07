@@ -26,8 +26,16 @@ Most of the action happens in the slides directory.
 
 ## Rakefile
 
-The `slides/Rakefile` has a task to set up the directories and an
-initial `01_slide.md` file for each of the sections in showoff.json.
+The `slides/Rakefile` has a task to set up the directory and an
+initial `01_slide.md` file for the specified section.
+
+    rake mksection SECTION=just-enough-ruby-for-chef
+    ** Creating section just-enough-ruby-for-chef **
+    - populating 01_slide.md
+
+This does not add the section to `showoff.json`. When contributing a new
+section, do not add it to the `showoff.json` file, as that should be
+reviewed before modifying the base course for everyone.
 
 ## Slide Style Guide
 

@@ -1,20 +1,18 @@
 # -*- coding: utf-8 -*-
-desc "Create the directories for the sections in showoff.json"
-task :mkdir_sections do
-  require 'json'
-  JSON.parse(IO.read("showoff.json"))['sections'].each do |dir|
-    puts "** Creating section #{dir} **"
-    FileUtils.mkdir_p(dir)
-    unless File.exists?(File.join(dir, "01_slide.md"))
-      puts "- populating 01_slide.md"
-      File.open(File.join(dir, "01_slide.md"), "a+") do |f|
-        f.puts "# #{section_header(dir)}\n"
-        f.puts copyright_header
-        f.puts section_objectives
-        f.puts section_summary
-        f.puts section_exercise
-        f.puts "## #{section_header(dir)}"
-      end
+desc "Create the directory and initial slides (with SECTION=name)"
+task :mksection do
+  dir = ENV['SECTION']
+  puts "** Creating section #{dir} **"
+  FileUtils.mkdir_p(dir)
+  unless File.exists?(File.join(dir, "01_slide.md"))
+    puts "- populating 01_slide.md"
+    File.open(File.join(dir, "01_slide.md"), "a+") do |f|
+      f.puts "# #{section_header(dir)}\n"
+      f.puts copyright_header
+      f.puts section_objectives
+      f.puts section_summary
+      f.puts section_exercise
+      f.puts "## #{section_header(dir)}"
     end
   end
 end
