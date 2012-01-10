@@ -45,11 +45,11 @@ The index.html should display the following node information:
 * `platform_version` attribute
 * `fqdn` attribute
 * `ec2['public_hostname']` attribute
-* Roles in the node's run list.
+* Expanded list of recipes in the node's run list.
 
-To display the roles in the node's run list, use:
+To display the recipes in the node's run list, use:
 
-`node.run_list.roles.join(", ")`
+`node.run_list.recipes.join(", ")`
 
 Format and display the HTML page any way you want, including wrapped in a `<pre>` block. The point is to write ERB, not HTML.
 
