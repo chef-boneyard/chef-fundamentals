@@ -30,3 +30,13 @@ Once complete, navigate to the public IP address of the load balancer system in 
 
 ## Questions
 
+How does the `haproxy::app_lb` recipe determine what nodes to search? Can it be modified? If so, where would that be done?
+
+
+How many nodes have HTTP traffic balanced by haproxy?
+
+
+What other attributes does the haproxy cookbook have?
+
+
+The haproxy cookbook has a `default` recipe. How does it differ from the `app_lb` recipe?
