@@ -5,7 +5,7 @@ task :mksection do
   puts "** Creating section #{dir} **"
   FileUtils.mkdir_p(dir)
   unless File.exists?(File.join(dir, "01_slide.md"))
-    puts "- populating 01_slide.md"
+    puts "- populating slide template #{dir}/01_slide.md"
     File.open(File.join(dir, "01_slide.md"), "a+") do |f|
       f.puts "# #{section_header(dir)}\n"
       f.puts copyright_header
@@ -13,6 +13,10 @@ task :mksection do
       f.puts section_summary
       f.puts section_exercise
       f.puts "## #{section_header(dir)}"
+    end
+    puts "- populating exercises #{dir}.md"
+    File.open(File.join("..", "guides", "student-exercises", "#{dir}.md"), "a+") do |g|
+      g.puts exercise_guide(dir)
     end
   end
 end
@@ -39,4 +43,8 @@ end
 
 def section_exercise
   "# Lab Exercise\n\n"
+end
+
+def exercise_guide(section = "welcome")
+  "#{section_header(section)}\n======================\n\n## Objectives\n\n## Acceptance Criteria\n\n## Quesetions\n"
 end
