@@ -7,331 +7,202 @@ This work is licensed under a Creative Commons Attribute Share Alike 3.0 United 
 
 At completion of this unit you should...
 
-* Understand infrastructure as code
-* Understand resources, recipes and cookbooks concepts
-* Be familiar with the tools that we use to manage infrastructure as code
+* Be able to install Ruby and Chef
+* Know the tools and commands that come with Chef
+* Understand the components of a Chef Repository
+* Be able to set up connectivity to a Chef Server
 
-# Infrastructure as Code
+# Supported Platforms
 
-Enable reconstruction of the business from nothing but a source code
-repository, application data backup and bare metal resources.
+Opscode supports Chef Clients on the following platforms:
 
-# Fully Automated Infrastructure
+* Ubuntu (10.04, 10.10, 11.04, 11.10)
+* Debian (5.0, 6.0)
+* RHEL & CentOS (5.x, 6.x)
+* Fedora 10+
+* Mac OS X (10.4, 10.5, 10.6)
+* Windows 7
+* Windows Server 2003 R2, 2008 R2
 
-* Service Oriented Architecture
-* Configuration Management
-* Systems Integration
+# Additional Platforms
 
-# Service Oriented Architecture
+Chef Client is known to also run on the following platforms:
 
-Composable
+* Ubuntu (6.06, 8.04-9.10)
+* Gentoo (11.1,11.2)
+* FreeBSD (7.1-9.0+)
+* OpenBSD (4.4+)
+* OpenSolaris (2008.11) / OpenIndiana / SmartOS
+* Solaris 5.10 (u6)
+* SuSE (11.x)
+* Windows XP, Vista
 
-* Modular APIs
-* Build complex applications
+.notes Opscode does not fully test every aspect of Chef on these platforms, but Chef Client is known to run and all built in resources work.
 
-# Configuration Management
+# Ruby and Chef
 
-Policy Driven Process for system state
+Chef is written in Ruby, an object oriented interpreted programming language.
 
-* Set policy by documenting problems
-* Execute policy by writing code
-* Audit policy by confirming results
-* Test policy by repeating the process
+Much of the code you'll work with for Chef is Ruby, albeit domain-specific language(s) suited for the task.
 
-# Policy Driven Process
+In order to install and use Chef, we need to have Ruby installed and available. It is important to understand some nuances about Ruby installation, first.
 
-![Policy Driven Process](policy-driven-process.png)
+# Ruby Versions
 
-# Systems Integration
+Ruby is an interpreted language and has several interpreter VMs available. The most common is "MRI" or the "Matz Ruby Interpreter"
 
-Service Oriented Architecture
+The latest stable version of MRI is [Ruby 1.9.3](http://ruby-lang.org).
 
-* Infrastructure components
-* Network services
+Chef requires at least Ruby 1.8.7.
 
-Configuration Management
+.notes Versions are current as of the latest update to these materials.
 
-* Policy defines how infrastructure behaves
-* Combine and integrate the services
+# Distribution Packages
 
-# The Chef Way: Configuration Management
+Ruby and parts of the Ruby ecosystem have a reputation for backwards incompatibility. As such, not all platforms have the latest version available as the default package for "ruby".
 
-* Declare policy with resources
-* Collect resources into recipes
-* Package recipes and supporting code in cookbooks
-* Apply cookbooks on nodes by specific roles
-* Run Chef to configure nodes for their role
+Most Linux/Unix variants package version 1.8.7; it is an API-compatible transition version between 1.8 and 1.9.
 
-# The Chef Way: Systems Integration
+Some make 1.9 version(s) available, but few use it as the default version.
 
-* Discovery through search
-* 3rd generation programming language
-* Fully expressive toolbox and primitives
-* One run completely configures the system
+.notes Debian (wheezy/testing) and Ubuntu (oneiric+) use their alternatives system to make ruby1.9.1 available to be used as a default ruby installed as an OS package.
 
-# Resources
+# RubyGems
 
-Resources are the fundamental configuration object.
+Ruby software is usually published by authors with the default library packaging system, RubyGems. Gems are published to http://rubygems.org/
 
-Chef manages resources on the node so they comply with policy.
+Prior to Ruby 1.9, RubyGems was separately installed. It has been added to Ruby 1.9 in the standard library, at RubyGems version 1.3.7.
 
-# Resources
+Chef requires at least RubyGems 1.3.7.
 
-Declare some aspect of policy
+.notes The `gem_package` provider uses library/API calls that were introduced in RubyGems 1.3.7.
 
-* The apache2 package should be installed.
-* The application user should be created.
+# Installing Ruby and RubyGems
 
-# Resources
+Chef is distributed primarily as a RubyGem, therefore Ruby and RubyGems need to be installed. Assuming the version requirements are met, we can simply install the Chef gem:
 
-Abstract the details. The commands:
+    % sudo gem install chef
 
-* apt-get install apache2
-* useradd application
+# Where it that simple...
 
-Become resources:
+For some platforms, getting the required versions of Ruby and RubyGems for Chef is not trivial.
 
-* package “apache2”
-* user “application”
+The current version of Ruby not being packaged by default has lead to other solutions, primarily centered around installing Ruby from source, to emerge.
 
-# Resources
+Compiling from source is time consuming, and many (most?) system administrators prefer to install all software using packages.
 
-Resources take idempotent actions through providers.
+# Introducing Omnibus
 
-Providers know how to determine the current state.
+Opscode needed a better way to distribute Chef so it is easier for customers and community members to install.
 
-Providers do not take action if the resource is in the declared state.
+We also need a consistent installation method that our support team can troubleshoot.
 
-# Resources
+# Omnibus Build System
 
-Non-compliance with policy is a bug.
+We created "omnibus" which is a package build system that generates full-stack binary installers in a variety of formats.
 
-Chef converges the node to make it compliant with the policy.
+* Native packages (rpm, deb)
+* Self-extracting executable Tar.gz
+* Microsoft Software Installer (MSI)
 
-A single Chef run should completely converge the node.
+The idea is that all the software required above the standard C library for the OS is included, in Chef's case this is autoconf, openssl, zlib, Ruby, RubyGems and more.
 
-# Resources
+.notes Omnibus is the name of the project for the build tool. These packages are often called "omnibus" packages. It is currently used for Chef, but can build other software stacks, too.
 
-Resources are data driven.
+# Installing Chef Full
 
-* Packages have versions
-* Users have home directories, shells and numeric IDs.
+Omnibus is the build tool. The installation package is "chef-full".
 
-This data can come from multiple sources, either by documenting in the code itself or an external source.
+Instructions for installation are at:
 
-# Resources Chef Can Configure
+* http://opscode.com/chef/install
 
-* directories, files, templates, remote files
-* packages, services, users, groups
-* scripts, commands, ruby code blocks
-* subversion and git code repositories
-* application deployment, HTTP requests
-* network interfaces, filesystem mounts
+# Supported Platforms
 
-Chef includes over 25 different kinds of resources.
+Installers are created for the following platforms. This may be different than the list of supported platforms, earlier.
 
-# User-created Resources
+* Debian, Ubuntu
+* RHEL, CentOS, Scientific Linux, Oracle Enterprise Linux
+* Fedora, Amazon Linux
+* Mac OS X
+* OpenIndiana
+* Windows (Server 2003, 2008)
 
-Chef is flexible and extensible and new resources and providers can be
-created.
+# Linux/Unix Installation
 
-* Cookbook LWRPs (Lightweight DSL)
-* Cookbook Libraries
+Installation on Linux and Unix is done with a shell script:
 
-# What Does a Resource Look Like?
+    % curl -L http://opscode.com/chef/install.sh | sudo bash
 
-* Resources have a type
-* Resources have a name
-* Resources take parameter attributes
-* Resources specify the action to take
+The script merely does platform detection to determine what file to download.
 
-# Example Resource
+# Windows Installation
 
-    @@@ ruby
-    template "/tmp/config.conf" do
-      source "config.conf.erb"
-      owner "root"
-      group "root"
-      mode 0644
-      action :create
-    end
+Installation on Windows is done by downloading the MSI and installing it.
 
-.notes in the absense of parameters, default values are assumed. same
-with actions
+* http://opscode.com/chef/install.msi
 
-# Resources Have Sane Defaults
+Server versions are directly tested, but the MSI is known to install and work fine on desktop versions of Windows such as Vista and 7.
 
-Each resource has a "name attribute."
+# What You Get on Linux/Unix
 
-This corresponds to a parameter attribute as the default value.
+Chef binaries are in `/opt/opscode/bin`. The package installation symlinks them in `/usr/bin` so they are in the default `$PATH`.
 
-Parameter attributes all have default values internal to Chef. Specify your own to be explicit, or to change the default.
+Other binaries are in `/opt/opscode/embedded/bin`. This includes `ruby`, `gem`, and binaries for other included software like autoconf, openssl and more.
 
-Resources also have a default action. The default value depends on the
-resource type.
+# What You Get on Windows
 
-# Recipes
+Chef binaries are in `C:\opscode\bin`. The other binaries are in `C:\opscode\embedded\bin`. These directories are added to the system `%PATH%`.
 
-Recipes are the majority of the code written to execute the policy.
+# Chef Full Ruby
 
-Recipes contain declarative resources.
+The Ruby included in the Chef Full stack installation package is considered to be for Chef.
 
-Supporting code for recipes can also be written as libraries, or new
-resources.
+If Ruby is required for other tools or applications on the system, we recommend installing it from a cookbook. Using the Ruby included for Chef is recommended only for using Chef.
 
-# Recipes
-
-Internal Ruby domain-specific language.
-
-* You need a 3rd generation programming language.
-* You can’t be limited by the language.
-
-# Recipes
-
-Recipes are processed in the order they are written.
-
-* Ruby code is evaluated.
-* Ruby recognized as Resources are added to the resource collection.
-* Chef walks the resource collection to configure the resources.
-* Providers take action to configure the resource as it was declared.
-
-# How Are Recipes Applied?
-
-Nodes have a list of recipes they will run.
-
-This run list can include recipes that also include other recipes.
-
-These are applied to the node in the order listed.
-
-# Cookbooks
-
-Cookbooks are packages for recipes.
-
-They are organized into directories.
-
-Cookbooks contain one or more recipes.
-
-Cookbooks can also contain other components.
-
-# Cookbooks
-
-Download existing cookbooks
-
-* http://community.opscode.com
-
-Create new cookbooks
-
-Modify cookbooks
-
-Upload cookbooks to the Chef Server
-
-# Lab Exercise
-
-## Getting Started: Part 1
-
-# Sign up for Hosted Chef
-
-## http://opscode.com
-
-<center><img src="hosted-chef-signup.png" height="371" width="625"></center>
-
-.notes If you haven’t signed up for Opscode Hosted Chef, we’re going
-to do that now.
-
-# Free Up to 5 Nodes
-
-<center><img src="5-free-nodes.png"></center>
-
-.notes Opscode Hosted Chef is free up to 5 nodes, and we'll use less
-than that for the class.
-
-# Sign up for Hosted Chef
-
-<center><img src="free-trial.png"></center>
-
-.notes Select the "free trial" button to get the signup form.
-
-# About You
-
-Organization short name:
-
-* Alphanumeric
-* Hyphen and underscore
-
-<center><img src="signup-about.png"></center>
-
-.notes Fill out accurate information. If you ever want support, we
-need valid contact information on file.
-The organization shortname should be lowercase letters and numbers. It
-can include hyphen and underscore.
-
-# Next Steps
-
-Verify your email address.
-
-<center><img src="next-steps.png"></center>
-
-# Next Steps
-
-Select "Experienced with Chef" to go to the Management Console.
-
-<center><img src="email-verified.png"></center>
-
-# Download Organization Assets
-
-## https://manage.opscode.com
-
-<center><img src="select-organizations.png"></center>
-<center><img src="generate-validation-key.png"></center>
-<center><img src="generate-knife-config.png"></center>
-
-.notes Download the organization validation key and knife
-configuration file for the organization. Save them somewhere such as
-~/Downloads
-
-# Download User Private key
-
-<center><img src="manage-console-user-login.png"></center>
-<center><img src="user-get-private-key.png"></center>
-
-.notes Click your username in the upper right corner. Then get the
-private key for your user. Save this in the same directory as the
-organization validation key and the knife configuration file.
-
-# Sign-up Artifacts
-
-* Opscode Hosted Chef Login
-* Opscode Hosted Chef Organization
-* User private key
-* Validation or Organization key
-* Knife Configuration file
-
-# Tools of the Trade
-
-In building infrastructure as code, we have several tools in the toolbox.
-
-Non-Chef tools:
-
-* Shell (Bash, Zsh, Powershell, Cmd.exe)
-* Text editors (Emacs, Vim, Notepad++)
-* Version control systems (Git, Subversion, Perforce)
-* Ruby programming language
-
-# Tools of the Trade
-
-Chef itself comes with several tools.
-
-* ohai - data gathering
-* knife - command-line API and management tool
-* chef-client & chef-solo - application to run Chef
-* shef - interactive Ruby console for Chef
+If you wish to install Chef extensions such as knife plugins, report handlers or gems used in cookbooks, use the full-stack included Ruby. We'll discuss this more throughout the course.
 
 # Chef Tools
 
-Common traits of Chef’s toolbox:
+Chef comes with a number of tools. They share some common traits.
 
-* --help
+* Built-in help
 * Configuration
+
+# Built-in Help
+
+Each command has a `--help` or `-h` command-line option that displays options and contextual help output.
+
+Each command also has a corresponding Unix `man(1)` page, which is included in the installed Chef library.
+
+# Built-in Help
+
+As Windows does not have a `man(1)` help system, HTML pages are generated. These are located in:
+
+* C:\opscode\chef\embedded\lib\ruby\gems\1.9.1\gems\chef-VERSION\distro\common\html
+
+Where "VERSION" is the version of Chef.
+
+A future release will have helpers to make these easier to access.
+
+# Configuration
+
+Each tool that Chef comes with has its own configuration file.
+
+Configuration files populate values in the Chef::Config object.
+
+Chef comes with sane default values for all configuration options that can be changed.
+
+Context of the configuration file to the appropriate tool is important.
+
+# Chef Configuration
+
+Chef::Config uses a simple domain specific language where the setting and its value are specified.
+
+    @@@ruby
+    log_level :info
+    log_location STDOUT
+    chef_server_url "https://api.opscode.com/organizations/opstrain"
 
 # Ohai
 
@@ -342,23 +213,26 @@ information.
 
 This data gets stored on the Chef Server.
 
+# Ohai Configuration
+
 Ohai is usually configured via the chef-client configuration file
 (`/etc/chef/client.rb`), it has no other default configuration file.
+
+The ohai configuration is accessed with `Ohai::Config`. It is a Ruby hash that uses symbols for key names.
+
+    @@@ruby
+    Ohai::Config[:disabled_plugins] << 'passwd'
+
+.notes Disabling plugins is the most common configuration to do for Ohai. We won't detail more configuration at this time.
 
 # Knife
 
 Knife is the “swiss army knife” of infrastructure management tools. It is used for a number of tasks:
 
-* managing the local Chef repository
+* "managing" the local Chef repository
 * interact with the Chef Server API
 * interact with cloud computing providers’ APIs
-* extend with custom scripts and tools
-
-The default configuration file for Knife is `.chef/knife.rb`.
-
-.notes the configuration works like git, it looks in the current
-directory for .chef/knife.rb, then goes up until it finds one, falling
-back to `~/.chef/knife.rb`.
+* extend with custom plugins/libraries
 
 # Knife Sub-commands
 
@@ -391,6 +265,97 @@ Knife has built-in man pages.
     knife help TOPIC
     knife help node
 
+.notes These probably won't work on Windows, which doesn't have a "man" system. The files are also rendered as html and can be found in the Chef MSI.
+
+# Knife Configuration
+
+The default configuration file for Knife is `.chef/knife.rb`; knife looks for it automatically, similar to `git`:
+
+    $PWD/.chef/knife.rb
+    $PWD/".."/.chef/knife.rb
+    ~/.chef/knife.rb
+
+Opscode Hosted Chef provides a pregenerated `knife.rb` you can use.
+
+# Knife Configuration Options
+
+Options set in the knife configuration file have two namespaces.
+
+One applies to `Chef::Config` directly.
+
+The other applies to `Chef::Config[:knife]`.
+
+Context is important.
+
+# Knife Configuration
+
+To work with the Chef Server API, Knife must be configured with:
+
+* The Chef Server's URL (chef\_server\_url).
+* The actor to authenticate to the API (node\_name).
+* The private key for the authenticating actor (client\_key).
+
+# Knife Configuration
+
+Minimal `knife.rb` configured to use a particular Opscode Hosted Chef organization and Opscode user.
+
+    @@@ruby
+    node_name       "opscode-trainer"
+    client_key      "opscode-trainer.pem"
+    chef_server_url "https://api.opscode.com/organizations/opstrain"
+
+.notes We will talk more about how the authentication system works in Chef later in Anatomy of a Chef Run
+
+# Knife Configuration
+
+We work with a local Chef Repository that stores the various files, including cookbooks, that should be sent to the Chef Server. Knife is written to automatically use these locations.
+
+One directory it does need to be told is the path where cookbooks live.
+
+    @@@ruby
+    cookbook_path "./cookbooks"
+
+This configuration file is Ruby, not bash, so we need to be careful with the path usage. The default `knife.rb` provided with a Hosted Chef account through the webui will have this already set for you.
+
+# Knife Configuration
+
+The cookbook path in the pre-generated Knife configuration file uses a relative location based on the location of the `knife.rb` file.
+
+    @@@ruby
+    current_dir = File.dirname(__FILE__)
+    cookbook_path ["#{current_dir}/../cookbooks"]
+
+# Knife Command-line Options
+
+Knife has a base set of command-line options that correspond to general options in the `knife.rb`.
+
+Each sub-command may have specific command-line options that are different.
+
+# Knife Command-line Options
+
+The following command-line options correspond to the specified config file settings:
+
+    | Command-line Option  | knife.rb        |
+    |----------------------|-----------------|
+    | -s, --server-url URL | chef_server_url |
+    | -k, --key KEY        | client_key      |
+    | -u, --user USER      | node_name       |
+
+# Knife Command-line Options
+
+Other common command-line options used with knife.
+
+    | Command-line Option  | Purpose             |
+    |----------------------|---------------------|
+    | -c, --config CONFIG  | Configuration file  |
+    |                      | to use.             |
+    | -V, --verbose        | Verbose output, can |
+    |                      | be specified twice. |
+    | -F, --format         | Output format, can  |
+    |                      | be json, yaml, text |
+
+.notes We'll discuss other options as we progress through the course.
+
 # Chef Client & Chef Solo
 
 The programs chef-client and chef-solo load the Chef library and make
@@ -410,119 +375,68 @@ Server, and retrieved when chef-client runs.
 
 The default configuration file is `/etc/chef/client.rb`.
 
-# Chef Solo
+# Chef Client Configuration
 
-chef-solo operates without a Chef Server. It requires that all the
-recipes it needs are available, and that it be told what to run on the
-node.
+Like Knife, `chef-client` must be configured with the proper authentication information.
 
-A JSON file is passed to chef-solo to give it these instructions in a
-`run_list` for the node.
+Unlike Knife, the `node_name` is not a user, but the actual system's name for itself. Unless otherwise specified in `/etc/chef/client.rb`, the `node_name` is the value detected as the `fqdn` (fully qualified domain name).
 
-The default configuration file is `/etc/chef/solo.rb`.
+.notes We will talk more about authentication in Anatomy of a Chef run.
 
-# Shef
+# Chef Client Configuration
 
-Shef is an interactive Ruby console that supports attribute and recipe
-contexts, as well as interactive debugging features.
-
-Shef can be configured to talk to a Chef Server to interact with the
-API directly.
-
-We will see some examples of Shef in action this week, but not cover
-it in great detail.
-
-The default configuration file is `~/.chef/shef.rb`.
-
-# Tools of the Trade
-
-We also work with two other things conceptually that are not tools.
-
-* JSON
-* Chef repository
-
-# JSON
-
-    @@@javascript
-    {
-      "id": "json_example",
-      "number": 120,
-      "an_array": [ 1, 2, 3 ],
-      "a_hash": { "foo": "bar" }
-    }
-
-# Chef Repository
-
-Very simply, the Chef Repository is a version controlled directory
-that contains cookbooks and other components relevant to Chef.
-
-It contains Infrastructure as Code.
-
-Knife already knows how to interact with many parts of the repository.
-
-We’ll look at each part of the repository when we get to the relevant
-section.
-
-# Configuration
-
-Each tool that Chef comes with has its own configuration file.
-
-Configuration files populate values in the Chef::Config object.
-
-Chef comes with sane default values for all configuration options that
-can be changed.
-
-Context of the configuration file to the appropriate tool is
-important.
-
-# Knife Configuration File
-
-Knife looks for its configuration file, knife.rb automatically.
-
-* $PWD/.chef/knife.rb
-* $PWD/".."/.chef/knife.rb
-* ~/.chef/knife.rb
-
-# Knife Configuration Options
-
-Options set in the knife configuration file have two namespaces.
-
-One applies to `Chef::Config` directly.
-
-The other applies to `Chef::Config[:knife]`.
-
-Context is important.
-
-# Example Knife Configuration
+The minimal configuration for `chef-client` in `/etc/chef/client.rb` to talk to the Chef Server is:
 
     @@@ruby
-    # ~/chef-repo/.chef/knife.rb
-    current_dir = File.dirname(__FILE__)
-    log_level              :info
-    log_location           STDOUT
-    node_name              "USERNAME"
-    client_key             "#{current_dir}/USERNAME.pem"
-    validation_client_name "ORGNAME-validator"
-    validation_key         "#{current_dir}/ORGNAME-validator.pem"
-    chef_server_url        "https://api.opscode.com/organizations/ORGNAME"
-    cache_type             'BasicFile'
-    cache_options( :path => "#{ENV['HOME']}/.chef/checksums" )
-    cookbook_path          ["#{current_dir}/../cookbooks"]
-    # "knife" namespace
-    knife[:aws_access_key_id]     = ENV['AWS_ACCESS_KEY_ID']
-    knife[:aws_secret_access_key] = ENV['AWS_SECRET_ACCESS_KEY']
+    chef_server_url  "https://api.opscode.com/organizations/opstrain"
+    validation_client_name "opstrain-validator"
 
-# chef-client Configuration
+All other options will use default values, which are meant to be sane defaults.
 
-The default configuration file for chef-client is `/etc/chef/client.rb`.
+# Chef Client Configuration
 
-Configuration is applied directly to Chef::Config, there are no other
-namespaces.
+Other common configuration options (default values are used below):
 
-Chef uses default values for anything not specified in the
-configuration.
+    @@@ruby
+    log_level        :info
+    log_location     STDOUT
+    verbose_logging  true
+    file_cache_path  "/var/chef/cache"
+    file_backup_path "/var/chef/backup"
+    json_attribs     nil
 
-# Example chef-client Configuration
+# Client Command-line Options
+
+The following command-line options correspond to the specified config file settings.
+
+    | Command-line Option  | client.rb       |
+    |----------------------|-----------------|
+    | -S, --server URL     | chef_server_url |
+    | -k, --key KEY        | client_key      |
+    | -u, --user USER      | node_name       |
+
+# Client Command-line Options
+
+Other common command-line options used with chef-client:
+
+    | Command-line Option   | client.rb    |
+    |-----------------------|--------------|
+    | -l, --log_level LEVEL | log_level    |
+    | -L, --logfile LOGFILE | log_location |
+    | -j JSON_ATTRIBUTES    | json_attribs |
+    | -N, --node-name NAME  | node_name    |
+
+# Client Command-line Options
+
+The following options control how the `chef-client` process behaves.
+
+    | Command-line Option   | Purpose                        |
+    |-----------------------|--------------------------------|
+    | -d, --daemonize       | Daemonize the process          |
+    | -i, --interval INT    | Run every INT seconds          |
+    | -s, --splay SECONDS   | Random splay added to interval |
+
+# Full example client.rb
 
     @@@ruby
     log_level        :info
@@ -542,9 +456,52 @@ configuration file.
     chef-client -S https://api.opscode.com/organizations/OTHER
     chef-client --help
 
+# Chef Solo
+
+chef-solo operates without a Chef Server. It requires that all the
+recipes it needs are available, and that it be told what to run on the
+node.
+
+A JSON file is passed to chef-solo to give it these instructions in a
+`run_list` for the node.
+
+The default configuration file is `/etc/chef/solo.rb`.
+
+# Chef Solo Configuration
+
+We're not going to work with Chef Solo in depth, but you may be interested in some of the configuration options:
+
+    @@@ruby
+    cookbook_path ["/var/chef/cookbooks","/var/chef/site-cookbooks"]
+    role_path "/var/chef/roles"
+    json_attribs nil
+
+# Solo Command-line Options
+
+`chef-solo` does not connect to a server, so it doesn't have options for interacting with a server. Common command-line options:
+
+    | Command-line Option   | solo.rb       |
+    |-----------------------|---------------|
+    | -l, --log_level LEVEL | log_level     |
+    | -L, --logfile LOGFILE | log_location  |
+    | -j JSON_ATTRIBUTES    | json_attribs  |
+    | -N, --node-name NAME  | node_name     |
+    | -r, --recipe-url URL  | recipe_url    |
+
+# Shef
+
+Shef is an interactive Ruby console that supports attribute and recipe
+contexts, as well as interactive debugging features.
+
+Shef can be configured to talk to a Chef Server to interact with the API directly.
+
+In depth use of Shef is beyond the scope of this class, but we may explore it for examples later.
+
+The default configuration file is `~/.chef/shef.rb`.
+
 # Chef Server
 
-Centralized publishing system for infrastructure data and code.
+The Chef Server is a centralized publishing system for infrastructure data and code.
 
 * Stores node, role and user-entered data
 * Indexes stored data
@@ -563,7 +520,7 @@ Commis (Python)
 
 # Chef Server Components
 
-<center><img src="chef-server-arch.png"></center>
+<center><img src="../images/chef-server-arch.png"></center>
 
 # Chef Server API Services
 
@@ -592,17 +549,137 @@ authorized with role-based access controls.
 
 Custom data ("data bags") can be encrypted with user-supplied keys.
 
+# Chef Server
+
+We will use Opscode Hosted Chef as the Chef Server for this course.
+
+* It is free up to 5 nodes.
+* It is internet-accessible.
+* No additional software to install/configure.
+
+# Sign up for Hosted Chef
+
+Go to http://opscode.com
+
+<center><img src="../images/hosted-chef-signup.png" height="371" width="625"></center>
+
+# Free Up to 5 Nodes
+
+<center><img src="../images/5-free-nodes.png"></center>
+
+.notes Opscode Hosted Chef is free up to 5 nodes, and we'll use less than that for the class.
+
+# Sign up for Hosted Chef
+
+<center><img src="../images/free-trial.png"></center>
+
+.notes Select the "free trial" button to get the signup form.
+
+# About You
+
+Organization short name:
+
+* Alphanumeric
+* Hyphen and underscore
+
+<center><img src="../images/signup-about.png"></center>
+
+.notes Fill out accurate information. If you ever want support, we
+need valid contact information on file. The organization shortname should be lowercase letters and numbers. It can include hyphen and underscore.
+
+# Next Steps
+
+Verify your email address.
+
+<center><img src="../images/next-steps.png"></center>
+
+# Next Steps
+
+Select "Experienced with Chef" to go to the Management Console.
+
+<center><img src="../images/email-verified.png"></center>
+
+# Download Organization Assets
+
+Login: https://manage.opscode.com
+
+<center><img src="../images/select-organizations.png"></center>
+<center><img src="../images/generate-validation-key.png"></center>
+<center><img src="../images/generate-knife-config.png"></center>
+
+Download the validation key and knife config to somewhere such as ~/Downloads.
+
+# Download User Private key
+
+Select your username at the top of the management console to access your profile page.
+
+<center><img src="../images/manage-console-user-login.png"></center>
+<center><img src="../images/user-get-private-key.png"></center>
+
+.notes Click your username in the upper right corner. Then get the
+private key for your user. Save this in the same directory as the
+organization validation key and the knife configuration file.
+
+# Sign-up Artifacts
+
+* Opscode Hosted Chef Login
+* Opscode Hosted Chef Organization
+* User private key
+* Validation or Organization key
+* Knife Configuration file
+
+# Other Tools
+
+In working with infrastructure, we have several tools in the toolbox.
+
+Non-Chef tools:
+
+* Shell (Bash, Zsh, Powershell, Cmd.exe)
+* Text editors (Emacs, Vim, Notepad++)
+* Version control systems (Git, Subversion, Perforce)
+* Ruby programming language
+
+# Chef Repository
+
+Very simply, the Chef Repository is a version controlled directory that contains cookbooks and other components relevant to Chef.
+
+It contains your "Infrastructure as Code".
+
+Knife already knows how to interact with many parts of the repository.
+
+We’ll look at each part of the repository in greater detail when we get to the relevant section.
+
+# Chef Repository
+
+Example Chef Repository directory tree:
+
+    chef-repo
+    ├── .chef
+    ├── cookbooks
+    ├── data_bags
+    ├── environments
+    ├── README.md
+    └── roles
+
 # Working with Chef
 
-<center><img src="working-with-chef.png"></center>
+<center><img src="../images/working-with-chef.png"></center>
 
 # Summary
 
-You should now be able to...
+* Ruby and Chef Installation
+* Tools and commands that come with Chef
+* Connectivity to the Chef Server
+* Components of a Chef Repository
 
-* Describe infrastructure as code
-* Describe resources, recipes and cookbooks
-* Use the tools that come with Chef
+# Questions
+
+* In what language is Chef written?
+* How is Chef distributed by Opscode?
+* What are commands / tools that come with Chef?
+* What do Chef's commands have in common?
+* What are two implementations of the Chef Server API?
+* What configuration is required to connect to a Chef Server?
 
 # Additional Resources
 
@@ -615,4 +692,8 @@ You should now be able to...
 
 # Lab Exercise
 
-## Getting Started: Part 2
+Getting Started
+
+* Install Ruby and Chef
+* Create initial Chef Repository
+* Set up connectivity to a Chef Server
