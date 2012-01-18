@@ -169,11 +169,18 @@ They need to be integrated together.
 
 .notes While a typical architecture, this is already complex. We have six systems, and two are a highly complex subsystem on their own (database).
 
+# System Integration
+
+In modern infrastructures, applications are not simply three-tier architectures. Other components are added, additional services are required to scale or add end-user features.
+
+* Message queueing
+* Search engines
+
+Let's also not forget monitoring and trending!
+
 # Complexity Grows
 
 <center><img src="../images/complex-infrastructure.png" /></center>
-
-.notes Once we have the base architecture in place, we need to add additional services to the mix like monitoring (and trending), maybe a message bus, a search engine...
 
 # Chef Can Help
 
