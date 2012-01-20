@@ -6,14 +6,8 @@ OPS150-04.01 - January, 2012
 
 Created and Sponsored by Opscode, Inc.
 
-<center><font size="-2">Copyright © 2010-2012 Opscode, Inc.</font></center>
-
 .notes These course materials are Copyright © 2010-2012 Opscode, Inc. All rights reserved.
 This work is licensed under a Creative Commons Attribution Share Alike 3.0 United States License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/us; or send a letter to Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA.
-
-# Introduction
-
-Welcome to Chef Fundamentals!
 
 # Logistics
 
@@ -38,22 +32,14 @@ Welcome to Chef Fundamentals!
 
 # Course Objectives
 
-* Understand Opscode’s products
-* Understand Chef architecture
-* Create and modify cookbooks
-* Work with Chef Server API
+* Understand Chef's tools and architecture
+* Obtain, create and modify cookbooks
+* Work with the Chef Server API
+* Understand common patterns used by Opscode
+* Understand Opscode's products
+* Further resources
 
-# What this course is
-
-End to end guide to the basics of Chef including:
-
-* Working with the API
-* Writing new cookbooks
-* Managing infrastructure as code
-* Understanding common patterns used by Opscode
-* Hands on exercises to reinforce the concepts
-
-# What this course isn't
+# Topics Not Covered
 
 * Direct comparison to other tools.
 * In depth details on advanced topics.
@@ -80,14 +66,14 @@ End to end guide to the basics of Chef including:
 
 * Multiple Nodes and Search
 * Data bags
-* Additional Topics: Environments, LWRPs, Reporting
+* Additional Topics
 * Chef Development and Further Resources
 
-.notes If this is a normal 3 days Chef Fundamentals class, then this agenda is applicable.
+.notes If this is a normal 3 days Chef Fundamentals class, then this agenda is applicable. Additional topics include: Environments, LWRPs, Reporting.
 
 # Agenda: Hack Day
 
-Chef Hack Day on Saturday!
+Opscode public Chef Fundamentals training is often followed by a Hack Day.
 
 * Mini-tutorials/talks
 * Demonstrations
@@ -101,11 +87,11 @@ Chef Hack Day on Saturday!
 
 At the end of the class:
 
-* Access to Opscode Hosted Chef server
+* Opscode account and Opscode Hosted Chef organization (Chef Server)
 * Workstation setup to work with Opscode Hosted Chef
 * Repository that can be used to get started managing infrastructure as code with Chef
 
-# About best practices
+# About Best Practices
 
 This course encompasses what we consider best practices.
 
@@ -131,6 +117,8 @@ Opscode's Chef Fundamentals training materials are dual-licensed.
 * System Integration
 * Core Principles
 
+.notes Now that the course is introduced, let's introduce Chef.
+
 # Configuration Management
 
 "Keep track of all the stuff you do to take a system from 'bare metal' to 'doing its job'." - Adam Jacob, Web Operations (O'Reilly, 2010)
@@ -143,13 +131,19 @@ Opscode's Chef Fundamentals training materials are dual-licensed.
 
 # Bare Metal
 
+We have computers sitting in a rack somewhere.
+
 <center><img src="../images/bare-metal.png" /></center>
 
 # Bare Metal...Cloud?
 
+Or, we have an idea of what computers we need running in a cloud somewhere.
+
 <center><img src="../images/bare-metal-cloud.png" /></center>
 
 # Doing their Job
+
+All the configuration management has been done, now they're doing their jobs.
 
 <center><img src="../images/doing-their-job.png" /></center>
 
@@ -165,22 +159,23 @@ They need to be integrated together.
 
 # System Integration
 
-<center><img src="../images/integrated-systems.png" /></center>
+In a typical architecture, this is complex. Six systems talk to each other, and two of those are a complex subsystem of their own - HA database.
 
-.notes While a typical architecture, this is already complex. We have six systems, and two are a highly complex subsystem on their own (database).
+<center><img src="../images/integrated-systems.png" /></center>
 
 # System Integration
 
-In modern infrastructures, applications are not simply three-tier architectures. Other components are added, additional services are required to scale or add end-user features.
+In modern infrastructures, applications are not simply three-tier architectures anymore. Other components are added. Additional services are required to scale or add end-user features. We already have caching here, but wait, there's more:
 
-* Message queueing
+* Message queues
 * Search engines
+* Third party services (e.g., billing, uptime/status, analytics)
 
-Let's also not forget monitoring and trending!
+Don't forget monitoring and trending!
 
 # Complexity Grows
 
-<center><img src="../images/complex-infrastructure.png" /></center>
+<center><img src="../images/complex-infrastructure.png" /><img src="../images/third-party-services.png" /></center>
 
 # Chef Can Help
 
@@ -200,7 +195,7 @@ Chef is a tool for configuration management.
 
 # Declarative Resources
 
-You set policy in Chef by documenting the problems by writing code. This code is lists of *Resources* that configure the system to do its job.
+You configure systems with Chef by writing self-documenting code. This code is lists of *Resources* that configure the system to do its job.
 
 Chef manages system resources with a declarative interface that abstracts the details.
 
@@ -235,33 +230,31 @@ In Chef, a single run should completely configure the system. If it does not, it
 
 Chef provides a framework for system integration.
 
-* Resources are written in Chef Recipes, a Ruby DSL
+* Resources are written in Chef Recipes, a Ruby domain-specific language (DSL).
 * Recipe helpers such as `search` allow dynamic data usage.
 * Chef provides a library of primitives that can be used for other purposes.
 
 # Recipe Ruby DSL
 
-Ruby is a 3rd generation language that makes it easy to create domain specific languages. This lends itself quite nicely to configuration management.
+Ruby is a 3rd generation interpreted programming language. Ruby has features that make it easy to create domain specific languages. This lends itself quite nicely to configuration management.
 
-Ruby gets out of the way, but it's still there when you need it.
+In Chef, Ruby gets out of the way, but it is still there when you need it.
 
 Chef *Recipes* are a pure Ruby domain specific language. They are collected in *Cookbooks* along with associated components like config files or libraries.
 
 # Recipe Helpers
 
-Chef provides a number of recipe helpers to obtain and manipulate data to use in Resources. 
+Chef provides a number of recipe helpers to obtain and manipulate data to use in Resources.
 
 *Search* is used to discover information like IP addresses about other systems.
 
 Arbitrary data about the infrastructure can be stored in *Data Bags* and accessed in recipes.
 
-.notes We cover Search and Data Bags in later sections.
-
 # Library and Primitives
 
-Chef can be used as a library within other applications. It speaks JSON and the server has a RESTful API accessed over HTTP.
+Chef can be used as a library within other applications. It speaks JSON and the server has a RESTful API accessed over HTTP(S).
 
-Cookbooks can extend Chef with new libraries, including new resources.
+Cookbooks can extend Chef with new libraries, including new resources and helpers to interact with 3rd party services.
 
 Chef's included tools have plugin systems you can use to extend them.
 
@@ -270,7 +263,7 @@ Chef's included tools have plugin systems you can use to extend them.
 The Chef Server provides a network accessible API to stored data.
 
 * Information about configured nodes
-* Configuration policy
+* Configuration policy in Cookbooks
 * Descriptions of what policy to apply
 
 # Node Data
@@ -283,7 +276,7 @@ The JSON data is indexed for search by the Chef Server.
 
 # Configuration Policy
 
-Policy about the nodes is written in recipes, which are stored in cookbooks.
+Policy about the nodes is written in recipes, which are stored in *Cookbooks*.
 
 Cookbooks are uploaded to the Chef Server and distributed to the nodes that should be configured.
 
@@ -299,7 +292,7 @@ Chef inspects the node's role to determine what it should be to do its job.
 
 # Chef Summary: Configuration Management
 
-* Declare policy with resources
+* Declare configuration policy with resources
 * Collect resources into recipes
 * Package recipes and supporting code in cookbooks
 * Apply cookbooks on nodes by specific roles
