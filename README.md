@@ -65,7 +65,7 @@ these materials.
 
 # License and Authors
 
-See LICENSE.txt for licensing of these materials and how you may use
+See LICENSE for licensing of these materials and how you may use
 them.
 
 ## Authors:

@@ -1,13 +1,15 @@
 # Chef Fundamentals
 
-Opscode, Inc.
+Welcome to Chef Fundamentals!
 
-OPS150-04.01
+OPS150-04.01 - January, 2012
 
-December, 2011
+Created and Sponsored by Opscode, Inc.
 
-.notes These course materials are Copyright © 2010-2011 Opscode, Inc. All rights reserved.
-This work is licensed under a Creative Commons Attribution Share Alike 3.0 License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/; or send a letter to Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA.
+<center><font size="-2">Copyright © 2010-2012 Opscode, Inc.</font></center>
+
+.notes These course materials are Copyright © 2010-2012 Opscode, Inc. All rights reserved.
+This work is licensed under a Creative Commons Attribution Share Alike 3.0 United States License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/us; or send a letter to Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA.
 
 # Introduction
 
