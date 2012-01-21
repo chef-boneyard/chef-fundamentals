@@ -24,7 +24,7 @@ h1 {
     font-size: 3em;
     color: #efedde;
     background-color: #2e2f2c;
-    padding: 0 0 0.25em;
+    padding: 0.25em 0 0.25em;
 }
 
 pre { margin: 1em 40px; padding: 0.25em; }
