@@ -27,11 +27,22 @@ h1 {
     padding: 0.25em 0 0.25em;
 }
 
-pre { margin: 1em 40px; padding: 0.25em; }
-
-pre,code {
+pre.sh_sourceCode {
     font-family: Menlo, monospace;
-    background: #f2f1f0;
+    background-color: #f2f1f0;
+    border: 1px solid #888;
+}
+
+pre {
+    font-family: Menlo, monospace;
+    border: 1px solid #888;
+    margin: 1em 40px;
+    padding: 0.25em;
+}
+
+pre, code {
+    font-family: Menlo, monospace;
+    background-color: #f2f1f0;
 }
 
 .content p {
