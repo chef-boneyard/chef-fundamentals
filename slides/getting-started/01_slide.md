@@ -1,5 +1,7 @@
 # Getting Started
 
+Section Objectives
+
 * Install Ruby and Chef
 * Get familiar with the tools that come with Chef
 * Set up connectivity to a Chef Server
