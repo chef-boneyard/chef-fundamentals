@@ -3,7 +3,7 @@ Anatomy of a Chef Run
 
 ## Objectives
 
-* Configure local workstation to run Chef client
+* Configure remote target to run `chef-client`
 * Successful `chef-client` run with debug logging
 
 ## Acceptance Criteria
