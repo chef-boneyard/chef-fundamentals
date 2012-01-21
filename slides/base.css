@@ -16,6 +16,10 @@ h1,h2, h3 {
     font-family: Rockwell;
 }
 
+a:link {color:#f7681a;}
+a:visited {color:#f7681a;}
+a:hover {color:#2e2f2c;}
+
 h1 {
     font-size: 3em;
     color: #efedde;
