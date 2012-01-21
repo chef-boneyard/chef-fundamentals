@@ -2,11 +2,11 @@
 
 Section Objectives:
 
-* Understand components of a cookbook
+* Components of Chef cookbooks
 * Create new cookbooks
-* Download cookbooks from the Community site
-* Understand and write simple recipes
-* Recognize Chef resources
+* Write simple recipes
+* Recognize and write Chef resources
+* Run Chef with a cookbook on a node
 
 .notes These course materials are Copyright © 2010-2012 Opscode, Inc. All rights reserved.
 This work is licensed under a Creative Commons Attribution Share Alike 3.0 United States License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/us; or send a letter to Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA.
@@ -46,7 +46,7 @@ The most commonly used cookbook components are:
 
 # Common Components: Metadata
 
-Chef Cookbook metadata is written using a Ruby domain-specific language.
+Chef Cookbook *Metadata* is written using a Ruby domain-specific language.
 
 Metadata serves two purposes.
 
@@ -89,15 +89,15 @@ This is a security feature, so the Chef Server does not execute user-defined Rub
 
 One of the most common things to manage with Chef are configuration files on the node's filesystem.
 
-* /etc/mysql/my.cnf
-* /var/www/.htaccess
-* C:\Program Files\My Application\Configuration.ini
+* `/etc/mysql/my.cnf`
+* `/var/www/.htaccess`
+* `C:\Program Files\My Application\Configuration.ini`
 
 Chef cookbooks can contain `files` and/or `templates` directories to contain the source files for these resources as we'll see later.
 
 # Common Components: Recipes
 
-Recipes are the work unit in Chef. They contain lists of resources that should be configured on the node to put it in the desired state to fulfill its job.
+*Recipes* are the work unit in Chef. They contain lists of resources that should be configured on the node to put it in the desired state to fulfill its job.
 
 Nodes have a run list, which is simply a list of the recipes that should be applied when Chef runs.
 
@@ -145,11 +145,7 @@ Recipes are processed in the order they are written.
 
 Resources are the fundamental configuration object.
 
-Chef manages resources on the node so it can be configured to do its job.
-
-# Resources
-
-Declare some aspect of policy
+Chef manages system resources on the node so it can be configured to do its job.
 
 * The apache2 package should be installed.
 * The application user should be created.
@@ -162,7 +158,7 @@ Resources abstract the details of how to configure the system. The commands:
     apt-get install apache2
     useradd application
 
-Become resources:
+Become Chef resources:
 
     @@@ruby
     package “apache2”
@@ -170,28 +166,11 @@ Become resources:
 
 # Resources
 
-Resources take idempotent actions through providers.
+Resources take idempotent actions through *Providers*.
 
 Providers know how to determine the current state of the resource on the node.
 
 Providers do not take action if the resource is in the declared state.
-
-# Node Convergence
-
-If the node isn't configured to do its job, it needs to be converged.
-
-Chef converges the node to bring it closer to being fully configured.
-
-A single Chef run should completely converge the node.
-
-# Resources
-
-Resources are data driven.
-
-* Packages have versions
-* Users have home directories, shells and numeric IDs.
-
-This data can come from multiple sources, either by writing in the code itself or an external source.
 
 # Resources Chef Can Configure
 
@@ -204,15 +183,7 @@ This data can come from multiple sources, either by writing in the code itself o
 
 Chef includes over 25 different kinds of resources.
 
-# User-created Resources
-
-Chef is flexible and extensible and new resources and providers can be
-created.
-
-* Cookbook LWRPs (Lightweight DSL)
-* Cookbook Libraries
-
-.notes Libraries are beyond the scope of this class. LWRPs will be covered briefly later.
+.notes we will cover resources in depth later.
 
 # Resource Components
 
@@ -221,10 +192,15 @@ created.
 * Resources take parameter attributes
 * Resources specify the action to take
 
-# Example Resource
+# Example Resources
 
     @@@ ruby
-    template "/tmp/config.conf" do
+    directory "/etc/thing" do
+      owner "root"
+      group "root"
+    end
+
+    template "/etc/thing/config.conf" do
       source "config.conf.erb"
       owner "root"
       group "root"
@@ -246,49 +222,14 @@ Parameter attributes all have default values internal to Chef. Specify your own 
 Resources also have a default action. The default value depends on the
 resource type.
 
-# Common Recipe Patterns
+# Resource Attributes
 
-Many cookbooks will have a similar set of resources:
+Resources are data driven through their parameter attributes.
 
-* Packages
-* Configuration files
-* Services
+* Packages have versions
+* Users have home directories, shells and numeric IDs.
 
-# Package Resource
-
-    @@@ruby
-    package "fail2ban" do
-      action :upgrade
-    end
-
-The upgrade action is like install but if Chef determines a newer version is available, it will update.
-
-The fail2ban package will only have security fixes so it is safe to upgrade.
-
-# Service Resource
-
-    @@@ruby
-    service "fail2ban" do
-      supports [ :status => true, :restart => true ]
-      action [ :enable, :start ]
-    end
-
-The fail2ban service specifies a meta-parameter, “supports.” This affects the way the service provider works with the service init script.
-
-We can specify multiple actions by passing an array. These are processed by Chef in order.
-
-# Template Resources
-
-The resource takes several parameters.
-
-    @@@ruby
-    template "/etc/fail2ban/fail2ban.conf" do
-      source "fail2ban.conf.erb"
-      owner "root"
-      group "root"
-      mode 0644
-      notifies :restart, "service[fail2ban]"
-    end
+This data can come from multiple sources, either by writing in the code itself or an external source.
 
 # Distributing Cookbooks
 
@@ -314,6 +255,48 @@ In order for nodes to be configured with Chef, the cookbooks they need must be u
 
 .notes Chef Server uses an API for uploading cookbooks
 
+# Applying Cookbooks
+
+To run a recipe on a node with Chef, add the recipe to the node's run list.
+
+Recipes are stored in cookbook directories, and namespaced by the cookbook's directory name.
+
+The cookbook and recipe names can contain alpha-numeric characters, including dash and underscore.
+
+Recipes are stored in Ruby files, with the extension `.rb`. The `.rb` is ommitted when adding a recipe to a node.
+
+# Add Recipe to a Node
+
+When adding a recipe to a node, combine the cookbook name and the recipe name with `::`. If the `default` recipe is used, it is optional.
+
+    recipe[webserver]
+    recipe[webserver::default]
+
+Are equivalent. To use a different recipe, specify it by name:
+
+    recipe[webserver::different-recipe]
+
+# Add Recipe to a Node
+
+Use knife to add a recipe to an existing node’s run list on the Chef Server.
+
+    knife node run list add NODE 'recipe[webserver]'
+
+Use quotes to prevent shell meta-character expansion.
+
+Run Chef on the node and it will apply the recipe.
+
+# Add Recipe to a Node
+
+If the node does not exist on the Chef Server already, the run list can be specified by passing a JSON file with `chef-client -j FILE.json`.
+
+    @@@ javascript
+    {
+      "run_list": [
+        "recipe[webserver]"
+      ]
+    }
+
 # Chef Community Cookbooks
 
 Opscode hosts the Chef Community site where Chef users share cookbooks:
@@ -324,37 +307,32 @@ Knife includes sub-commands for working with the site.
 
     knife cookbook site --help
 
-# Finding Cookbooks
-
-Knife's `cookbook site` sub-commands can be used to find cookbooks.
-
-    knife cookbook site list
-    knife cookbook site show COOKBOOK
-    knife cookbook site search QUERY
-
-QUERY is a simple single term, e.g. "webserver" or "security".
-
-# Downloading Cookbooks
-
-Use the `download` command to download a tarball of a cookbook from the site. Then extract the archive into the cookbooks directory.
-
-    knife cookbook site download COOKBOOK
-    tar -zxvf COOKBOOK-VERSION.tar.gz -C cookbooks
-
-# Version Control Integration
-
-The `install` command can automatically integrate the cookbook into the local repository if it is managed with Git.
-
-    knife cookbook site install COOKBOOK
-
-This uses a "vendor branch" pattern with Git.
-
-(future versions of Chef will support other version control systems)
-
-.notes Vendor branch pattern: download cookbook tarball; check out branch for the cookbook; untar cookbook into the branch; commits changes w/ git; merges back into integration (master) branch.
-
-
 # Summary
 
+* Components of Chef cookbooks
+* Create new cookbooks
+* Write simple recipes
+* Recognize and write Chef resources
+* Run Chef with a cookbook on a node
+
+# Questions
+
+* What are Chef cookbooks?
+* What do cookbooks contain?
+* Which part of a cookbook determines the version and how to handle dependencies?
+* What two kinds of assets are distributed in cookbooks?
+* How do recipes get applied to a node?
+* What are the four components of a resource?
+* How does Chef determine the order to configure resources?
+
+# Additional Resources
+
+* [http://wiki.opscode.com/display/chef/Cookbooks](http://wiki.opscode.com/display/chef/Cookbooks)
+* [http://wiki.opscode.com/display/chef/Recipes](http://wiki.opscode.com/display/chef/Recipes)
+* [http://wiki.opscode.com/display/chef/Resources](http://wiki.opscode.com/display/chef/Resources)
 
 # Lab Exercise
+
+Cookbooks, Recipes and Resources
+
+TODO: Objective list from exercise
