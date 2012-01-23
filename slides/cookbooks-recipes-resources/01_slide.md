@@ -71,11 +71,13 @@ Cookbook dependencies are implied when using part(s) of one cookbook in another,
 
 Cookbook dependencies are explicitly defined in metadata with the `depends` field.
 
-# Metadata Dependency Management
+# Metadata Version Management
 
 Related to dependency management is version management. Cookbooks can be versioned, and dependencies on versions can be declared.
 
-Specify a cookbook's version with the `version` field.
+Cookbook versioning is enforced with dependencies if used, and in Chef Environments.
+
+Specify a cookbook's version with the `version` field. It should be a quoted string in the form "X.Y.Z", e.g., "1.0.0" or "0.5.2".
 
 # Cookbook Dependencies
 
@@ -335,4 +337,6 @@ Knife includes sub-commands for working with the site.
 
 Cookbooks, Recipes and Resources
 
-TODO: Objective list from exercise
+* Create a new cookbook
+* Write a simple recipe with two resources
+* Run Chef with the cookbook on a node
