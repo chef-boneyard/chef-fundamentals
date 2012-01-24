@@ -7,24 +7,24 @@ This work is licensed under a Creative Commons Attribute Share Alike 3.0 United 
 
 At completion of this unit you should...
 
-* Know how to get cookbooks with Knife and the Opscode Chef Community site
+* Know how to get cookbooks with Knife from the Opscode Chef Community site
 * Understand the components of a cookbook
 * Be able to upload a cookbook to Opscode Hosted Chef
 * Add a cookbook’s recipe to a node’s run list.
 
 # Chef Cookbooks
 
-Cookbooks are “packages” for Chef recipes and other helper components.
+Cookbooks are "packages" for Chef recipes and other helper components.
 
 You can create new cookbooks or download cookbooks from the Cookbooks
 site.
 
 # Cookbooks are Sharable
 
-We design cookbooks to be sharable with others. Attributes, allow you
-to interchange data. Use file specificity to customize the files and
-templates for particular platforms. Resources, providers and libraries
-you can extend cookbooks.
+Opscode designs cookbooks to be sharable with others. Attributes,
+allow you to interchange data. Use file specificity to customize the
+files and templates for particular platforms. Resources, providers and
+libraries you can extend cookbooks.
 
 These features of cookbooks bring flexibility and code reuse for your
 infrastructure.
@@ -55,17 +55,6 @@ Or, download a .tar.gz with knife:
 
 <center><img src="getting-cookbooks.png"></center>
 
-# knife cookbook site install
-
-    knife cookbook site install fail2ban
-
-* Uses “vendor branch” pattern with Git.
-* Downloads the cookbook from the site as a tarball
-* Checks out a “vendor branch” for the cookbook
-* Untars the cookbook into the vendor branch
-* Commits the changes with git
-* Merges back into master
-
 # knife cookbook site download
 
     knife cookbook site download fail2ban
@@ -73,13 +62,24 @@ Or, download a .tar.gz with knife:
 
 Simply downloads a tarball of the cookbook from the site.
 
-Use this if you’re not using Git.
+Follow version control patterns: Create a branch, merge, etc.
 
-Follow the pattern: Create a branch, merge, etc.
+# knife cookbook site install
+
+    knife cookbook site install fail2ban
+
+* Uses "vendor branch" pattern with Git.
+* Downloads the cookbook from the site as a tarball
+* Checks out a "vendor branch" for the cookbook
+* Untars the cookbook into the vendor branch
+* Commits the changes with git
+* Merges back into master
+
+.notes knife includes a command to do the version control parts automatically for you.
 
 # fail2ban Cookbook
 
-“fail2ban” blocks SSH and other TCP connections via firewall rules based on failed login attempts.
+"fail2ban" blocks SSH and other TCP connections via firewall rules based on failed login attempts.
 
 It’s useful to have as a security measure.
 
@@ -91,40 +91,17 @@ This cookbook will set up fail2ban on a Linux node.
     knife cookbook site search fail2ban
     knife cookbook site search security
 
-# Install fail2ban in Repository
+# Download fail2ban to Repository
 
-    > knife cookbook site install fail2ban
-    Installing fail2ban to /Users/jtimberman/Development/sandbox/wut-chef-repo/cookbooks
-    Checking out the master branch.
-    Creating pristine copy branch chef-vendor-fail2ban
+Download the cookbook from the community site.
 
-# Install fail2ban in Repository
+    > cd ~/chef-repo
+    > knife cookbook site download fail2ban
 
-    Downloading fail2ban from the cookbooks site at version 1.0.0 to /Users/jtimberman/Development/sandbox/wut-chef-repo/cookbooks/fail2ban.tar.gz
-    Cookbook saved: /Users/jtimberman/Development/sandbox/wut-chef-repo/cookbooks/fail2ban.tar.gz
-    Removing pre-existing version.
-    Uncompressing fail2ban version /Users/jtimberman/Development/sandbox/wut-chef-repo/cookbooks.
-    removing downloaded tarball
+Then, uncompress the `.tar.gz` into the cookbooks directory, it can be removed afterward.
 
-# Install fail2ban in Repository
-
-    1 files updated, committing changes
-    Creating tag cookbook-site-imported-fail2ban-1.0.0
-    Checking out the master branch.
-    Updating b99add3..555e908
-    Fast-forward
-     cookbooks/fail2ban/metadata.json                   |   36 ++++
-     cookbooks/fail2ban/metadata.rb                     |   11 +
-     cookbooks/fail2ban/recipes/default.rb              |   36 ++++
-     .../fail2ban/templates/default/fail2ban.conf.erb   |   34 ++++
-     cookbooks/fail2ban/templates/default/jail.conf.erb |  202 ++++++++++++++++++++
-     5 files changed, 319 insertions(+), 0 deletions(-)
-     create mode 100644 cookbooks/fail2ban/metadata.json
-     create mode 100644 cookbooks/fail2ban/metadata.rb
-     create mode 100644 cookbooks/fail2ban/recipes/default.rb
-     create mode 100644 cookbooks/fail2ban/templates/default/fail2ban.conf.erb
-     create mode 100644 cookbooks/fail2ban/templates/default/jail.conf.erb
-    Cookbook fail2ban version 1.0.0 successfully installed
+    > tar -zxvf fail2ban.tar.gz -C cookbooks
+    > rm fail2ban.tar.gz
 
 # Common Recipe Patterns
 
@@ -145,6 +122,8 @@ The upgrade action is like install but if Chef determines a newer version is ava
 
 The fail2ban package will only have security fixes so it is safe to upgrade.
 
+.notes What is it in Chef that determines whether there is a newer version of the package available?
+
 # Service Resource
 
     @@@ruby
@@ -153,9 +132,9 @@ The fail2ban package will only have security fixes so it is safe to upgrade.
       action [ :enable, :start ]
     end
 
-The fail2ban service specifies a meta-parameter, “supports.” This affects the way the service provider works with the service init script.
+The fail2ban service specifies a meta-parameter, "supports." This affects the way the service provider works with the service init script.
 
-We can specify multiple actions by passing an array. These are processed by Chef in order.
+We can specify multiple actions by passing an array. These are processed by Chef in the order specified - first enable, then start.
 
 # Template Resources
 
@@ -170,7 +149,7 @@ We can specify multiple actions by passing an array. These are processed by Chef
       end
     end
 
-This is two template resources set up by using the Ruby “each” loop over an array.
+This is two template resources set up by using the Ruby "each" loop over an array.
 
 The %w{ } syntax creates a quoted array of words.
 
@@ -236,7 +215,7 @@ Timing can be :delayed or :immediately. :delayed is the default.
 
 Notifications can be sent or received between resources.
 
-“Subscribes” is the opposite of notifies.
+"Subscribes" is the opposite of notifies.
 
 Multiple notifications with the same action get stacked but only triggered the first time.
 
@@ -246,7 +225,7 @@ Upload the cookbook to Opscode Hosted Chef with knife.
 
     knife cookbook upload fail2ban
 
-This uploads the contents of the chef-repo/cookbooks/fail2ban
+This uploads the contents of the `chef-repo/cookbooks/fail2ban`
 directory.
 
 # knife cookbook upload fail2ban
@@ -262,7 +241,7 @@ directory.
 
 Check Ruby and ERB (template) syntax.
 
-Create a “sandbox,” which is in a private Amazon S3 bucket with filenames as checksums.
+Create a "sandbox," which is in a private Amazon S3 bucket with filenames as checksums.
 
 Write the cookbook manifest.
 
@@ -292,6 +271,23 @@ Chef, configure the node to connect to the server and run Chef with
 the specified run list.
 
     knife bootstrap NODE -r "recipe[fail2ban]"
+
+# Add Recipe to a Node with JSON
+
+`chef-client` can take a command-line argument, `-j`, which is a JSON file that contains information abou the node.
+
+This is mainly used to set the initial state of the node if it doesn't already exist on the Chef Server. Most commonly this is to set the node's initial run list.
+
+# Node Run List in JSON
+
+The run list is specified in JSON as an array.
+
+    @@@ javascript
+    { "run_list": [ "recipe[fail2ban]" ] }
+
+To add other recipes (or roles), each item should be comma separated.
+
+    { "run_list": [ "recipe[fail2ban]", "role[www]" ] }
 
 # Summary
 
