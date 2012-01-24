@@ -10,7 +10,7 @@ Roles
 ## Acceptance Criteria
 
 * Directory in Chef Repository for role Ruby DSL files
-* `base` role containing `fail2ban`
+* `base` role contains recipe `fail2ban`
 * Target system's node uses the `base` role in its run list
 
 ## Create Base Role
@@ -29,16 +29,10 @@ Re-run `chef-client` on the node.
 
 What are the required components of a role?
 
-
 How can the contents of the role on the Chef Server be displayed? What command-line option will show the JSON source?
-
 
 What `knife` command is used to display only the node's run list?
 
-
 When `chef-client` is run again on the node, what is the content of the `roles` attribute on the node object? What is the content of `recipes`? What is the run list?
 
-
 When `chef-client` is run again on the node, did it make any changes to the managed resources?
-
-

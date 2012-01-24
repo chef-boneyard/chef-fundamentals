@@ -26,13 +26,14 @@ Attributes
 
 # Creating Roles
 
-The roles directory in the chef-repo contains the roles for the infrastructure.
+The `roles` directory in the chef-repo contains the roles for the infrastructure.
 
 Write roles using a Ruby DSL.
 
     $EDITOR roles/base.rb
 
-Upload the roles to the Chef Server.
+Upload the roles to the Chef Server. Knife will automatically look for
+the specified file in the `roles` directory.
 
     knife role from file base.rb
 
@@ -46,6 +47,9 @@ Chef supports Ruby DSL or JSON for role files in chef-repo.
 * Ruby is converted to JSON by Knife when uploading.
 * Chef Server stores roles as JSON.
 * `knife role show` displays JSON and can be redirected to a file.
+
+.notes We commonly use the Ruby DSL for creating roles, because it is
+a bit lighter syntax, and allows flexibility of using Ruby idioms.
 
 # Building Roles
 
@@ -103,7 +107,9 @@ For example, it is common in a web-application architecture to have webservers.
 
 # Per-service Roles
 
-Other common roles:
+We create separate roles that are service specific. This allows us to
+break up services to run on separate hosts, or on a single
+host. Common roles in web applications:
 
 * `database_master`
 * `load_balancer`
@@ -158,7 +164,7 @@ attributes.
 
 Use knife:
 
-    knife node run list add NODE ‘role[base]’
+    knife node run list add NODE 'role[base]'
 
 # Summary
 
