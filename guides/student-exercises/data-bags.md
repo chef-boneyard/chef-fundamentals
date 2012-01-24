@@ -34,3 +34,17 @@ Create a new user data bag item. Replace USERNAME below with any username you'd 
 Save this as `data_bags/users/USERNAME.json` in the Chef Repository. Create the data bag on the Chef Server and upload the data bag item.
 
 ## Questions
+
+How many users were created on the system?
+
+
+What are the results of using knife to search for users? (`knife search users "*:*"`)?
+
+
+Modify the data bag item .json file in your Chef Repository and remove a trailing comma. What happens when you try to upload the data bag item again? (be sure to fix this and add the comma back)
+
+
+Bonus: How could the data bag item and corresponding recipe be modified to account for deleting a user?
+
+
+Bonus: Attempt to create a new data bag item without creating the data bag first. What happens? What is the HTTP status code and why?
