@@ -7,7 +7,6 @@ Example Cookbook
 * Explore the cookbook's contents
 * Upload cookbook to the Chef Server
 * Install and run Chef on a new system with the cookbook
-* Questions
 
 ## Acceptance Criteria
 
@@ -20,7 +19,7 @@ Example Cookbook
 
 ## Download fail2ban Cookbook
 
-Use knife to download the `fail2ban` cookbook from the Chef Community site. The downloaded file is a `.tar.gz` that should be extracted into the `cookbook_path` directory.
+Use knife to download the `fail2ban` cookbook from the Chef Community site. The downloaded file is a `.tar.gz` that should be extracted into the `cookbook_path` directory
 
 ## Explore Cookbook
 
@@ -34,9 +33,9 @@ Upload the cookbook to the Chef Server.
 
 Your instructor will provide an IP address and login credentials for a target system. Log into that system and perform the following:
 
-* Install Chef (use the full-stack installer)
-* Configure `chef-client`
-* Copy the validation certificate file over
+* Install Chef (use the [full-stack installer](htp://opscode.com/chef/install))
+* Configure `chef-client` with the `client.rb` file.
+* Copy the validation certificate file to the configuration directory.
 
 ## Run chef-client on Target
 

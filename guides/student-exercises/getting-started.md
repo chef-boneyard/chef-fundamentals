@@ -6,14 +6,13 @@ Getting Started
 * Install Ruby and Chef
 * Create an initial Chef Repository
 * Set up connectivity to Chef Server
-* Questions
 
 ## Acceptance Criteria
 
 * Executables chef-client, knife, ohai and shef are in the user PATH
 * An initial Chef Repository is created (optionally under version control).
 * Successful connection to the Chef Server can be made with `knife`.
-* Answered the questions.
+* Answer the questions.
 
 ## Install Ruby and Chef
 
@@ -31,10 +30,21 @@ Create a directory named `chef-repo` in your home directory on the
 local workstation. It should have two sub-directories `.chef`, and
 `cookbooks`.
 
+__Note (Windows)__: Explorer cannot create a file starting with `.`,
+use `cmd.exe` or `powershell.exe`.
+
 ### Optional:
 
 Make the Chef Repository version controlled. You may use Git,
 Subversion or any other version control system you wish.
+
+## Create Opscode Hosted Chef Account
+
+Create a user account for Opscode Hosted Chef, then sign in and create
+an organization. Remember that the organization short name must be
+ASCII alpha-numeric, no spaces (dashes and underscores **are** allowed).
+
+* http://www.opscode.com/hosted-chef/ -> "Free Trial"
 
 ## Access Chef Server
 
@@ -47,29 +57,20 @@ local workstation.
 
 ## Questions
 
-Where are Chef and Ruby installed on the system?
-
+Where are Chef and Ruby binaries installed on the system?
 
 What version of Chef is installed? What command can be used to
 determine this?
 
-
 What version of Ruby is installed? What command can be used to
 determine this?
-
 
 What version of RubyGems is installed? What command can be used to
 determine this?
 
-
-What does `ohai` detect for the current system's platform and
-platform_version?
-
+What does `ohai` detect for the current system's `platform` and `platform_version`?
 
 What kinds of sub-commands are available to `knife`?
 
-
-Where are the Chef command manual pages available on the local system, and what
-formats are available?
-
-
+Where are the Chef command manual pages available on the local system,
+and what formats are available?

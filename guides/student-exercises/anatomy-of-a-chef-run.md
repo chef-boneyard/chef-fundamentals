@@ -5,13 +5,12 @@ Anatomy of a Chef Run
 
 * Configure local workstation to run Chef client
 * Successful `chef-client` run with debug logging
-* Questions
 
 ## Acceptance Criteria
 
 * Client and node objects exist on Chef Server
 * Debug log output from `chef-client`
-* Answered the questions
+* Answer the questions
 
 ## Create Configuration
 
@@ -43,23 +42,16 @@ Unless you add configuration for file locations, you'll need to run `chef-client
 
 What is the name of the node and client created on the Chef Server? What commands can be used to get these values?
 
-
 What are two ways to change the name of the node and client at `chef-client` run time?
-
 
 What are the platform and platform version of the node?
 
-
 Does the node have a run list?
-
 
 What is the IP address detected for the node? Is it the correct default IP address?
 
-
-Is the API client an admin?
-
+Is the API client an admin? What command can be used to show this information?
 
 Does the validation key file still exist? Why?
-
 
 What kind of HTTP request is made to save the node? When does this occur?
