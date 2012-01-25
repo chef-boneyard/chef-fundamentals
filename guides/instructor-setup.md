@@ -51,7 +51,7 @@ region. Append "`--region REGION`" to the commands.
 
 ## Bootstrap Templates
 
-Use the bootstrap template found in `.chef/bootstrap/fnd-lab.erb` to
+Use the bootstrap template found in `.chef/bootstrap/fnd3-lab.erb` to
 create new instances with the login credentials set. For example, this
 will configure the `ubuntu` user to log in with the password "opstrain_0150".
 
@@ -63,7 +63,7 @@ ec2` command.
 
     knife ec2 server create \
       -f m1.small -I $lucid_small \
-      -x ubuntu -d fnd-lab
+      -x ubuntu -d fnd3-lab
 
 If another region is required, append "`--region REGION`" and "`-Z
 ZONE`" to specify the region and availability zone in that region.
