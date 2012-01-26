@@ -303,7 +303,7 @@ You should now be able to...
 * http://wiki.opscode.com/display/chef/Cookbooks
 * http://community.opscode.com/cookbooks
 * http://www.slideshare.net/jtimberman/mwrc2011-cookbook-design-patterns
-* http://jtimberman.github.com/guide-to-writing-chef-cookbooks
+* http://jtimberman.housepub.org/blog/2011/09/03/guide-to-writing-chef-cookbooks/
 
 # Lab Exercise
 
