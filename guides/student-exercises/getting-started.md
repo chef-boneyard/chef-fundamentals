@@ -21,8 +21,11 @@ do so now. Use the Opscode Full Stack Installer:
 
 * http://www.opscode.com/chef/install
 
-__Hint__: This will by default install in `/opt/opscode` or
-  `C:\Opscode` depending on platform.
+Add the directory where the Ruby binary lives to your local user login
+shell PATH environment variable.
+
+* `/opt/opscode/embedded/bin` - Unix/Linux
+* `C:\Opscode\embedded\bin` - Windows
 
 ## Create Chef Repository
 
