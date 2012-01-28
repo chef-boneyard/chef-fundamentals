@@ -49,7 +49,7 @@ The index.html should display the following node information:
 
 To display the recipes in the node's run list, use:
 
-`node.run_list.recipes.join(", ")`
+`node.recipes.join(", ")`
 
 Format and display the HTML page any way you want, including wrapped in a `<pre>` block. The point is to write ERB, not HTML.
 
