@@ -1,22 +1,27 @@
 # -*- coding: utf-8 -*-
 desc "Create the directory and initial slides (with SECTION=name)"
 task :mksection do
-  dir = ENV['SECTION']
-  puts "** Creating section #{dir} **"
-  FileUtils.mkdir_p(dir)
-  unless File.exists?(File.join(dir, "01_slide.md"))
-    puts "- populating slide template #{dir}/01_slide.md"
-    File.open(File.join(dir, "01_slide.md"), "a+") do |f|
-      f.puts "# #{section_header(dir)}\n"
+  section = ENV['SECTION']
+  slides_dir = File.join(File.dirname(__FILE__), "slides", section)
+  guides_dir = File.join(File.dirname(__FILE__), "guides", "student-exercises")
+  puts "** Creating section #{section} **"
+  FileUtils.mkdir_p(slides_dir)
+  FileUtils.mkdir_p(guides_dir)
+  unless File.exists?(File.join(slides_dir, "01_slide.md"))
+    puts "- populating slide template #{slides_dir}/01_slide.md"
+    File.open(File.join(slides_dir, "01_slide.md"), "a+") do |f|
+      f.puts "# #{section_header(section)}\n\n"
+      f.puts "Section Objectives:\n"
       f.puts copyright_header
-      f.puts section_objectives
-      f.puts section_summary
-      f.puts section_exercise
-      f.puts "## #{section_header(dir)}"
+      f.puts "# Summary\n\n\n"
+      f.puts "# Questions\n\n*\n\n"
+      f.puts "# Additional Resources\n\n*\n\n"
+      f.puts "# Lab Exercise\n\n"
+      f.puts section_header(section)
     end
-    puts "- populating exercises #{dir}.md"
-    File.open(File.join("..", "guides", "student-exercises", "#{dir}.md"), "a+") do |g|
-      g.puts exercise_guide(dir)
+    puts "- populating exercises #{File.join(guides_dir, section)}.md"
+    File.open(File.join(guides_dir, "#{section}.md"), "a+") do |g|
+      g.puts exercise_guide(section)
     end
   end
 end
@@ -54,18 +59,6 @@ end
 def copyright_header
   "\n.notes These course materials are Copyright © 2010-2012 Opscode, Inc. All rights reserved.
 This work is licensed under a Creative Commons Attribution Share Alike 3.0 United States License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/us; or send a letter to Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA.\n\n"
-end
-
-def section_objectives
-  "# Objectives\n\n\n"
-end
-
-def section_summary
-  "# Summary\n\n\n"
-end
-
-def section_exercise
-  "# Lab Exercise\n\n"
 end
 
 def exercise_guide(section = "welcome")
