@@ -9,10 +9,10 @@ Getting Started
 
 ## Acceptance Criteria
 
-* Executables chef-client, knife, ohai and shef are in the user PATH
+* Executables ruby, gem, chef-client, knife, ohai and shef are in the user PATH
 * An initial Chef Repository is created (optionally under version control).
 * Successful connection to the Chef Server can be made with `knife`.
-* Answer the questions.
+* Experiment with the commands to answer the questions.
 
 ## Install Ruby and Chef
 
@@ -71,9 +71,10 @@ determine this?
 What version of RubyGems is installed? What command can be used to
 determine this?
 
-What does `ohai` detect for the current system's `platform` and `platform_version`?
+What does `ohai` detect for the current system's `platform` and
+`platform_version`?
 
 What kinds of sub-commands are available to `knife`?
 
-Where are the Chef command manual pages available on the local system,
-and what formats are available?
+Where are the Chef command manual pages available on the local system, and what
+formats are available?
