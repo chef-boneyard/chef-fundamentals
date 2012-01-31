@@ -39,7 +39,7 @@ Data Bags are covered in detail later.
 
 Search returns the entire object found on the server, but the output is abbreviated.
 
-* -m will display “normal” node attributes in the output.
+* -m will display "normal" node attributes in the output.
 * -l will display all node attributes in the output.
 * -a ATTRIBUTE will display only the selected attribute.
 * -i will display only the ID of the matching items.
@@ -55,11 +55,11 @@ Search returns the entire object found on the server, but the output is abbrevia
 
 Queries follow a basic pattern, with Knife:
 
-    knife search INDEX “field:pattern”
+    knife search INDEX "field:pattern"
 
 In a recipe:
 
-    search(:INDEX, “field:pattern”)
+    search(:INDEX, "field:pattern")
 
 Search patterns can be an exact match, range match or a wildcard match.
 
@@ -71,7 +71,7 @@ Search patterns can be an exact match, range match or a wildcard match.
 
 Search for a node with an attribute set to a particular value.
 
-Sub-key attributes (`node[“kernel”][“machine”]`) are flattened with underscores.
+Sub-key attributes (`node["kernel"]["machine"]`) are flattened with underscores.
 
 # Query Syntax: Ranges
 
@@ -89,7 +89,7 @@ Range searches are exclusive with curly braces {}.
     knife search node "hostname:*"
     knife search node "*:*"
 
-Search for all nodes with hostname starting with “app”.
+Search for all nodes with hostname starting with "app".
 
 Search for all nodes with fqdn that starts with app1 and ends with .example.com
 
@@ -131,7 +131,7 @@ significant use of system memory
 
     ip_addrs = search(:node, "role:webserver").map {|n| n["ipaddress"]}
 
-Aggregated results can be passed a Ruby block with the “map” method
+Aggregated results can be passed a Ruby block with the "map" method
 and the value of a single attribute can be extracted.
 
 # Block Search
@@ -143,7 +143,7 @@ and the value of a single attribute can be extracted.
     
 Provide a code block to process the results directly.
 
-We’ll see this more with Data Bags.    
+We'll see this more with Data Bags.    
 
 # Common Search Usage
 

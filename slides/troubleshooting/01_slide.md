@@ -6,7 +6,7 @@ This work is licensed under a Creative Commons Attribute Share Alike 3.0 United 
 # Objectives
 
 At completion of this unit you should...
-Understand how to debug Chef’s Ruby stack traces
+Understand how to debug Chef's Ruby stack traces
 Recognize common HTTP status codes from the Chef Server
 Know how to turn on debug logging to get more information
 Be able to handle errors gracefully in your recipes
@@ -22,7 +22,7 @@ Describe the exception handler functionality
     # command-line
     chef-client -L /var/log/chef/client.log
 
-Chef configures a “logger” object.
+Chef configures a "logger" object.
 
 The logger sends messages to STDOUT by default
 
@@ -43,7 +43,7 @@ E.g., runit captures STDOUT
 
 Chef completely halts execution when it encounters an unhandled exception.
 
-It doesn’t know if the error is something serious that can cause state issues that are unrecoverable.
+It doesn't know if the error is something serious that can cause state issues that are unrecoverable.
 
 It is up to you to fix the error and re-run Chef.
 
@@ -57,7 +57,7 @@ However, knowing where to look is the key.
 
 # Common Errors
 
-We’re going to look at some common errors that are easily resolved.
+We're going to look at some common errors that are easily resolved.
 
 * non-existent cookbook
 * error in a template
@@ -131,7 +131,7 @@ We need to scroll up in the output to find what template and where.
       3: This is Chef version <%= ode[:chef_packages][:chef][:version] %>.
 
 The output from the run before the exception handler dumped the stack trace.
-This shows the offending line (“ode” instead of “node”).
+This shows the offending line ("ode" instead of "node").
 
 # Non-Zero Return Code
 
@@ -208,7 +208,7 @@ This generates a lot of output but the error message will be near the bottom.
 
 Search query syntax follows SOLR Lucene
 
-If there’s a syntax error, we’ll see a 500 from the server.
+If there's a syntax error, we'll see a 500 from the server.
 
 To find where the query is in the recipe, look for the line above.
 
@@ -226,7 +226,7 @@ Chef has a RESTful HTTP API.
 
 Since Chef speaks HTTP, some conditions may cause an HTTP status code.
 
-Most of the time this should be a “200 OK”.
+Most of the time this should be a "200 OK".
 
 # HTTP Status Codes
 
@@ -260,7 +260,7 @@ Common causes:
 
 * ACL on Opscode Hosted Chef
 * Timeout retrieving files from S3 or other transient S3 error.
-* Creating a data bag item when the bag doesn’t exist
+* Creating a data bag item when the bag doesn't exist
 
 # 404 Not Found
 
@@ -268,7 +268,7 @@ Common causes
 
 * a source cookbook_file or template was requested but not uploaded
 * another file in the cookbook was not found when requested.
-* initial run of chef-client when the node doesn’t yet exist (normal).
+* initial run of chef-client when the node doesn't yet exist (normal).
 
 # 409 Conflict
 
@@ -280,7 +280,7 @@ ignored, but you should be aware of it.
 
 # 412 Precondition Failed
 
-This usually happens when cookbook metadata isn’t updated for a dependency, or a cookbook wasn't uploaded.
+This usually happens when cookbook metadata isn't updated for a dependency, or a cookbook wasn't uploaded.
 
 A typo on a recipe name in a run list can also cause 412 errors.
 
@@ -290,16 +290,16 @@ Rarely this is a user error. Most often because of invalid search syntax.
 
 * Search uses SOLR Lucene syntax.
 
-Otherwise, something on the server backend had an error that wasn’t handled.
+Otherwise, something on the server backend had an error that wasn't handled.
 
-* Opscode’s operations staff is notified on 500’s.
+* Opscode's operations staff is notified on 500's.
 * We investigate and resolve these as quickly as possible.
 
 # 503 Service Unavailable
 
 Occasionally, Opscode will perform maintenance on Hosted Chef. For example we recently did a data center migration.
 
-If you see a 503 and weren’t expecting it, check status.opscode.com.
+If you see a 503 and weren't expecting it, check status.opscode.com.
 
 If you need help, open a ticket at help.opscode.com.
 
@@ -345,7 +345,7 @@ Seek help through the community on the mailing list (lists.opscode.com) or IRC (
 
 # Handling Errors in Recipes
 
-Recipes are “just Ruby”.
+Recipes are "just Ruby".
 
 Normally we can use a begin/rescue block to handle errors.
 
@@ -373,7 +373,7 @@ Chef has an API for reporting and exception handling.
 
 Full coverage of the topic is in the Advanced Training class, as well as on the wiki.
 
-We’ll take a brief look at the requirements to set up a handler.
+We'll take a brief look at the requirements to set up a handler.
 
 # Handler Configuration
 
@@ -403,7 +403,7 @@ We’ll take a brief look at the requirements to set up a handler.
 
 The handler should inherit Chef::Handler
 
-It should define a ‘report’ method.
+It should define a 'report' method.
 
 Documentation is on the Chef wiki.
 
@@ -423,7 +423,7 @@ See the cookbook's README for documentation.
 
 You should now be able to ...
 
-* understand Chef’s ruby stack traces
+* understand Chef's ruby stack traces
 * recognize common HTTP status codes
 * turn on debug logging to get more information
 * handle errors gracefully in your recipes

@@ -15,7 +15,7 @@ At completion of this unit you should...
 
 # Data Bags
 
-Data bags are containers of “items” that are plain JSON data.
+Data bags are containers of "items" that are plain JSON data.
 
 Items can contain any arbitrary key/value pairs, such as user information, application setup parameters or DNS entries.
 
@@ -27,15 +27,15 @@ Data bags are indexed separately for search.
 
 They are not tied specifically to roles or nodes.
 
-Use data bags for storing information that is “infrastructure-wide”.
+Use data bags for storing information that is "infrastructure-wide".
 
 # Creating Data Bags
 
-Data bags go in the “data_bags” directory of the chef-repo.
+Data bags go in the "data_bags" directory of the chef-repo.
 
 Create a directory for the bag itself.
 
-Put items in JSON files in the bag’s directory.
+Put items in JSON files in the bag's directory.
 
 # Creating Data Bags
 
@@ -109,13 +109,13 @@ contents.
 
 This returns a `data_bag_item` object. It is like a hash.
 
-Access the item’s keys like hash keys.
+Access the item's keys like hash keys.
 
 # Managing Users
 
 A common thing to manage with data bags is users.
 
-Each user gets their own item in a data bag (often “users”).
+Each user gets their own item in a data bag (often "users").
 
 Use a data bag search block to iterate over all users and have them get created on managed nodes.
 
@@ -123,9 +123,9 @@ Managing users in a data bag makes it easy to integrate with other parts of the 
 
 # Users Data Bag
 
-We’ve already created a users data bag.
+We've already created a users data bag.
 
-We have a user but it doesn’t have any useful data that we can use in a recipe.
+We have a user but it doesn't have any useful data that we can use in a recipe.
 
 # knife data bag show
 
@@ -142,9 +142,9 @@ We have a user but it doesn’t have any useful data that we can use in a recipe
 
 # Users Cookbook
 
-We’ll use the “users” cookbook with the “sysadmins” recipe to apply on the existing nodes.
+We'll use the "users" cookbook with the "sysadmins" recipe to apply on the existing nodes.
 
-This recipe uses a search for users in the group “sysadmin”.
+This recipe uses a search for users in the group "sysadmin".
 
 # users::sysadmin
 
@@ -169,7 +169,7 @@ This recipe uses a search for users in the group “sysadmin”.
     INFO: Processing user[USERNAME] action create (users::sysadmins line 41)
     INFO: user[USERNAME] created
 
-When running chef-client on the node, we’ll see that the user is created, amongst other output from the recipe.
+When running chef-client on the node, we'll see that the user is created, amongst other output from the recipe.
 
 # Summary
 

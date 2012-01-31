@@ -122,7 +122,7 @@ Information about the node itself is available via the `node` object.
 Recipes are an internal Ruby domain-specific language (DSL).
 
 * You need a 3rd generation programming language.
-* You can’t be limited by the language.
+* You can't be limited by the language.
 
 .notes We will cover basics of Ruby in greater detail in a later section, "Just Enough Ruby for Chef"
 
@@ -163,8 +163,8 @@ Resources abstract the details of how to configure the system. The commands:
 Become Chef resources:
 
     @@@ruby
-    package “apache2”
-    user “application”
+    package "apache2"
+    user "application"
 
 # Resources
 
@@ -280,7 +280,7 @@ Are equivalent. To use a different recipe, specify it by name:
 
 # Add Recipe to a Node
 
-Use knife to add a recipe to an existing node’s run list on the Chef Server.
+Use knife to add a recipe to an existing node's run list on the Chef Server.
 
     knife node run list add NODE 'recipe[webserver]'
 

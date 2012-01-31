@@ -13,14 +13,14 @@ At completion of this unit you should...
 # Bootstrapping Chef
 
 The process of installing and initially running Chef is referred to as
-“Bootstrapping Chef”. The general steps are:
+"Bootstrapping Chef". The general steps are:
 
-* Update the local system’s package cache (OS dependent).
+* Update the local system's package cache (OS dependent).
 * Install Ruby and RubyGems.
 * Install Chef as a RubyGem.
 * Copy the validation certificate file.
 * Create a Chef client configuration pointing at the right Chef Server.
-* Create a JSON file with the node’s initial Run List.
+* Create a JSON file with the node's initial Run List.
 * Run Chef using the JSON file.
 
 # Installing and Running Chef
@@ -47,7 +47,7 @@ The process of installing and initially running Chef is referred to as
 
 Knife bootstrap will run a single script on a target host.
 
-Uses “bootstrap templates” by name. Several come with Chef.
+Uses "bootstrap templates" by name. Several come with Chef.
 
 These are typically used to install Chef on the remote system and tell Chef to run with a particular run list.
 
@@ -100,7 +100,7 @@ The templates that come with Chef:
 
 # Knife Bootstrap Customization
 
-The bootstrap “templates” are really just shell scripts.
+The bootstrap "templates" are really just shell scripts.
 
 You can create your own bootstrap templates.
 
@@ -119,7 +119,7 @@ Use `-d` to specify the distribution style.
 
 Bootstrap scripts are processed as ERB templates.
 
-“`config_content`” comes from Bootstrap Context, which is a shortcut to
+"`config_content`" comes from Bootstrap Context, which is a shortcut to
 using the Chef Config values from Knife.
 
 # Knife Bootstrap Usage
@@ -132,7 +132,7 @@ using the Chef Config values from Knife.
 
 Integrating a new node into the infrastructure is easy with knife bootstrap.
 
-We’ll add a load balancer that will sit in front of the web server.
+We'll add a load balancer that will sit in front of the web server.
 
 # Add Load Balancer
 
@@ -146,7 +146,7 @@ Haproxy is the load balancer software.
 
 The cookbook is available from the Community Site.
 
-A new role will be created that will be applied with the “knife bootstrap” command.
+A new role will be created that will be applied with the "knife bootstrap" command.
 
 # Load Balancer Role
 
@@ -165,17 +165,17 @@ The `haproxy::app_lb` recipe will perform a search for web servers.
 
 IPADDRESS is the IP of the target system. We can use FQDN here.
 
-Default Ubuntu installs enable the “ubuntu” user to sudo.
+Default Ubuntu installs enable the "ubuntu" user to sudo.
 
 # Haproxy Uses Search
 
 The app_lb recipe in the haproxy cookbook uses search.
 
-Any new nodes with “role[webserver]” will be automatically detected by
+Any new nodes with "role[webserver]" will be automatically detected by
 the load balancer whenever it runs Chef.
 
 .notes When growing the infrastructure, new web servers can be created
-with the “webserver” role. Then run chef-client on the load balancer
+with the "webserver" role. Then run chef-client on the load balancer
 node and the new servers will be automatically added to the pool for
 haproxy.
 

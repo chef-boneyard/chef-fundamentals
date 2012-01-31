@@ -63,7 +63,7 @@ inspect differences.
 
 # Use Your VCS
 
-Knife currently integrates with Git in the “cookbook site install”
+Knife currently integrates with Git in the "cookbook site install"
 command.
 
 You can use any version control system you like.
@@ -83,7 +83,7 @@ Run lists are ordered lists (Ruby/JSON arrays).
 
 # Recipe Ordering
 
-Recipes can include other recipes, too. Use “include_recipe”
+Recipes can include other recipes, too. Use "include_recipe"
 
 Chef will process the included recipe in place, adding its resources
 to the resource collection.
@@ -97,7 +97,7 @@ in another, such as recipe inclusion.
 
 Cookbook dependencies are explicitly defined in metadata.
 
-Use the “depends” keyword in the metadata.
+Use the "depends" keyword in the metadata.
 
 # Cookbook Metadata
 
@@ -112,7 +112,7 @@ code.
 
 # Run Lists
 
-During the initial part of the Chef run the node’s run list is
+During the initial part of the Chef run the node's run list is
 expanded.  Roles' run lists are expanded.
 
 Chef uses the expanded run list to determine what recipes are
@@ -143,7 +143,7 @@ a recipe to update the APT cache on Debian/Ubuntu systems.
 
 # Order Matters
 
-We’ll put apt before fail2ban to make sure the package cache is
+We'll put apt before fail2ban to make sure the package cache is
 updated.
 
 The default action in the fail2ban package resource is upgrade, so apt
@@ -163,11 +163,11 @@ of the Chef Repository.
 
 First remove the fail2ban recipe, it will be applied via the base role.
 
-    knife node run list remove NODE ‘recipe[fail2ban]’
+    knife node run list remove NODE 'recipe[fail2ban]'
 
 Then add the role to the node.
 
-    knife node run list add NODE ‘role[base]’
+    knife node run list add NODE 'role[base]'
 
 # Run chef-client
 
@@ -175,7 +175,7 @@ Running Chef on the target node will cause the APT recipe to be
 applied, then fail2ban.
 
 Since fail2ban was applied previously, it will not actually take any
-action on the node (unless there’s a new package version!).
+action on the node (unless there's a new package version!).
 
 # Creating Cookbooks
 
@@ -270,9 +270,9 @@ Edit this with your favorite text editor.
 
 Not all the cookbook components are used.
 
-They are created so you don’t have to remember them all.
+They are created so you don't have to remember them all.
 
-Remove the ones you know you don’t want.
+Remove the ones you know you don't want.
 
 # Common Cookbook Components
 
@@ -317,7 +317,7 @@ Attributes can come from cookbook files, roles, or the node itself.
 
 # Common Chef Resources
 
-Chef supports a couple dozen resources, but a few are most commonly used. We’ll mostly work with the common ones.
+Chef supports a couple dozen resources, but a few are most commonly used. We'll mostly work with the common ones.
 
 * package
 * service
@@ -431,7 +431,7 @@ example.
 Providers know how to run the right commands or API calls to configure
 a resource by taking the appropriate action.
 
-Providers should be written so they are idempotent and don’t configure
+Providers should be written so they are idempotent and don't configure
 the resource if it is in the declared state.
 
 Providers are sometimes platform specific (apt, yum, useradd,
@@ -444,16 +444,16 @@ Metadata
 * Information about the cookbook
 * Instructs server what to distribute (dependencies)
 * Specifies the version
-* “Packaging” information
+* "Packaging" information
 
 # Cookbook Metadata
 
 Use metadata to define dependencies.
 
-Dependencies are required when using a cookbook’s components in
+Dependencies are required when using a cookbook's components in
 another cookbook.
 
-    depends “classroom”
+    depends "classroom"
 
 # Cookbook Metadata
 
@@ -467,7 +467,7 @@ another cookbook.
 
 # Cookbook Assets
 
-Cookbooks have two kinds of assets that aren’t strictly Ruby code that can be distributed.
+Cookbooks have two kinds of assets that aren't strictly Ruby code that can be distributed.
 
 * Files (`cookbook_file` resource)
 * Templates (`template` resource)

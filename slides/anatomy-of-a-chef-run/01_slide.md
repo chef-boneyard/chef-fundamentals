@@ -113,11 +113,11 @@ Nodes have a run list.
 
 The run list can contain recipes and roles. Roles can contain recipes and also other roles.
 
-Chef expands the node’s run list down to the recipes. The roles and recipes get set to node attributes.
+Chef expands the node's run list down to the recipes. The roles and recipes get set to node attributes.
 
 # Synchronize Cookbooks
 
-Chef downloads from the Chef Server all the cookbooks that appear as recipes in the node’s run list.
+Chef downloads from the Chef Server all the cookbooks that appear as recipes in the node's run list.
 
 Chef also downloads all cookbooks that are listed as dependencies which might not appear in the run list.
 
@@ -127,9 +127,9 @@ version is downloaded.
 
 # Cookbook Metadata
 
-If a recipe from another cookbook is included in a recipe, it isn’t automatically downloaded.
+If a recipe from another cookbook is included in a recipe, it isn't automatically downloaded.
 
-Some cookbooks don’t actually have recipes, and instead provide helper code, libraries or other assets we want to use. 
+Some cookbooks don't actually have recipes, and instead provide helper code, libraries or other assets we want to use. 
 
 To ensure the node has components needed in recipes, we declare dependencies in cookbook metadata.
 

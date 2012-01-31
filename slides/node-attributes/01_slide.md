@@ -18,8 +18,8 @@ Node attributes can be used in recipes and templates.
 
 Access node attributes like Ruby hash keys.
 
-* `node[“fqdn”]`
-* `node[“apache”][“dir”]`
+* `node["fqdn"]`
+* `node["apache"]["dir"]`
 
 Node attributes can come from a variety of places.
 
@@ -31,13 +31,13 @@ Values such as `platform`, `platform_version`, `ipaddress`, `hostname` are deter
 
 These cannot be overridden.
 
-You can find the attributes of a node by running “ohai”.
+You can find the attributes of a node by running "ohai".
 
 # Attribute Conditionals
 
-Attributes can be used to set up conditional checks using Ruby “if”, “unless” and “case” statements.
+Attributes can be used to set up conditional checks using Ruby "if", "unless" and "case" statements.
 
-This is commonly done to match a node’s platform.
+This is commonly done to match a node's platform.
 
 # Attribute Conditionals
 
@@ -71,7 +71,7 @@ This is commonly done to match a node’s platform.
       notifies :restart, resources(:service => "apache2")
     end
 
-Use Ruby’s #{} string interpolation to embed an attribute in a string.
+Use Ruby's #{} string interpolation to embed an attribute in a string.
 
 # Variables in a Template
 
@@ -103,7 +103,7 @@ Use Ruby’s #{} string interpolation to embed an attribute in a string.
 
     <% if node["platform"] == "debian" || node["platform"] == "ubuntu" -%>
 
-Node attributes used in a template can come from the cookbook itself, or one auto detected by chef such as “platform”.
+Node attributes used in a template can come from the cookbook itself, or one auto detected by chef such as "platform".
 
 # Cookbook Attributes
 
@@ -113,7 +113,7 @@ Use an attributes file in a cookbook to set defaults.
 
 These default values are to ensure that some value is set.
 
-All cookbooks’ attributes files are loaded in alphabetical order by cookbook name.
+All cookbooks' attributes files are loaded in alphabetical order by cookbook name.
 
 # cookbooks/apache2/attributes/default.rb
 
@@ -122,28 +122,28 @@ All cookbooks’ attributes files are loaded in alphabetical order by cookbook n
     default["apache"]["contact"] = "ops@example.com"
     default["apache"]["timeout"] = 300
 
-Use the “default” keyword to set the attributes.
+Use the "default" keyword to set the attributes.
 
 The node object is implied, `default` is a method of Chef::Node.
 
 # Attributes in Roles
 
-Node attributes can be set in roles using “`default_attributes`”.
+Node attributes can be set in roles using "`default_attributes`".
 
-This overrides the attributes set using “default” in the cookbook’s attributes file.
+This overrides the attributes set using "default" in the cookbook's attributes file.
 
 # roles/webserver.rb
 
     @@@ruby
-    name “webserver”
-    description “Systems that serve HTTP traffic”
+    name "webserver"
+    description "Systems that serve HTTP traffic"
     run_list(
-      “recipe[apache2]”,
-      “recipe[apache2::mod_ssl]”
+      "recipe[apache2]",
+      "recipe[apache2::mod_ssl]"
     )
     default_attributes(
-      “apache” => {
-        “listen_ports” => [ 80, 443, 8080 ]
+      "apache" => {
+        "listen_ports" => [ 80, 443, 8080 ]
       }
     )
 
@@ -162,8 +162,8 @@ data sources and more.
 When setting attributes in recipes, use the node.set method.
 
 This allows additional overrides to be used, but has higher priority
-than cookbook attributes files “default” and “set” and role
-“`default_attributes`” values.
+than cookbook attributes files "default" and "set" and role
+"`default_attributes`" values.
 
 # Attributes in Recipes
 

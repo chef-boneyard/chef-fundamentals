@@ -232,7 +232,7 @@ Knife is the "swiss army knife" of infrastructure management tools.
 
 * manage the local Chef repository
 * interact with the Chef Server API
-* interact with cloud computing providers’ APIs
+* interact with cloud computing providers' APIs
 * extend with custom plugins/libraries
 
 # Knife Sub-commands
@@ -631,7 +631,7 @@ It contains your "Infrastructure as Code".
 
 Knife already knows how to interact with many parts of the repository.
 
-We’ll look at each part of the repository in greater detail when we get to the relevant section.
+We'll look at each part of the repository in greater detail when we get to the relevant section.
 
 # Chef Repository
 
