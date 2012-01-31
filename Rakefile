@@ -28,13 +28,14 @@ end
 
 desc "Generate HTML out of Markdown"
 task :md_to_html do
+  html_dir = File.join("slides", "html")
   sections = showoff_sections
-  FileUtils.mkdir_p("html")
+  FileUtils.mkdir_p(html_dir)
   sections.each_with_index do |s,i|
-    fn = "html/section-#{i}-#{s}.html"
-    %x[grep -v "@@@" #{s}/01_slide.md | redcarpet > #{fn}]
+    fn = File.join(html_dir, "section-#{i}-#{s}.html")
+    %x[grep -v "@@@" slides/#{s}/01_slide.md | redcarpet > #{fn}]
     %x[cp #{s}/*.png html 2>/dev/null]
-    File.open(File.join("html", "index.html"), "a+") do |h|
+    File.open(File.join("slides", "html", "index.html"), "a+") do |h|
       h.puts html_list_item s, fn
     end
   end
