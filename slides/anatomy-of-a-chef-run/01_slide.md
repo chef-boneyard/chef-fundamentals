@@ -231,6 +231,7 @@ Abnormal exit from unhandled exception:
 * Where do cookbooks get downloaded?
 * What are the two phases of node convergence and how do they differ?
 * What is the difference between a report and exception handler?
+* Student questions?
 
 # Additional Resources
 

@@ -326,6 +326,7 @@ Knife includes sub-commands for working with the site.
 * How do recipes get applied to a node?
 * What are the four components of a resource?
 * How does Chef determine the order to configure resources?
+* Student questions?
 
 # Additional Resources
 

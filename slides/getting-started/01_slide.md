@@ -675,6 +675,7 @@ Non-Chef tools:
 * What do Chef's commands have in common?
 * What are two implementations of the Chef Server API?
 * What configuration is required to connect to a Chef Server?
+* Student questions?
 
 # Additional Resources
 

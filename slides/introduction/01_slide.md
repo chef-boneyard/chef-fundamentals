@@ -23,6 +23,9 @@ This work is licensed under a Creative Commons Attribution Share Alike 3.0 Unite
 * Name
 * Company / Group
 * Experience w/ Configuration Management or Chef itself
+* Contact information
+
+.notes Contact information should minimally include email address.
 
 # Students
 
@@ -313,3 +316,4 @@ Chef inspects the node's role to determine what it should be to do its job.
 * How are Chef resources idempotent?
 * What language are Recipes written in?
 * How are recipes distributed to nodes?
+* Student questions?
