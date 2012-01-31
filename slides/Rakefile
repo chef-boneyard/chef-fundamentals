@@ -21,6 +21,29 @@ task :mksection do
   end
 end
 
+desc "Generate HTML out of Markdown"
+task :md_to_html do
+  sections = showoff_sections
+  FileUtils.mkdir_p("html")
+  sections.each_with_index do |s,i|
+    fn = "html/section-#{i}-#{s}.html"
+    %x[grep -v "@@@" #{s}/01_slide.md | redcarpet > #{fn}]
+    %x[cp #{s}/*.png html 2>/dev/null]
+    File.open(File.join("html", "index.html"), "a+") do |h|
+      h.puts html_list_item s, fn
+    end
+  end
+end
+
+def html_list_item(section, filename)
+  %Q{<li><a href="../#{filename}">#{section}</a></li>}
+end
+
+def showoff_sections
+  require 'json'
+  JSON.parse(IO.read("showoff.json"))['sections']
+end
+
 def section_header(section = "welcome")
   lcase = %w{an of the a}
   parts = section.split(/[-_]/)
