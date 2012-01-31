@@ -16,5 +16,17 @@
     "data-bags",
     "troubleshooting",
     "chef-development"
-  ]
+  ],
+  "pdf_options": {
+    "page_size": "Letter",
+    "page_width": "216.0",
+    "page_height": "279.4",
+    "orientation": "Portrait",
+    "disable_smart_shrinking": false,
+    "margin_top": "0.5in",
+    "margin_right": "0.5in",
+    "margin_bottom": "0.5in",
+    "margin_left": "0.5in",
+    "user_style_sheet": "base.css"
+  }
 }
