@@ -2,19 +2,524 @@
 
 Section Objectives:
 
+* Understand the components of resources.
+* Write recipes using common resources.
+
 .notes These course materials are Copyright © 2010-2012 Opscode, Inc. All rights reserved.
 This work is licensed under a Creative Commons Attribution Share Alike 3.0 United States License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/us; or send a letter to Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA.
+
+# Chef Resources
+
+Remember that Chef Resources have four components.
+
+* Type
+* Name
+* Parameters/attributes
+* Action
+
+# Chef Resource
+
+Syntax example of Chef Resources
+
+    @@@ruby
+    type "name"
+
+    type "name" do
+      parameter "value"
+      parameter 0
+      action :action
+    end
+
+The values of parameters can be various Ruby objects depending on the
+specific resource.
+
+The action, if specified, must begin with a colon (Ruby symbol).
+
+# Common Resources
+
+* File management
+* Packages
+* Users and Groups
+* Services/daemons
+* Executable programs
+
+# File management
+
+Configuration management often entails writing configuration files, so
+Chef has a number of built-in resources to manage files.
+
+* `file`
+* `cookbook_file`
+* `remote_file`
+* `template`
+* `link`
+* `directory`
+* `remote_directory`
+
+# file
+
+The `file` resource is the basis for other "file" resources:
+
+* `cookbook_file`
+* `remote_file`
+* `template`
+
+The "name attribute" for all file resources is the target file path on
+the system, e.g. "`/etc/passwd`."
+
+The default action is to create the file.
+
+# file example
+
+    @@@ruby
+    file "/etc/passwd" do
+      owner "root"
+      group "root"
+      mode 0644
+    end
+
+* path - name attribute, target file path on the system
+* owner - user that should own the file, default is user running chef
+* group - group that should own the file, default is group running chef
+* mode - octal mode of the file, specify as a number with a leading 0,
+  or as a string, default is the umask of the chef process
+
+# file parameters
+
+* content - a string to write to the file, overwrites existing content
+* backup - number of backups to keep, default is 5
+
+# cookbook_file
+
+Use `cookbook_file` to transfer files from the cookbook to the node.
+
+* static configuration files
+* small binary files
+* inherits from `file`, so permission parameters can be used.
+
+# cookbook_file example
+
+    @@@ruby
+    cookbook_file "/usr/local/bin/cpan_install" do
+      source "cpan_install"
+      mode 0755
+    end
+
+* source - the file name to transfer, located in the `files/default`
+  directory of the cookbook
+* cookbook - _optional_ a different cookbook where the file is
+
+# Packages
+
+Package management is typically handled by the configuration
+management system to ensure that the state of the system has the
+correct software installed.
+
+Packages are installed using the default package management system
+chosen by platform using the `package` resource.
+
+One of the keys to cross-platform support in Chef is having package
+management providers for various platforms.
+
+The default action is to install the named package.
+
+# package examples
+
+    @@@ruby
+    package "apache2"
+
+    package "apache2" do
+      version "2.2.14-5ubuntu8.7"
+    end
+
+* package_name - name attribute, name of the package
+* version - specific version to install
+
+# Additional package examples
+
+    @@@ruby
+    package "apache2" do
+      package_name "httpd"
+    end
+
+    package "apache2" do
+      action :upgrade
+    end
+
+    package "xorg-server" do
+      action :remove
+    end
+
+# Package Providers
+
+Chef supports many package management systems. The default is
+determined by the node's platform:
+
+* `apt_package` - Debian/Ubuntu
+* `yum_package` - RHEL/CentOS/Fedora/Amazon
+* `macports_package` - Mac OS X
+* `freebsd_package` - FreeBSD (ports system)
+* `pacman_package` - Archlinux
+* `portage_package` - Gentoo
+
+# Package Providers
+
+* `dpkg_package` - install a .deb
+* `rpm_package` - install a .rpm
+* `gem_package` - RubyGems
+* `easy_install_package` - Python easy-install
+
+# Cookbook Package Resources
+
+* `homebrew_package` - homebrew cookbook, sets OS X default provider
+  to [homebrew](http://mxcl.github.com/homebrew/).
+* `dmg_package` - dmg cookbook, for OS X
+* `pacman_aur`, `pacman_group` - pacman cookbook, for Archlinux
+* `python_pip` - python cookbook, use pip instead of `easy-install`
+* `windows_package` - windows cookbook, for Windows systems
+
+Complete list: [http://wiki.opscode.com/display/chef/Opscode+LWRP+Resources](http://wiki.opscode.com/display/chef/Opscode+LWRP+Resources)
+
+# Users and Groups
+
+Local system groups and users can be managed with the `group` and
+`user` resources.
+
+* `group`
+* `user`
+
+The commands to manage groups and users vary by platform, so there are
+different providers.
+
+The default action for both resources is to create the named group or user.
+
+# group example
+
+    @@@ruby
+    group "admins" do
+      gid 999
+      members ['joe', 'alice']
+    end
+
+* gid - the numeric group id
+* members - the list of users that should be members of the group
+* append - the members will be appended to an existing group
+
+# user example
+
+    @@@ruby
+    user "joe" do
+      comment "Joe User"
+      shell "/bin/bash"
+      home "/home/joe"
+      gid "users"
+      uid 1002
+    end
+
+* username - name attribute, name of the user
+* comment - GECOS field or user comment
+* shell - user login shell, use full path
+* home - user's home directory
+* gid - user's primary group, can be name or numeric
+* uid - numeric user id
+
+# system user example
+
+    @@@ruby
+    user "myapp" do
+      system true
+      comment "my appliation user"
+      shell "/bin/false"
+    end
+
+* system - creates a "system" user assigning a UID per the platorm's
+  OS policy for user creation (e.g., `/etc/login.defs`).
+
+# user passwords
+
+Chef can manage the user's password as well. The local installation of
+Ruby must have Shadow password support on Unix/Linux systems. This is
+available in the full-stack installer by installing the `ruby-shadow`
+RubyGem, as Ruby 1.9 removed it from the standard library.
+
+Passwords must be supplied using the correct password hashing for the
+underlying OS. For example, generate an MD5 hashed password with openssl:
+
+    openssl passwd -1 "theplaintextpassword"
+
+# user password example
+
+    @@@ruby
+    user "joe" do
+      comment "Joe User"
+      shell "/bin/bash"
+      home "/home/joe"
+      gid "users"
+      uid 1002
+      password "$1$JJsvHslV$szsCjVEroftprNn4JHtDi."
+    end
+
+# Services/daemons
+
+Services or application daemons can be managed in Chef using the
+`service` resource. Like packages and groups/users, services have
+platform dependent commands.
+
+* `service`
+
+The service resource does not have a default action.
+
+# service example
+
+    @@@ruby
+    service "apache2" do
+      supports :status => true
+      action :enable
+    end
+
+* supports - a metaparameter specially supported by service providers,
+  in this case indicates that the init script can take a "status"
+  command, :restart and :reload are also available.
+
+# Starting services
+
+As Chef takes action to configure resources in the order written, it
+may be sensible to not start a service right away. It is common
+practice to follow the pattern:
+
+* Install the package
+* Enable the service at boot time
+* Write configuration files
+* Start the service
+
+# Starting services
+
+Service resources can have a `:start` action to start running the
+service. This depends on the provider, but it is typically by using
+the init script or control scripts that call the init script. For
+example:
+
+* Debian/Ubuntu: `/usr/sbin/invoke-rc.d`
+* Red Hat family: `/sbin/chkconfig`
+
+# Starting services
+
+A common way to start a service is to issue a restart action through
+resource notification.
+
+    @@@ruby
+    service "apache2" do
+      supports :restart => true
+      action :enable
+    end
+
+    template "/etc/apache2/apache2.conf" do
+      # ... other parameters
+      notifies :restart, "service[apache2]"
+    end
+
+# Notifications
+
+Notifications cause resource state to change with the specified action
+based on change to another resource.
+
+There are two kinds of notifications, `notifies` and `subscribes`. We
+will focus on `notifies`. The take the following form:
+
+    @@@ruby
+    resource "my-name" do
+      notifies :action, "type[their-name]", :timing
+    end
+
+If `resource[my-name]` changes (such as a template being rendered),
+then `:action` will be sent to `type[their-name]`. The `:timing` can
+be `:delayed` (default if not specified) or
+`:immediately`. Notifications are queued, and happen only one time.
+
+# Starting services
+
+If the `template[/etc/apache2/apache2.conf]` resource changes, it will
+cause the `apache2` service to be restarted. If it were not already
+running, this usually means it will be started.
+
+    @@@ruby
+    service "apache2" do
+      supports :restart => true
+      action :enable
+    end
+
+    template "/etc/apache2/apache2.conf" do
+      # ... other parameters
+      notifies :restart, "service[apache2]"
+    end
+
+# Restarting services
+
+Do not specify the action `:restart` on a service resource in a recipe
+as it will restart every time Chef runs. Do use notifies to send the
+`:restart` action from configuration files.
+
+When Chef takes the `:restart` action on the resource, by default it
+will attempt to "stop" then "start" the service using the provider's
+stop and start commands.
+
+If the parameter `supports :restart => true` is set, then Chef will
+use the `restart` command for the service.
+
+    sudo /usr/sbin/invoke-rc.d apache2 restart
+
+# Reloading services
+
+You can reload services using their init script's reload command, but
+only if the service resource supports reload:
+
+    @@@ruby
+    service "apache2" do
+      supports :reload => true
+    end
+
+This is often used to "HUP" the process to reload the
+configuration. Refer to your system's or package's documentation.
+
+# Executing programs
+
+Sometimes to configure a system to do its job, commands or scripts
+need to be run. Chef has command and script execution resources:
+
+* `execute`
+* `script` (Bash, Csh, Perl, Python, Ruby)
+
+Chef will shell out to the system and run the specified command with
+execute, or render the code in a script and execute it.
+
+The `execute` resource is the basis for `script` and its child
+resources (`bash`, `csh`, `perl`, `python` and `ruby`).
+
+The default action for execute and script resources is to run the command/script.
+
+# execute examples
+
+    @@@ruby
+    execute "apt-get update"
+
+    execute "configure software" do
+      command "./configure"
+      cwd "/usr/src/software-1.0"
+    end
+
+* command - name attribute, the command to run
+* cwd - directory where the command is run
+* creates - a file that is created by the command
+* user - user to run the command
+* group - group to run the command
+* environment - hash of environment variables to set
+* returns - valid command return codes, can be an array
+
+# scripts
+
+The script resource defines a script that will be rendered as a file
+and executed by Chef with the given interpreter. There are shortcut
+script resources that will use the specified interpreter.
+
+    @@@ruby
+    script "install_something" do
+      interpreter "bash"
+      code <<-EOH
+      # the code
+      EOH
+    end
+
+    bash "install_something" do
+      code <<-EOH
+      # the code
+      EOH
+    end
+
+# Idempotent commands
+
+By their nature, arbitrary commands and scripts are *not* idempotent,
+since Chef just executes the raw commands. They will run every time
+Chef runs. Some strategies can be used to make execute and script
+resources idempotent.
+
+* use `creates` parameter, if the command creates a file, it won't be
+  run if the file already exists.
+* use `not_if` or `only_if` metaparameters
+
+# Conditional execution
+
+The `not_if` and `only_if` metaparamters will tell Chef to only take
+action on the resource based on the conditional.
+
+* Chef will *not* take action if `not_if` condition is true
+* Chef will *only* take action if `only_if` condition is true.
+
+The conditional can be passed a string or a ruby block. A string will
+be executed as a command and considered `true` if the return code of
+the command is 0. A ruby block will be evaluated as ruby code for `true`/`false`.
+
+# Conditional execution
+
+    @@@ruby
+    execute "setenforce 1" do
+      not_if "getenforce | grep -qx 'Enforcing'"
+    end
+
+    execute "apt-get update" do
+      not_if { ::File.exists?('/var/lib/apt/periodic/update-success-stamp') }
+      action :nothing
+    end
+
+# Uncommon Resources
+
+* Application deployment
+* Interacting with other services
+* Filesystem management
+* Network configuration
+* Special resources
+
+# Application deployment
+
+* `deploy`
+* `scm` (Git, Subversion)
+
+# Interacting with other services
+
+* `cron`
+* `env` (windows-only)
+* `erl_call`
+* `http_request`
+
+# Filesystem management
+
+* `mdadm`
+* `mount`
+
+# Network configuration
+
+* `ifconfig`
+* `route`
+
+# Special resources
+
+* `log`
+* `ohai`
+
+# Advanced
+
+* `breakpoint`
+* `ruby_block`
 
 # Summary
 
 
 # Questions
 
-*
+* Student questions?
 
 # Additional Resources
 
-*
+* http://wiki.opscode.com/display/chef/Resources
 
 # Lab Exercise
 
