@@ -8,6 +8,35 @@ Section Objectives:
 .notes These course materials are Copyright © 2010-2012 Opscode, Inc. All rights reserved.
 This work is licensed under a Creative Commons Attribution Share Alike 3.0 United States License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/us; or send a letter to Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA.
 
+# Special Exercise format
+
+This unit has a special exercise format. We will use `shef` to
+interactively write resources and observe the results.
+
+Not all resources in the examples will work exactly as written. The
+goal is to understand the syntax and how Chef processes the resource,
+not to configure specific things on the system.
+
+Students should be logged into the provided remote target instance
+rather than their local workstation. `shef` should be started as a
+privileged user (e.g., `sudo shef`).
+
+# Shef
+
+`shef`, the Chef Shell (or Console) operates under different contexts
+and the prompt indicates the context.
+
+The "main" context:
+
+    chef >
+    chef > attributes
+    chef:attributes >
+    chef:attributes > recipe
+    chef:recipe >
+
+The `help` command is available in all contexts and displays the
+built-in commands available.
+
 # Chef Resources
 
 Remember that Chef Resources have four components.
@@ -55,6 +84,19 @@ Chef has a number of built-in resources to manage files.
 * `link`
 * `directory`
 * `remote_directory`
+
+# Content Idempotence
+
+When managing file contents, Chef uses SHA-256 checksums on the target
+file content to determine if a file should be updated. If the checksum
+of the content matches, Chef makes no further changes.
+
+SHA-256 was chosen because no known collisions have been found. MD5
+has known published collision attacks, as does SHA-0. SHA-1 has
+theoretical collisions found.
+
+`file` (with `content` parameter), `cookbook_file`, `remote_file` and
+`template` resources all use checksums.
 
 # file
 
@@ -108,6 +150,178 @@ Use `cookbook_file` to transfer files from the cookbook to the node.
 * source - the file name to transfer, located in the `files/default`
   directory of the cookbook
 * cookbook - _optional_ a different cookbook where the file is
+
+# remote_file
+
+Use `remote_file` to download a file from a remote URL, rather than
+using, e.g., `wget`.
+
+Remote files are retrieved from the source URI, which can be anything
+but most often an "`http://`" or "`ftp://`" URL.
+
+The default action is to create the target file by downloading the
+source URI.
+
+# remote_file example
+
+    @@@ruby
+    remote_file "/tmp/chef-install.sh" do
+      source "http://opscode.com/chef/install.sh"
+      mode 0755
+      checksum "3dd0daa5"
+    end
+
+* path - name attribute, the target file to write
+* source - the URI of the file to download
+* mode, owner, group - inherited from `file`
+* checksum - a portion or all of the SHA-256 checksum of the file
+
+# remote_file download location
+
+It is common to download files to a temporary location, such as
+`/tmp`. However, some distributions or platforms will remove this on
+reboot. Thus `/var/tmp` may be desirable, but various system policies
+define particular characteristics about the `/var` filesystem.
+
+In Chef, it is common practice to use the location where Chef caches
+cookbooks and other files as the download location.
+
+    @@@ruby
+    remote_file "#{Chef::Config[:file_cache_path]}/install.sh" do
+      source "http://opscode.com/chef/install.sh"
+    end
+
+# template
+
+Create dynamically rendered configuration files with ERb templates and
+the `template` resource.
+
+This is the most common resource for configuration files.
+
+The entire Chef `node` object is available. Additional variables can
+be passed into the template as a parameter.
+
+The default action will create the target file rendered from the
+template.
+
+# template example
+
+    @@@ruby
+    template "/var/www/index.html" do
+      source "index.html.erb"
+      variables :welcome => "<h1>It works!</h1>"
+    end
+
+* path - the name attribute, target path to the file to render
+* mode, owner, group - inherited from `file`
+* source - the erb file in the `templates/default` directory to use
+* cookbook - _optional_ another cookbook where the template is
+* variables - a hash of variables to pass into the template, which
+  must be specified using Ruby symbols as keys
+
+# ERb syntax
+
+Access node attributes:
+
+    <%= node['ipaddress'] %>
+    <%= node['fqdn'] %>
+    <%= node['ec2']['public_hostname'] %>
+
+Access `variables` parameter:
+
+    <%= @welcome %>
+
+Use Ruby code, e.g. conditionals:
+
+    <% if node['platform'] =~ /debian/ -%>
+    I'm on Debian.
+    <% end -%>
+
+# Data driven configuration
+
+Templates are dynamically rendered from node data and the variables
+parameter.
+
+Common use cases:
+
+* Service configuration for *this* node's IP address
+* Determine particular configuration values based on the node's
+  platform
+* Service configuration to connect to another node's IP address (via a
+  search)
+
+# link
+
+Manage hard or symbolic links with the `link` resource.
+
+The default action is to create the link.
+
+# link example
+
+The equivalent of running `ln -s /etc/hosts /tmp/hosts`:
+
+    @@@ruby
+    link "/tmp/hosts" do
+      to "/etc/hosts"
+    end
+
+* target_file - the file name of the link
+* to - the real target file
+* type - `:hard` or `:symbolic` (must be a Ruby symbol)
+
+# directory
+
+Create a directory with the `directory` resource. It is the basis for
+the `remote_directory` resource as well.
+
+Like `file`, the "name attribute" for directories is the path to the
+target directory.
+
+The default action is to create the specified directory.
+
+# directory example
+
+    @@@ruby
+    directory "/var/cache/chef" do
+      mode 0755
+    end
+
+    directory "/var/www/sites/mysite" do
+      owner "www-data"
+      recursive true
+    end
+
+* path - name attribute, the target path of the directory
+* mode, owner, group - work like the `file` resource (but directory
+  does not inherit from `file`
+* recursive - recursively create the directory tree, like `mkdir -p`
+
+# remote_directory
+
+Transfers a directory of files from the cookbook's `files/default`
+directory.
+
+The files copied can have their own file permissions set as part of
+the resource.
+
+The default action is to create the directory.
+
+# remote_directory example
+
+    @@@ruby
+    remote_directory "/var/www/sites/mysite" do
+      source "my_app"
+      owner "www-data"
+      files_owner "my-app"
+      files_group "www-data"
+      recursive true
+    end
+
+* source - the directory name in `files/default` in the cookbook
+* cookbook - optionally specify a different cookbook
+* files_owner - set the owner of the individual files
+* files_group - set the group of the individual files
+* recursive - this will create the directory structure for the target
 
 # Packages
 
@@ -470,6 +684,8 @@ the command is 0. A ruby block will be evaluated as ruby code for `true`/`false`
       action :nothing
     end
 
+.notes We use the :: in front of File due to Ruby namespacing.
+
 # Uncommon Resources
 
 * Application deployment
@@ -480,41 +696,57 @@ the command is 0. A ruby block will be evaluated as ruby code for `true`/`false`
 
 # Application deployment
 
-* `deploy`
-* `scm` (Git, Subversion)
+* `deploy` - capistrano style deployment
+* `scm` - Git, Subversion supported (`git` and `subversion` resources)
 
 # Interacting with other services
 
-* `cron`
-* `env` (windows-only)
-* `erl_call`
-* `http_request`
+* `cron` - creates crontab entry
+* `env` - sets system-wide Windows ENV variables (Windows only at this time)
+* `erl_call` - make a call to an Erlang process
+* `http_request` - makes an HTTP request, useful for interacting with
+  HTTP-based APIs
 
 # Filesystem management
 
-* `mdadm`
-* `mount`
+* `mdadm` - software RAID on Linux systems
+* `mount` - mounts a filesystem
 
 # Network configuration
 
-* `ifconfig`
-* `route`
+* `ifconfig` - manage network interfaces on Linux with ifconfig,
+  add/delete actions work on most distributions, enable only works on
+  EL family
+* `route` - manage network routes on Linux with route, writing config
+  only works on EL family
 
 # Special resources
 
-* `log`
-* `ohai`
+* `log` - outputs a log message during the execute phase using the
+  Chef logger
+* `ohai` - reloads node's automatic attributes, e.g. after deploying a
+  new ohai plugin
 
-# Advanced
+# Advanced resources
 
-* `breakpoint`
-* `ruby_block`
+* `breakpoint` - sets a breakpoint used by shef
+* `ruby_block` - executes a block of Ruby code, not the same as the
+  ruby script provider
 
 # Summary
 
+* Understand the components of resources.
+* Write recipes using common resources.
 
 # Questions
 
+* What are the components of a resource?
+* What are the three resources for managing file contents? How do they
+  differ?
+* What resource manages running daemons on the node?
+* How does Chef run arbitrary user commands on the system?
+* What are three package providers for the package resource?
+* Name at least two interpreters for script resources.
 * Student questions?
 
 # Additional Resources
@@ -524,3 +756,6 @@ the command is 0. A ruby block will be evaluated as ruby code for `true`/`false`
 # Lab Exercise
 
 Resources In Depth
+
+* Understand components of resources
+* Write resources into shef and observe the outcome
