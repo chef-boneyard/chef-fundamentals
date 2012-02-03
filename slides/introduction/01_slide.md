@@ -217,8 +217,8 @@ Don't forget monitoring and trending!
 
 # Complexity Grows
 
-<center><img src="../images/complex-infrastructure.png" /><img
-src="../images/third-party-services.png" /></center>
+<center><img src="../images/complex-infrastructure.png" />
+<img src="../images/third-party-services.png" /></center>
 
 # Introducing Chef
 
