@@ -41,13 +41,35 @@ task :md_to_html do
   end
 end
 
+desc "Count the number of slides per section"
+task :slide_counter do
+  sections = showoff_sections
+  puts "** Number of slides in each section:"
+  sections.each do |section|
+    puts "- #{section}: #{line_count(File.join("slides", section, "01_slide.md"))}"
+  end
+end
+
+def line_count(slides)
+  count = 0
+  begin
+    f = File.open(slides)
+  rescue
+    return "section does not exist, create with `mksection`"
+  end
+  f.each do |line|
+    count += 1 if line =~ /^# /
+  end
+  count
+end
+
 def html_list_item(section, filename)
   %Q{<li><a href="../#{filename}">#{section}</a></li>}
 end
 
 def showoff_sections
   require 'json'
-  JSON.parse(IO.read("showoff.json"))['sections']
+  JSON.parse(IO.read(File.join("slides", "showoff.json")))['sections']
 end
 
 def section_header(section = "welcome")
