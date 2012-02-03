@@ -220,6 +220,10 @@ Don't forget monitoring and trending!
 <center><img src="../images/complex-infrastructure.png" /><img
 src="../images/third-party-services.png" /></center>
 
+# Introducing Chef
+
+<center><img src="../images/oc-chef-logo.png" height="394" width="500" /></center>
+
 # Chef Can Help
 
 Chef is designed to help manage this kind of complexity. You may have
