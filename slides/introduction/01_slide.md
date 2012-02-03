@@ -6,8 +6,13 @@ OPS150-04.01 - January, 2012
 
 Created and Sponsored by Opscode, Inc.
 
-.notes These course materials are Copyright © 2010-2012 Opscode, Inc. All rights reserved.
-This work is licensed under a Creative Commons Attribution Share Alike 3.0 United States License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/us; or send a letter to Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA.
+.notes These course materials are Copyright © 2010-2012 Opscode,
+Inc. All rights reserved.  This work is licensed under a Creative
+Commons Attribution Share Alike 3.0 United States License. To view a
+copy of this license, visit
+http://creativecommons.org/licenses/by-sa/3.0/us; or send a letter to
+Creative Commons, 171 2nd Street, Suite 300, San Francisco,
+California, 94105, USA.
 
 # Logistics
 
@@ -32,6 +37,7 @@ This work is licensed under a Creative Commons Attribution Share Alike 3.0 Unite
 * Name
 * Company / Group
 * Experience w/ Configuration Management or Chef itself
+* Objective for course
 
 # Course Objectives
 
@@ -40,14 +46,31 @@ This work is licensed under a Creative Commons Attribution Share Alike 3.0 Unite
 * Work with the Chef Server API
 * Understand common patterns used by Opscode
 * Understand Opscode's products
-* Further resources
+
+Chef is a complex system and we could spend 2 weeks on it and not
+cover everything. This course aims to teach students the fundamentals
+and most important topics, terminology and common hurdles.
 
 # Topics Not Covered
+
+We can't cover everything. Specifically, this course does not cover:
 
 * Direct comparison to other tools.
 * In depth details on advanced topics.
 * Discussion of application deployment strategies.
 * Setup/management of Open Source Chef Server.
+
+# Learning Chef
+
+This course is to facilitate learning Chef.
+
+We will take frequent breaks and do several hands on exercises.
+
+Please keep questions on topic for the section. Some questions will
+cover subject material that will be covered later.
+
+Extensive or detailed questions can be answered at the end of the
+relevant section, day or at the end of the course.
 
 # Agenda: Day 1
 
@@ -72,7 +95,9 @@ This work is licensed under a Creative Commons Attribution Share Alike 3.0 Unite
 * Additional Topics
 * Chef Development and Further Resources
 
-.notes If this is a normal 3 days Chef Fundamentals class, then this agenda is applicable. Additional topics include: Environments, LWRPs, Reporting.
+.notes Additional topics include: Environments, LWRPs, Plugins,
+Reporting. This also may include questions asked during the course
+that have not been covered.
 
 # Agenda: Hack Day
 
@@ -84,19 +109,20 @@ Opscode public Chef Fundamentals training is often followed by a Hack Day.
 * Hacking on Chef, cookbooks and more!
 * Venue varies by location
 
-.notes If this is a 2 day abbreviated Chef Fundamentals follwed by a community Hack Day event, then this agenda is applicable.
+.notes Discuss any relevant hack day event logistics. If no hack day, skip.
 
 # Course Artifacts
 
-At the end of the class:
+At the end of the class you will have:
 
 * Opscode account and Opscode Hosted Chef organization (Chef Server)
 * Workstation setup to work with Opscode Hosted Chef
-* Repository that can be used to get started managing infrastructure as code with Chef
+* Repository that can be used to get started managing infrastructure
+  as code with Chef
 
 # About Best Practices
 
-This course encompasses what we consider best practices.
+This course encompasses what we consider "best practices".
 
 Many things in Chef have multiple approaches. We will focus on one,
 but may mention others for awareness.
@@ -109,10 +135,13 @@ Chef is flexible and you can make it do almost anything you want.
 
 Opscode's Chef Fundamentals training materials are dual-licensed.
 
-* Creative Commons Attribution-ShareAlike (CC BY-SA) for slides, guides and notes.
-* Apache License, Version 2.0 for supporting code and significant example code on slides.
+* Creative Commons Attribution-ShareAlike (CC BY-SA) for slides,
+  guides and notes.
+* Apache License, Version 2.0 for supporting code and significant
+  example code on slides.
 
-.notes Usually, "significant example code" is taken from source code in Opscode open source projects such as cookbooks.
+.notes Usually, "significant example code" is taken from source code
+in Opscode open source projects such as cookbooks.
 
 # Introduction to Chef
 
@@ -120,11 +149,13 @@ Opscode's Chef Fundamentals training materials are dual-licensed.
 * System Integration
 * Core Principles
 
-.notes Now that the course is introduced, let's introduce Chef.
+.notes Take 5 if we haven't already. Now that the course is
+introduced, let's introduce Chef.
 
 # Configuration Management
 
-"Keep track of all the stuff you do to take a system from 'bare metal' to 'doing its job'." - Adam Jacob, Web Operations (O'Reilly, 2010)
+"Keep track of all the stuff you do to take a system from 'bare metal'
+to 'doing its job'." - Adam Jacob, Web Operations (O'Reilly, 2010)
 
 * Wiki notes, copy/paste
 * Scripting, ssh-in-a-for-loop
@@ -140,19 +171,22 @@ We have computers sitting in a rack somewhere.
 
 # Bare Metal...Cloud?
 
-Or, we have an idea of what computers we need running in a cloud somewhere.
+Or, we have an idea of what computers we need running in a cloud
+somewhere.
 
 <center><img src="../images/bare-metal-cloud.png" /></center>
 
 # Doing their Job
 
-All the configuration management has been done, now they're doing their jobs.
+All the configuration management has been done, now they're doing
+their jobs.
 
 <center><img src="../images/doing-their-job.png" /></center>
 
 # System Integration
 
-Systems simply running with the right software don't provide value to the business.
+Systems simply running with the right software don't provide value to
+the business.
 
 They need to be integrated together.
 
@@ -162,13 +196,18 @@ They need to be integrated together.
 
 # System Integration
 
-In a typical architecture, this is complex. Six systems talk to each other, and two of those are a complex subsystem of their own - HA database.
+In a typical architecture, this is complex. Six systems talk to each
+other, and two of those are a complex subsystem of their own - HA
+database.
 
 <center><img src="../images/integrated-systems.png" /></center>
 
 # System Integration
 
-In modern infrastructures, applications are not simply three-tier architectures anymore. Other components are added. Additional services are required to scale or add end-user features. We already have caching here, but wait, there's more:
+In modern infrastructures, applications are not simply three-tier
+architectures anymore. Other components are added. Additional services
+are required to scale or add end-user features. We already have
+caching here, but wait, there's more:
 
 * Message queues
 * Search engines
@@ -178,11 +217,13 @@ Don't forget monitoring and trending!
 
 # Complexity Grows
 
-<center><img src="../images/complex-infrastructure.png" /><img src="../images/third-party-services.png" /></center>
+<center><img src="../images/complex-infrastructure.png" /><img
+src="../images/third-party-services.png" /></center>
 
 # Chef Can Help
 
-Chef is designed to help manage this kind of complexity. You may have met already!
+Chef is designed to help manage this kind of complexity. You may have
+met already!
 
 * Configuration management tool
 * Systems integration framework
@@ -196,22 +237,28 @@ Chef is a tool for configuration management.
 * Idempotent: Only take action if required
 * Convergent: Takes care of itself
 
+.notes Each of these topics is discussed in greater detail.
+
 # Declarative Resources
 
-You configure systems with Chef by writing self-documenting code. This code is lists of *Resources* that configure the system to do its job.
+You configure systems with Chef by writing self-documenting code. This
+code is lists of *Resources* that configure the system to do its job.
 
-Chef manages system resources with a declarative interface that abstracts the details.
+Chef manages system resources with a declarative interface that
+abstracts the details.
 
     @@@ruby
     package "bash" do
       action :install
     end
 
-.notes This is the equivalent to the command `apt-get install bash` or `yum install bash`.
+.notes This is the equivalent to the command `apt-get install bash` or
+`yum install bash`.
 
 # Idempotent Actions
 
-Chef Resources have *Providers* that take idempotent action to configure the resource, but only if it needs to change.
+Chef Resources have *Providers* that take idempotent action to
+configure the resource, but only if it needs to change.
 
     INFO: Processing package[apache2] action install (apache2::default line 20)
     DEBUG: package[apache2] checking package status for apache2
@@ -219,45 +266,68 @@ Chef Resources have *Providers* that take idempotent action to configure the res
     DEBUG: package[apache2] candidate version is 2.2.20-1ubuntu1.1
     DEBUG: package[apache2] is already installed - nothing to do
 
-.notes Chef providers handle the details of checking the current state of the resource. Different platforms may have different providers for managing the same type of resource, yum vs apt, init vs upstart.
+.notes Chef providers handle the details of checking the current state
+of the resource. Different platforms may have different providers for
+managing the same type of resource, yum vs apt, init vs upstart.
 
 # Convergent Nodes
 
-Chef runs on the system, configuring the *Node*. The node is the unit of authority about itself.
+Chef runs on the system, configuring the *Node*. The node is the unit
+of authority about itself.
 
-In Chef, a single run should completely configure the system. If it does not, it is a bug (in your code, on the system, or in Chef itself).
+In Chef, a single run should completely configure the system. If it
+does not, it is a bug (in your code, on the system, or in Chef
+itself).
 
-.notes We'll talk more about how Chef converges the node when we cover Anatomy of a Chef run.
+.notes We'll talk more about how Chef converges the node when we cover
+Anatomy of a Chef run.
 
 # Chef: The Framework
 
 Chef provides a framework for system integration.
 
-* Resources are written in Chef Recipes, a Ruby domain-specific language (DSL).
+* Resources are written in Chef Recipes, a Ruby domain-specific
+  language (DSL).
 * Recipe helpers such as `search` allow dynamic data usage.
-* Chef provides a library of primitives that can be used for other purposes.
+* Chef provides a library of primitives that can be used for other
+  purposes.
+
+.notes Each of these topics is discussed in greater detail.
 
 # Recipe Ruby DSL
 
-Ruby is a 3rd generation interpreted programming language. Ruby has features that make it easy to create domain specific languages. This lends itself quite nicely to configuration management.
+Ruby is a 3rd generation interpreted programming language. Ruby has
+features that make it easy to create domain specific languages. This
+lends itself quite nicely to configuration management.
 
-In Chef, Ruby gets out of the way, but it is still there when you need it.
+In Chef, Ruby gets out of the way, but it is still there when you need
+it.
 
-Chef *Recipes* are a pure Ruby domain specific language. They are collected in *Cookbooks* along with associated components like config files or libraries.
+Chef *Recipes* are a pure Ruby domain specific language. They are
+collected in *Cookbooks* along with associated components like config
+files or libraries.
+
+.notes By "Gets out of the way", the DSL doesn't require intimate Ruby
+knowledge.
 
 # Recipe Helpers
 
-Chef provides a number of recipe helpers to obtain and manipulate data to use in Resources.
+Chef provides a number of recipe helpers to obtain and manipulate data
+to use in Resources.
 
-*Search* is used to discover information like IP addresses about other systems.
+*Search* is used to discover information like IP addresses about other
+ systems.
 
-Arbitrary data about the infrastructure can be stored in *Data Bags* and accessed in recipes.
+Arbitrary data about the infrastructure can be stored in *Data Bags*
+and accessed in recipes.
 
 # Library and Primitives
 
-Chef can be used as a library within other applications. It speaks JSON and the server has a RESTful API accessed over HTTP(S).
+Chef can be used as a library within other applications. It speaks
+JSON and the server has a RESTful API accessed over HTTP(S).
 
-Cookbooks can extend Chef with new libraries, including new resources and helpers to interact with 3rd party services.
+Cookbooks can extend Chef with new libraries, including new resources
+and helpers to interact with 3rd party services.
 
 Chef's included tools have plugin systems you can use to extend them.
 
@@ -271,7 +341,8 @@ The Chef Server provides a network accessible API to stored data.
 
 # Node Data
 
-Chef gathers information about the node it is running on and saves this data to the Chef Server.
+Chef gathers information about the node it is running on and saves
+this data to the Chef Server.
 
 Node data is generated as a JSON key/value structure.
 
@@ -279,19 +350,24 @@ The JSON data is indexed for search by the Chef Server.
 
 # Configuration Policy
 
-Policy about the nodes is written in recipes, which are stored in *Cookbooks*.
+Policy about the nodes is written in recipes, which are stored in
+*Cookbooks*.
 
-Cookbooks are uploaded to the Chef Server and distributed to the nodes that should be configured.
+Cookbooks are uploaded to the Chef Server and distributed to the nodes
+that should be configured.
 
-Cookbooks have versions and dependencies, both of which affect what code gets executed on particular nodes.
+Cookbooks have versions and dependencies, both of which affect what
+code gets executed on particular nodes.
 
 # Applying the Policy
 
 Tying it all together are `roles` which are descriptions of the nodes.
 
-A `webserver` role contains the list of cookbooks and node-specific information required to fulfill serving HTTP traffic.
+A `webserver` role contains the list of cookbooks and node-specific
+information required to fulfill serving HTTP traffic.
 
-Chef inspects the node's role to determine what it should be to do its job.
+Chef inspects the node's role to determine what it should be to do its
+job.
 
 # Chef Summary: Configuration Management
 
