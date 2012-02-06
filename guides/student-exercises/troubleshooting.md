@@ -1,11 +1,13 @@
 Troubleshooting
 ======================
 
-The instructor should lead the students through interactive troubleshooting exercises.
+The instructor will lead the students through interactive
+troubleshooting exercises.
 
 ## Objectives
 
-## Acceptance Criteria
-
-## Questions
-
+* Work with Chef's logger
+* Debug Chef's stack traces
+* Recognize HTTP status codes from the Chef Server
+* Gracefully handle errors in recipes
+* Understand Chef's exception handlers
