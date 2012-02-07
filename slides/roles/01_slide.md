@@ -1,16 +1,14 @@
 # Roles
 
+Section Objectives:
+
+* Understand the components of a role
+* Create roles with the Ruby DSL
+* View roles on the Chef Server
+* Apply roles to nodes
+
 .notes These course materials are Copyright © 2010-2012 Opscode, Inc. All rights reserved.
 This work is licensed under a Creative Commons Attribute Share Alike 3.0 United States License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/us; or send a letter to Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA.
-
-# Objectives
-
-At completion of this unit you should...
-
-* Understand the components of a role.
-* Know recommended practices for roles.
-* Be able to create a new role.
-* Be able to apply roles to nodes.
 
 # Components of a Role
 
@@ -86,9 +84,12 @@ This contains the basics that all systems should have.
 
 # Per-service Roles
 
-In a service oriented architecture, each different service should have its own role with the recipes that determine how to fulfill that service.
+In a service oriented architecture, each different service should have
+its own role with the recipes that determine how to fulfill that
+service.
 
-For example, it is common in a web-application architecture to have webservers.
+For example, it is common in a web-application architecture to have
+webservers.
 
 # roles/webserver.rb
 
@@ -168,13 +169,22 @@ Use knife:
 
 # Summary
 
-You should now be able to...
+* Understand the components of a role
+* Create roles with the Ruby DSL
+* View roles on the Chef Server
+* Apply roles to nodes
 
-* Describe the components of a role.
-* Describe recommended practices for roles.
-* Create a new role.
-* Apply roles to nodes.
+# Questions
+
+* What are the components of a role?
+* What is the difference between the Ruby DSL and JSON for roles?
+* What knife command is used to add a role to a node's run list?
+* What knife command sends the role to the Chef Server from the local repository?
 
 # Lab Exercise
 
-## Roles
+Roles
+
+* Understand how to create roles with the Ruby DSL
+* Upload a role to the Chef Server with knife
+* Modify a node's run list directly with knife
