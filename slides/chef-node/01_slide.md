@@ -145,7 +145,7 @@ separated list of platform names (lower-case).
 
     @@@ruby
     # on an ubuntu system:
-    platform?("ubuntu) # => true
+    platform?("ubuntu") # => true
 
 This isn't a `Chef::Node` method, but worth mentioning here as an
 alternate way to check the node's platform.
