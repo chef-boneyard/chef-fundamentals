@@ -7,6 +7,7 @@ Section Objectives:
 * Original location of node attributes
 * Node's run list
 * Methods available in recipes
+* Use `knife` and `shef` to examine nodes
 
 .notes These course materials are Copyright © 2010-2012 Opscode, Inc. All rights reserved.
 This work is licensed under a Creative Commons Attribution Share Alike 3.0 United States License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/us; or send a letter to Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA.
@@ -342,6 +343,98 @@ Retrieve the value of the node's environment with the
 
 We will discuss Chef Environments in more detail later.
 
+# Examining Chef::Node
+
+Use `knife node list` to list all the node objects on the Chef Server.
+
+    > knife node list
+
+Use `knife node show` to display a node object on the Chef Server.
+
+    > knife node show i-2b58ad4a
+    Node Name:   i-2b58ad4a
+    Environment: _default
+    FQDN:        domU-12-31-39-07-D5-65.compute-1.internal
+    IP:          107.20.14.15
+    Run List:    role[base], role[webserver]
+    Roles:       base, webserver
+    Recipes:     apt, chef-client, webserver
+    Platform:    ubuntu 10.04
+
+# Examining Chef::Node
+
+`knife node show` has several options to modify the output of the node
+object. We can show only the run list:
+
+    > knife node show i-2b58ad4a -r
+    run_list:
+        role[base]
+        role[webserver]
+
+The Chef environment:
+
+    > knife node show -E i-2b58ad4a
+    chef_environment:  _default
+
+Or a specific attribute:
+
+    > knife node show i-2b58ad4a -a ec2.public_hostname
+    ec2.public_hostname:  ec2-107-20-14-15.compute-1.amazonaws.com
+
+# Examining Chef::Node
+
+The `Chef::Node` is actually a JSON object but the format returned is
+a bit nicer for humans to read. Show the data in another format with
+`-F` and specify a format. Valid alternate formats are JSON ("j"),
+YAML ("y") or Text (default, or "t")
+
+    > knife node show i-2b58ad4a -Fj
+    > knife node show i-2b58ad4a -r -Fj
+    > knife node show i-2b58ad4a -a ec2 -Fj
+
+# Examining Chef::Node in Shef
+
+We can use `shef` to examine properties of the `Chef::Node`
+object. Similar to `chef-client`, `shef` loads a `node` object on
+startup, including attributes from Ohai.
+
+    > shef
+    loading configuration: none (standalone shef session)
+    Session type: standalone
+    ...
+    Ohai2u jtimberman@localhost.localdomain!
+    chef >
+
+# Chef::Node in Shef
+
+Show the `Chef::Node` object itself:
+
+    chef > node
+     => <Chef::Node:0xb75b9c @name="localhost.localdomain">
+
+Show the node's name:
+
+    chef > node.name
+     => "localhost.localdomain
+
+Show the node's environment and run list:
+
+    chef > node.chef_environment
+     => "_default"
+    chef > node.run_list
+     =>
+
+# Chef::Node in Shef
+
+Show some attributes about the node:
+
+    chef > node['ipaddress']
+     => "10.0.0.100"
+    chef > node['platform']
+     => "ubuntu"
+    chef > node['platform_version']
+     => "11.10"
+
 # Summary
 
 * Properties of the Chef::Node object
@@ -349,6 +442,7 @@ We will discuss Chef Environments in more detail later.
 * Original location of node attributes
 * Node's run list
 * Methods available in recipes
+* Use `knife` and `shef` to examine nodes
 
 # Questions
 
