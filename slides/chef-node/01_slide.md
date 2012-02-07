@@ -464,3 +464,7 @@ Show some attributes about the node:
 # Lab Exercise
 
 Chef Node
+
+* View the node object on the Chef Server with knife
+* Create new attributes on the node with a cookbook and role.
+* Use node attributes in a conditional in the recipe.
