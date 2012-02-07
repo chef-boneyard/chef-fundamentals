@@ -85,20 +85,17 @@ arrays or hashes.
 * `keys` - host SSH keys
 * `languages` - information about programming languages
 * `lsb` - Linux systems with LSB packages may have information here
-
-# Example Attributes (continued)
-
 * `macaddress` - the MAC address of the interface with the default route.
 * `memory` - memory statistics/information
 * `network` - information about all the installed network interfaces
 * `ohai_time` - the Unix Epoch when Ohai was called
+
+# Example Attributes (continued)
+
 * `os` - the operating system kernel
 * `os_version` - the OS kernel version
 * `platform` - the platform/distribution
 * `platform_version` - the version of the platform/distribution
-
-# Example Attributes (continued)
-
 * `recipes` - all the recipes appearing in the expanded run list
 * `roles` - all the roles appearing in the expanded run list
 * `uptime` - the system's uptime
@@ -114,7 +111,7 @@ Access node attributes like Ruby hash keys.
 
     @@@ruby
     node["fqdn"] # => "www1.example.com"
-    node["chfe_packages]["chef"]["version"] # => "0.10.8"
+    node["chef_packages]["chef"]["version"] # => "0.10.8"
 
 # Attribute Conditionals
 
@@ -136,8 +133,6 @@ This is commonly done to match a node's platform.
       case node["platform"]
       when "centos","redhat"
         package_name "httpd"
-      when "debian","ubuntu"
-        package_name "apache2"
       end
       action :install
     end
@@ -151,6 +146,9 @@ separated list of platform names (lower-case).
     @@@ruby
     # on an ubuntu system:
     platform?("ubuntu) # => true
+
+This isn't a `Chef::Node` method, but worth mentioning here as an
+alternate way to check the node's platform.
 
 # Attributes in Strings
 
