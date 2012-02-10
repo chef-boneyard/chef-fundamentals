@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+require "fileutils"
+require 'redcarpet'
+require 'json'
+
 desc "Create the directory and initial slides (with SECTION=name)"
 task :mksection do
   section = ENV['SECTION']
@@ -26,7 +30,7 @@ task :mksection do
   end
 end
 
-desc "Generate HTML out of Markdown"
+desc "Generate HTML out of Markdown (Slides)"
 task :md_to_html do
   html_dir = File.join("slides", "html")
   sections = showoff_sections
@@ -38,6 +42,22 @@ task :md_to_html do
     File.open(File.join("slides", "html", "index.html"), "a+") do |h|
       h.puts html_list_item s, fn
     end
+  end
+end
+
+desc "Generate HTML out of Markdown (Guides)"
+task :student_guide do
+  html_dir = File.join("guides", "html")
+  guides_dir = File.join("guides", "student-exercises")
+  sections = showoff_sections
+  markdown = []
+  FileUtils.mkdir_p(html_dir)
+  sections.each do |s|
+    fn = File.join(guides_dir, "#{s}.md")
+    markdown << IO.read(fn) if File.exists?(fn)
+  end
+  File.open(File.join(html_dir, "Student-Exercises.html"), "a+") do |h|
+    h.puts Redcarpet::Markdown.new(Redcarpet::Render::HTML).render(markdown.join("\n<hr />\n"))
   end
 end
 
@@ -68,7 +88,6 @@ def html_list_item(section, filename)
 end
 
 def showoff_sections
-  require 'json'
   JSON.parse(IO.read(File.join("slides", "showoff.json")))['sections']
 end
 
