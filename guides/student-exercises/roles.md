@@ -10,21 +10,21 @@ Roles
 ## Acceptance Criteria
 
 * Directory in Chef Repository for role Ruby DSL files
-* `base` role contains recipe `fail2ban`
-* Target system's node uses the `base` role in its run list
+* `webserver` role containing `webserver`
+* Target system's node uses the `webserver` role in its run list
 
 ## Create Base Role
 
 Create a directory to store roles in the Chef Repository. It should be
-named `roles`. Create a role named `base` as a Ruby DSL file in the
-`roles` directory. Add the `fail2ban` cookbook to the role's run list.
+named `roles`. Create a role named `webserver` as a Ruby DSL file in the
+`roles` directory. Add the `webserver` cookbook to the role's run list.
 
-Upload the `base` role to the Chef Server.
+Upload the `webserver` role to the Chef Server.
 
 ## Modify Node
 
 Use `knife` to remove the `fail2ban` recipe from the node's run list
-and add the `base` role.
+and add the `webserver` role.
 
 Re-run `chef-client` on the node.
 
