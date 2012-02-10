@@ -10,8 +10,8 @@
     /* Day 2 */
     "resources-in-depth",
     "troubleshooting",
-    "chef-node",
     "roles",
+    "chef-node",
     "more-cookbooks",
     /* Day 3 */
     "multiple-nodes-and-search",
