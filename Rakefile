@@ -104,5 +104,5 @@ This work is licensed under a Creative Commons Attribution Share Alike 3.0 Unite
 end
 
 def exercise_guide(section = "welcome")
-  "#{section_header(section)}\n======================\n\n## Objectives\n\n## Acceptance Criteria\n\n## Quesetions\n"
+  "#{section_header(section)}\n======================\n\n## Objectives\n\n## Acceptance Criteria\n\n## Questions\n"
 end

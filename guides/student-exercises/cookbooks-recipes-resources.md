@@ -50,7 +50,7 @@ from the previous exercise using Knife.
 Log into the node and run `chef-client`. Turn debug logging on to see
 more information about the Chef run.
 
-## Quesetions
+## Questions
 
 What is the run list of the node?
 

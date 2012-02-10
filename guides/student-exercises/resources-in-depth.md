@@ -17,9 +17,9 @@ to interactively observe what happens in writing Chef resources. Use
 that information and explore on your own to answer the questions below.
 
 You can interact with a resource as a Ruby object by loading it with
-the `resource()` method. The syntax is:
+the `resources()` method. The syntax is:
 
-    chef:recipe > my_resource = resource("type[name]")
+    chef:recipe > my_resource = resources("type[name]")
 
 Parameters are methods that can be called with a value to set that
 parameter. For example,
@@ -50,7 +50,7 @@ A full example:
 
 (`IO.read` is a Ruby method to read in the content of a file)
 
-## Quesetions
+## Questions
 
 When creating a `file` resource, what are the allowed actions?
 

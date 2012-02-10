@@ -48,7 +48,7 @@ _Optional_ add the `node['webserver']['origin']` attribute in a recipe
 using a normal level attribute (`node.set`), with content like "This is from the
 recipe."
 
-## Quesetions
+## Questions
 
 What is your target remote system's node name? FQDN? Are they
 different?
