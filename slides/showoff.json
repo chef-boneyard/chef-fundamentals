@@ -12,10 +12,9 @@
     "troubleshooting",
     "roles",
     "chef-node",
-    "more-cookbooks",
     /* Day 3 */
+    "more-cookbooks",
     "multiple-nodes-and-search",
-    "data-bags",
     "additional-topics",
     "chef-development"
   ],

@@ -91,7 +91,6 @@ relevant section, day or at the end of the course.
 # Agenda: Day 3
 
 * Multiple Nodes and Search
-* Data bags
 * Additional Topics
 * Chef Development and Further Resources
 
