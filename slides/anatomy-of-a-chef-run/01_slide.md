@@ -1,21 +1,18 @@
 # Anatomy of a Chef Run
 
+Section Objectives:
+
+* Chef API Clients
+* Chef Nodes
+* Node convergence phases
+* Notification handler types
+
 .notes These course materials are Copyright © 2010-2012 Opscode, Inc. All rights reserved. 
 This work is licensed under a Creative Commons Attribute Share Alike 3.0 United States License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/us; or send a letter to Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA.
 
-# Objectives
-
-At completion of this unit you should...
-
-* Understand Chef API Clients
-* Understand Chef nodes
-* Be able to query and manipulate node run lists
-* Understand Chef node convergence phases
-* Understand the difference between notification handler types
-
 # Anatomy of a Chef Run
 
-<center><img src="anatomy-of-chef-run.png"></center>
+<center><img src="../images/anatomy-of-chef-run.png" width="424" height="624" /></center>
 
 .notes This diagram represents the process of running chef.
 
@@ -31,28 +28,31 @@ At completion of this unit you should...
 
 Before anything else happens, the system is profiled with Ohai.
 
-Unless a node name was specified (node_name in /etc/chef/client.rb or chef-client -N), Chef will use the fully qualified domain name.
+Chef will use the detected fully qualified domain name (fqdn) for the node's name unless it was specified:
 
-Node names should be unique.
+* `node_name` in `/etc/chef/client.rb`
+* `chef-client -N`
+
+Node names should be unique, they are used for the managed node and the API client.
 
 # API Clients
 
-API Clients authenticate with the Chef Server.
+*API Clients* authenticate with the Chef Server.
 
-Chef uses Signed Header Authentication across all API requests. Portions used:
+Chef uses Signed Header Authentication across all API requests. The header contains:
 
 * HTTP method (GET/PUT/POST/DELETE)
 * Request body in Base64
-* Timestamp (use ntp!)
-* Client ID (node name)
+* Timestamp (use NTP!)
+* Client ID (`node_name`)
 
 # API Authentication
 
-Does /etc/chef/client.pem exist?
+Does `/etc/chef/client.pem` exist?
 
 * Use it to sign requests
 
-Does /etc/chef/validation.pem exist?
+Does `/etc/chef/validation.pem` exist?
 
 * Request a new API client key
 * Or fail
@@ -63,7 +63,7 @@ Was a new client key generated?
 
 # API Authentication Process
 
-<center><img src="authn-flow.png" height="454" width="879"></center>
+<center><img src="../images/authn-flow.png" height="454" width="879" /></center>
 
 # Users are Special API Clients
 
@@ -73,7 +73,7 @@ Users are associated to an organization with Role-Based Access Control.
 
 Users are granted privileges to Server-side objects with access control lists.
 
-Users are global to Opscode Hosted Chef. Clients (like systems running chef-client) are specific per organization.
+Users are global to Opscode Hosted Chef. *API Clients* (like systems running `chef-client`) are specific per organization.
 
 # Node Objects
 
@@ -84,51 +84,54 @@ configuration to apply called a run list.
 
 # Node Object
 
-Chef::Node is like a Hash, but it is internally a collection of hashes.
+`Chef::Node` is the node object. It looks and almost behaves like a hash, except when it doesn't.
 
-* Display order is arbitrary.
-* Priority handled internally in Chef.
+Nodes have attributes at varying priority levels (automatic, default, normal, override).
+
+Nodes have a run list.
+
+.notes We talk about the internals of the Node object later.
 
 # Node Object: JSON
 
     @@@javascript
     {
-      "name": "i-d51b00bf",
+      "name": "www1.example.com",
       "json_class": "Chef::Node",
       "chef_type": "node",
       "chef_environment": "_default",
+      "automatic": { ... },
       "default": { ... },
       "normal": { ... },
       "override": { ... },
-      "automatic": { ... },
       "run_list": [ ... ]
     }
+
+.notes Name is the fqdn by default, JSON class is used internally, chef type tells the server how to index this object, environment specifies the environment, automatic-override are attribute levels, run list is an array
 
 # Node Run List Expands
 
 The run list can contain recipes and roles. Roles can contain recipes and also other roles.
 
-Chef expands the node’s run list down to the recipes. The list roles
-and recipes are saved as attributes, too.
+Chef expands the node's run list down to the recipes. The roles and recipes get set to node attributes.
 
 # Synchronize Cookbooks
 
-Chef downloads from the Chef Server all the cookbooks that appear as recipes in the node’s run list.
+Chef downloads from the Chef Server all the cookbooks that appear as recipes in the node's run list.
 
 Chef also downloads all cookbooks that are listed as dependencies which might not appear in the run list.
 
-If the node's "chef_environment" specifies cookbook versions, the Chef
+If the node's `chef_environment` specifies cookbook versions, the Chef
 downloads the version specified. Otherwise the latest available
 version is downloaded.
 
 # Cookbook Metadata
 
-If a recipe from another cookbook is included in a recipe, it isn’t automatically downloaded.
+If a recipe from another cookbook is included in a recipe, it isn't automatically downloaded.
 
-Some cookbooks don’t actually have recipes, and instead provide helper code, libraries or other assets we want to use. 
+Some cookbooks don't actually have recipes, and instead provide helper code, libraries or other assets we want to use. 
 
-To ensure that cookbooks that have components we need, we declare
-dependencies in cookbook metadata.
+To ensure the node has components needed in recipes, we declare dependencies in cookbook metadata.
 
 # Cookbook Cache
 
@@ -146,15 +149,14 @@ The run context is created with the node and the cookbook collection.
 
 # Load Cookbooks
 
-Once the cookbooks are synchronized to the local system, their
-components are loaded in the following order:
+Once the cookbooks are synchronized to the local system, their components are loaded in the following order:
 
 * Libraries
 * Providers
 * Resources
 * Attributes
 * Definitions
-* Recipes
+* Recipes (in the order specified)
 
 # Cookbook Files and Templates
 
@@ -176,8 +178,6 @@ Convergence in Chef happens in two phases.
 * Execute
 
 # Convergence: Compile
-
-Compile phase
 
 * Chef recipe Ruby DSL is evaluated
 * Ruby code is executed directly
@@ -216,13 +216,22 @@ Abnormal exit from unhandled exception:
 
 # Summary
 
-You should now be able to...
+* Chef API Clients
+* Chef Nodes
+* Node convergence phases
+* Notification handler types
 
-* Describe Chef API Clients
-* Describe Chef nodes
-* Be able to query and manipulate node run lists
-* Describe the two Chef node convergence phases
-* Describe the difference between report and exception handlers
+# Questions
+
+* What is an API client?
+* How does the API client get created automatically?
+* How is an API client different from a node?
+* What are the two main components of a node object?
+* How does Chef determine what cookbooks to download?
+* Where do cookbooks get downloaded?
+* What are the two phases of node convergence and how do they differ?
+* What is the difference between a report and exception handler?
+* Student questions?
 
 # Additional Resources
 
@@ -235,4 +244,7 @@ You should now be able to...
 
 # Lab Exercise
 
-## Anatomy of a Chef Run
+Anatomy of a Chef Run
+
+* Configure remote target to run `chef-client`
+* Successful `chef-client` run with debug logging

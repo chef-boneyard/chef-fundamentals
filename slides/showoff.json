@@ -5,16 +5,17 @@
     "introduction",
     "getting-started",
     "anatomy-of-a-chef-run",
-    "example-cookbook",
+    "cookbooks-recipes-resources",
+    "just-enough-ruby-for-chef",
     /* Day 2 */
-    "roles",
-    "adding-cookbooks",
-    "node-attributes",
-    /* Day 3 */
-    "introduction-to-search",
-    "adding-a-new-node",
-    "data-bags",
+    "resources-in-depth",
     "troubleshooting",
+    "roles",
+    "chef-node",
+    /* Day 3 */
+    "more-cookbooks",
+    "multiple-nodes-and-search",
+    "additional-topics",
     "chef-development"
   ],
   "pdf_options": {

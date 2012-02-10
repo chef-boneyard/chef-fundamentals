@@ -31,8 +31,14 @@ class starts.
 * SSH/SCP (OpenSSH, puTTY/WinSCP or equivalent)
 * [Git](http://git-scm.org)
 
+On Unix/Linux/OS X systems:
+
+* C/C++ compiler, build environment (`build-essential`, Xcode, or
+  platform equivalent).
+
 If Chef is not already installed, use [Opscode's Full Stack Chef
-installer](http://www.opscode.com/chef/install).
+installer](http://www.opscode.com/chef/install). This will also be
+covered during the introductory portion of the course.
 
 # Chef Server Requirements
 
