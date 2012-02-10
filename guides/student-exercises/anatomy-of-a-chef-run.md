@@ -12,6 +12,23 @@ Anatomy of a Chef Run
 * Debug log output from `chef-client`
 * Answer the questions
 
+## Prepare Remote Target
+
+Your instructor will provide an IP address of an Ubuntu
+system. Connect to the system with the following credentials:
+
+* Username: ubuntu
+* Password: opstrain_0150
+
+You will need to install Chef on the system. Use the Full Stack
+installer.
+
+* http://opscode.com/chef/install
+
+You may need to install the `curl` package:
+
+    sudo apt-get install curl
+
 ## Create Configuration
 
 Create a configuration file for your remote target system. The default
