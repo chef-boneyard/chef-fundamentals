@@ -1,5 +1,12 @@
 # Setup
 
+Requirements:
+
+* Ruby 1.8.7+
+* RubyGems 1.3.7+
+* libxml2 and libxslt development headers (e.g., libxml2-dev and
+  libxslt-dev on Debian/Ubuntu).
+
 ```
 gem install bundler
 bundle install
