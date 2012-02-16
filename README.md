@@ -1,3 +1,12 @@
+# Overview
+
+Welcome to Chef Fundamentals. This is the source training material
+repository for the class. The materials themselves are written in
+plain text "[Markdown](http://daringfireball.net/projects/markdown/)"
+format, and presented using the
+"[ShowOff](https://github.com/schacon/showoff)" Ruby-based presentation
+application.
+
 # Setup
 
 Requirements:
@@ -14,7 +23,20 @@ cd slides
 showoff serve
 ```
 
-Browse to localhost:9090
+Depending on how your local system's Ruby was installed, you may need
+to use `sudo` to run `gem install` and `bundle install`. You may also
+need to use `bundle exec showoff serve` to run the presentation.
+
+Two URLs are available:
+
+* http://localhost:9090 - "student" view of the slides
+* http://localhost:9090 - "presenter view of the slides
+
+When presenting the materials as an instructor, use the "presenter"
+view. This will also pop up a second browser window that will advance
+with the presenter window. To move forward and back, use the arrow
+keys. Down/Right go forward, Up/Left go backward. Spacebar will also
+advance slides forward.
 
 # Installed Gems
 
