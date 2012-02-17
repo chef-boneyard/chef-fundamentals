@@ -40,6 +40,20 @@ If Chef is not already installed, use [Opscode's Full Stack Chef
 installer](http://www.opscode.com/chef/install). This will also be
 covered during the introductory portion of the course.
 
+### Mac OS X Users
+
+**If you do not already have Xcode installed**
+
+Recently, Apple made Xcode 4.3's command-line tools available as a
+separate download from the full Xcode package. If you do not already
+have Xcode installed, you can use this installation instead, as it is
+a 165Mb download instead of several gigabytes. Log in with your Apple
+ID here:
+
+* https://developer.apple.com/downloads/index.action
+
+And select, "Command Line Tools for Xcode" to download the dmg.
+
 # Chef Server Requirements
 
 Students may already have a Chef Server, whether it is Opscode Hosted
