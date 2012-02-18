@@ -72,31 +72,28 @@ cover subject material that will be covered later.
 Extensive or detailed questions can be answered at the end of the
 relevant section, day or at the end of the course.
 
-# Agenda: Day 1
+# Agenda
 
 * Introduction
 * Getting Started
 * Anatomy of a Chef Run
 * Cookbooks, Recipes and Resources
 * Just Enough Ruby for Chef
-
-# Agenda: Day 2
-
 * Resources in Depth
+
+# Agenda
+
 * Troubleshooting
 * Chef Node
 * Roles
 * More Cookbooks
-
-# Agenda: Day 3
-
 * Multiple Nodes and Search
 * Additional Topics
 * Chef Development and Further Resources
 
-.notes Additional topics include: Environments, LWRPs, Plugins,
-Reporting. This also may include questions asked during the course
-that have not been covered.
+.notes Additional topics include: Data bags, Environments, LWRPs,
+Plugins, Reporting. This also may include questions asked during the
+course that have not been covered.
 
 # Agenda: Hack Day
 
