@@ -7,6 +7,9 @@ format, and presented using the
 "[ShowOff](https://github.com/schacon/showoff)" Ruby-based presentation
 application.
 
+If you're seeing this at http://localhost:9090, you need to run the
+`showoff` command from the `slides` directory.
+
 # Setup
 
 Requirements:
