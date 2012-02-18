@@ -3,6 +3,12 @@ require "fileutils"
 require 'redcarpet'
 require 'json'
 
+desc "Serve the presentation"
+task :present do
+  Dir.chdir("slides")
+  sh "bundle exec showoff serve"
+end
+
 desc "Create the directory and initial slides (with SECTION=name)"
 task :mksection do
   section = ENV['SECTION']

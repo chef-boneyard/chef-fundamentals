@@ -22,13 +22,13 @@ Requirements:
 ```
 gem install bundler
 bundle install
-cd slides
-bundle exec showoff serve
+rake present
 ```
 
 Depending on how your local system's Ruby was installed, you may need
 to use `sudo` to run `gem install` and `bundle install`. You may also
-need to use `bundle exec showoff serve` to run the presentation.
+need to use `bundle exec showoff serve` in the `slides` directory to
+run the presentation, though the rake task should handle this already.
 
 Two URLs are available:
 

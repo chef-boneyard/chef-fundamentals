@@ -1,4 +1,5 @@
 source :rubygems
+gem "rake"
 gem "redcarpet"
 gem "pdfkit"
 gem "showoff", :git => "git://github.com/jtimberman/showoff.git", :branch => "chef-fnd"
