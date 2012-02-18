@@ -7,12 +7,12 @@ Section Objectives:
 * Node convergence phases
 * Notification handler types
 
-.notes These course materials are Copyright © 2010-2012 Opscode, Inc. All rights reserved. 
+.notes These course materials are Copyright © 2010-2012 Opscode, Inc. All rights reserved.
 This work is licensed under a Creative Commons Attribute Share Alike 3.0 United States License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/us; or send a letter to Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA.
 
 # Anatomy of a Chef Run
 
-<center><img src="../images/anatomy-of-chef-run.png" width="424" height="624" /></center>
+<center><img src="../images/anatomy-of-chef-run-0.png" width="424" height="624" /></center>
 
 .notes This diagram represents the process of running chef.
 
@@ -39,12 +39,10 @@ Node names should be unique, they are used for the managed node and the API clie
 
 *API Clients* authenticate with the Chef Server.
 
-Chef uses Signed Header Authentication across all API requests. The header contains:
+Chef uses Signed Header Authentication across all API requests.
 
-* HTTP method (GET/PUT/POST/DELETE)
-* Request body in Base64
-* Timestamp (use NTP!)
-* Client ID (`node_name`)
+The API requests are authenticated using the `node_name` for the API
+client. The timestamp is recorded in the headers to prevent replay attacks.
 
 # API Authentication
 
@@ -61,19 +59,22 @@ Was a new client key generated?
 
 * Use it to sign requests
 
+.notes Consider role-play scenario of someone trying to get into an
+exclusive, hip-hoppin' club
+
 # API Authentication Process
 
 <center><img src="../images/authn-flow.png" height="454" width="879" /></center>
 
 # Users are Special API Clients
 
-With Opscode Hosted Chef, individual users have special API clients.
+With Opscode Hosted Chef, people authenticate as *Users*, which are
+special API clients since they're global.
 
-Users are associated to an organization with Role-Based Access Control.
+Users are associated with an *Organization*.
 
-Users are granted privileges to Server-side objects with access control lists.
-
-Users are global to Opscode Hosted Chef. *API Clients* (like systems running `chef-client`) are specific per organization.
+What a user can do is determined by the access control lists in the
+organization and by granting of certain group-based privileges.
 
 # Node Objects
 
@@ -89,6 +90,8 @@ configuration to apply called a run list.
 Nodes have attributes at varying priority levels (automatic, default, normal, override).
 
 Nodes have a run list.
+
+Nodes have an environment.
 
 .notes We talk about the internals of the Node object later.
 
@@ -115,11 +118,19 @@ The run list can contain recipes and roles. Roles can contain recipes and also o
 
 Chef expands the node's run list down to the recipes. The roles and recipes get set to node attributes.
 
+# Anatomy of a Chef Run
+
+<center><img src="../images/anatomy-of-chef-run-2.png" width="424" height="624" /></center>
+
+.notes This diagram represents the process of running chef.
+
 # Synchronize Cookbooks
 
-Chef downloads from the Chef Server all the cookbooks that appear as recipes in the node's run list.
+Chef downloads from the Chef Server all the cookbooks that appear as
+recipes in the node's expanded run list.
 
-Chef also downloads all cookbooks that are listed as dependencies which might not appear in the run list.
+Chef also downloads all cookbooks that are listed as dependencies
+which might not appear in the run list.
 
 If the node's `chef_environment` specifies cookbook versions, the Chef
 downloads the version specified. Otherwise the latest available
@@ -127,11 +138,22 @@ version is downloaded.
 
 # Cookbook Metadata
 
-If a recipe from another cookbook is included in a recipe, it isn't automatically downloaded.
+If a recipe from another cookbook is included in a recipe, it isn't
+automatically downloaded.
 
-Some cookbooks don't actually have recipes, and instead provide helper code, libraries or other assets we want to use. 
+Some cookbooks don't actually have recipes, and instead provide helper
+code, libraries or other assets we want to use.
 
-To ensure the node has components needed in recipes, we declare dependencies in cookbook metadata.
+To ensure the node has components from other cookbooks used in
+recipes, we declare explicit dependencies in cookbook metadata.
+
+For example, if we want to re-use a template from the `apache2`
+cookbook in the `webserver` cookboook, declare a dependency on the
+`apache2` cookbook.
+
+    @@@ruby
+    # in webserver/metadata.rb...
+    depends "apache2"
 
 # Cookbook Cache
 
@@ -158,6 +180,12 @@ Once the cookbooks are synchronized to the local system, their components are lo
 * Definitions
 * Recipes (in the order specified)
 
+# Anatomy of a Chef Run
+
+<center><img src="../images/anatomy-of-chef-run-3.png" width="424" height="624" /></center>
+
+.notes This diagram represents the process of running chef.
+
 # Cookbook Files and Templates
 
 Cookbook static assets (files) and dynamic assets (templates) are not retrieved or loaded at this time.
@@ -179,16 +207,38 @@ Convergence in Chef happens in two phases.
 
 # Convergence: Compile
 
-* Chef recipe Ruby DSL is evaluated
+Chef recipes are written in Ruby. During the compile phase, the Chef
+Recipe DSL is processed for Chef *Resources* to be configured.
+
+During the processing of recipes:
+
 * Ruby code is executed directly
-* Recognized resources are added to the Resource Collection
+* Recognized resources are added to the *Resource Collection*
+
+For example:
+
+    @@@ruby
+    pkg = "apache2"
+
+    package pkg do
+      action :install
+    end
+
+.notes Local variables are used, arrays are iterated, conditionals are
+evaluated, etc.
 
 # Convergence: Execute
 
-Execute phase
+Chef walks the Resource Collection in order.
 
 * Chef runs the specified actions for each resource
 * Providers know how to perform the actions
+
+# Anatomy of a Chef Run
+
+<center><img src="../images/anatomy-of-chef-run-4.png" width="424" height="624" /></center>
+
+.notes This diagram represents the process of running chef.
 
 # Report and Exception Handlers
 
@@ -213,6 +263,12 @@ Abnormal exit from unhandled exception:
     FATAL: SIGINT received, stopping
     ERROR: Running exception handlers
     ERROR: Exception handlers complete
+
+# Anatomy of a Chef Run
+
+<center><img src="../images/anatomy-of-chef-run-5.png" width="424" height="624" /></center>
+
+.notes This diagram represents the process of running chef.
 
 # Summary
 

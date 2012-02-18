@@ -20,7 +20,7 @@ Requirements:
 gem install bundler
 bundle install
 cd slides
-showoff serve
+bundle exec showoff serve
 ```
 
 Depending on how your local system's Ruby was installed, you may need

@@ -39,7 +39,7 @@ built-in commands available.
 
 # Chef Resources
 
-Remember that Chef Resources have four components.
+Chef Resources have four components.
 
 * Type
 * Name
@@ -59,10 +59,10 @@ Syntax example of Chef Resources
       action :action
     end
 
-The values of parameters can be various Ruby objects depending on the
-specific resource.
+The values of parameters can be various Ruby data type objects
+depending on the specific resource.
 
-The action, if specified, must begin with a colon (Ruby symbol).
+The action, if specified, **must** begin with a colon (Ruby symbol).
 
 # Common Resources
 
@@ -191,6 +191,9 @@ cookbooks and other files as the download location.
       source "http://opscode.com/chef/install.sh"
     end
 
+.notes It is not required to type all this resource in since we used a
+similar one previously.
+
 # template
 
 Create dynamically rendered configuration files with ERb templates and
@@ -293,7 +296,7 @@ The default action is to create the specified directory.
 
 * path - name attribute, the target path of the directory
 * mode, owner, group - work like the `file` resource (but directory
-  does not inherit from `file`
+  does not inherit from `file`)
 * recursive - recursively create the directory tree, like `mkdir -p`
 
 # remote_directory
@@ -472,6 +475,9 @@ underlying OS. For example, generate an MD5 hashed password with openssl:
       uid 1002
       password "$1$JJsvHslV$szsCjVEroftprNn4JHtDi."
     end
+
+.notes This does not have to be repeated from the earlier example,
+especially all the typing of that obnoxious password.
 
 # Services/daemons
 

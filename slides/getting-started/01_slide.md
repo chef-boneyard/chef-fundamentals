@@ -81,7 +81,7 @@ Chef is distributed primarily as a RubyGem, therefore Ruby and RubyGems need to 
 
     % sudo gem install chef
 
-# Where it that simple...
+# Were it that simple...
 
 For some platforms, getting the required versions of Ruby and RubyGems for Chef is not trivial.
 
@@ -162,9 +162,29 @@ If Ruby is required for other tools or applications on the system, Opscode recom
 
 If you wish to install Chef extensions such as knife plugins, report handlers or gems used in cookbooks, use the full-stack included Ruby.
 
+# Chef Toolbox
+
+Chef comes with several tools of its own.
+
+* ohai
+* chef-client and chef-solo
+* knife
+* shef
+
+# Other Tools
+
+In working with infrastructure, we have several tools in the toolbox.
+
+Non-Chef tools:
+
+* Shell (Bash, Zsh, Powershell, Cmd.exe)
+* Text editors (Emacs, Vim, Notepad++)
+* Version control systems (Git, Subversion, Perforce)
+* Ruby programming language
+
 # Chef Tools
 
-Each of these tools share some common traits.
+Each of the tools bundled with the Chef Full package share some common traits.
 
 * Built-in help
 * Configuration
@@ -279,13 +299,15 @@ Opscode Hosted Chef provides a pregenerated `knife.rb` you can use.
 
 # Knife Configuration Options
 
-Options set in the knife configuration file have two namespaces.
+Knife configuration uses `Chef::Config`.
 
-One applies to `Chef::Config` directly.
+Knife also has its own specific configuration for various plugins to
+use. These are in `Chef::Config[:knife]`, which is a hash of
+configuration options.
 
-The other applies to `Chef::Config[:knife]`.
-
-Context is important.
+.notes Configuration options in knife are like other parts of Chef,
+the data is a hierarchy of key/value pairs, and where we are in the
+hierarchy is context specific.
 
 # Knife Configuration
 
@@ -293,7 +315,10 @@ To work with the Chef Server API, Knife must be configured with:
 
 * The Chef Server's URL (chef\_server\_url).
 * The user to authenticate to the API (node\_name).
-* The private key for the authenticating actor (client\_key).
+* The private key for the authenticating user (client\_key).
+
+.notes In the API, users (as knife) and API clients (like chef-client)
+are "actors"
 
 # Knife Configuration
 
@@ -648,17 +673,6 @@ Example Chef Repository directory tree:
 # Working with Chef
 
 <center><img src="../images/working-with-chef.png"></center>
-
-# Other Tools
-
-In working with infrastructure, we have several tools in the toolbox.
-
-Non-Chef tools:
-
-* Shell (Bash, Zsh, Powershell, Cmd.exe)
-* Text editors (Emacs, Vim, Notepad++)
-* Version control systems (Git, Subversion, Perforce)
-* Ruby programming language
 
 # Summary
 

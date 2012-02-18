@@ -14,13 +14,16 @@ This work is licensed under a Creative Commons Attribute Share Alike 3.0 United 
 
 Ruby is an object oriented programming language.
 
-The most common implementation is MRI, Matz Ruby Interpreter, named after the language's inventor.
+The most common implementation is MRI, Matz Ruby Interpreter, named
+after the language's inventor.
 
-This section does not comprehensively cover Ruby. It will familiarize you with the syntax and idioms used by Chef.
+This section does not comprehensively cover Ruby. It will familiarize
+you with the syntax and idioms used by Chef.
 
 # How does Chef Use Ruby?
 
-Chef uses Ruby to construct "Domain Specific Languages" that are used for managing infrastructure.
+Chef uses Ruby to construct "Domain Specific Languages" that are used
+for managing infrastructure.
 
 * Recipes
 * Roles
@@ -29,7 +32,9 @@ Chef uses Ruby to construct "Domain Specific Languages" that are used for managi
 
 # Where is Ruby Installed?
 
-When installing Chef with the full-stack installer, Ruby is installed as well. The binaries for Ruby (mainly `ruby` and `irb`) are included in the package.
+When installing Chef with the full-stack installer, Ruby is installed
+as well. The binaries for Ruby (mainly `ruby` and `irb`) are included
+in the package.
 
 On Unix/Linux systems:
 
@@ -41,7 +46,9 @@ On Windows systems:
 
 # Variables
 
-Ruby can assign local variables to various built-in Ruby data types, or from other expressions. Variable names start with a letter and can contain alphanumeric characters and underscore.
+Ruby can assign local variables to various built-in Ruby data types,
+or from other expressions. Variable names start with a letter and can
+contain alphanumeric characters and underscore.
 
     @@@ ruby
     my_number = 3
@@ -58,7 +65,9 @@ Ruby can assign local variables to various built-in Ruby data types, or from oth
 
 # Strings
 
-Strings are bytes of characters enclosed in quotes, either double or single. Strings in double quotes allow further substition than single quoted strings.
+Strings are bytes of characters enclosed in quotes, either double or
+single. Strings in double quotes allow further substition than single
+quoted strings.
 
 Strings are the most common Ruby data type used in Chef.
 
@@ -89,7 +98,9 @@ Ruby supports integers an floating point numbers.
 
 # Arrays
 
-Ruby *Arrays* are lists of elements. They are ordered by insertion and each element can be any kind of Ruby object, including numbers, strings, other arrays, hashes and more.
+Ruby *Arrays* are lists of elements. They are ordered by insertion and
+each element can be any kind of Ruby object, including numbers,
+strings, other arrays, hashes and more.
 
 Use square brackets to enclose arrays.
 
@@ -97,14 +108,18 @@ Use square brackets to enclose arrays.
     [ "apache", "mysql", "php" ]
     [ 80, 443, 8080 ]
 
-We can use the `%w{}` shortcut to write array of strings without the quotes and commas.
+We can use the `%w{}` shortcut to write array of strings without the
+quotes and commas.
 
     @@@ ruby
     %w{ apache mysql php }
 
 # Hashes
 
-Ruby *Hashes* are key/value pairs. The key can be a `"string"` or `:symbol`. The value can be any Ruby object, including numbers, strings, arrays, hashes and more. Specify values for each key with `=>`, and separate them with comma.
+Ruby *Hashes* are key/value pairs. The key can be a `"string"` or
+`:symbol`. The value can be any Ruby object, including numbers,
+strings, arrays, hashes and more. Specify values for each key with
+`=>`, and separate them with comma.
 
 Use curly braces to enclose hash key/value pairs.
 
@@ -116,12 +131,14 @@ Use curly braces to enclose hash key/value pairs.
 
 # Symbols
 
-Ruby has a special data type called symbols. They are specified by prefixing a string with a colon.
+Ruby has a special data type called symbols. They are specified by
+prefixing a string with a colon.
 
     @@@ ruby
     :thing
 
-Symbols are commonly used as hash keys instead of strings because they are often more memory efficient.
+Symbols are commonly used as hash keys instead of strings because they
+are often more memory efficient.
 
     @@@ ruby
     {
@@ -149,7 +166,8 @@ Ruby supports common types of logic conditionals.
 
 # If/Else and Unless
 
-Just like other languages, if, else and unless statements test boolean values of true or false.
+Just like other languages, if, else and unless statements test boolean
+values of true or false.
 
     @@@ ruby
     if node['platform'] == "ubuntu"
@@ -182,7 +200,9 @@ Ruby methods are called on an object with the dot-notation.
     1.even?                            # => false
     2.even?                            # => true
 
-Ruby has a special method available called `method_missing`. It is called when a method is not found for the object. Most of the DSLs in Chef are written using `method_missing`.
+Ruby has a special method available called `method_missing`. It is
+called when a method is not found for the object. Most of the DSLs in
+Chef are written using `method_missing`.
 
 .notes We will see the actual DSLs in their relevant sections.
 
@@ -200,7 +220,9 @@ Common convention is to use braces for a single line, and do/end for multiple li
 
 # Enumerables
 
-Enumerable is the base class of Array and Hash. It contains a number of helper methods, such as `.each` or `.map` that are particularly useful in Chef.
+Array and Hash mix-in the Enumerable class. It contains a number
+of helper methods, such as `.each` or `.map` that are particularly
+useful in Chef.
 
     @@@ ruby
     %w{ apache mysql php }.each do |pkg|
@@ -209,7 +231,8 @@ Enumerable is the base class of Array and Hash. It contains a number of helper m
       end
     end
 
-We do this often in Chef to handle creating the same kind of resource without having to type the resource multiple times.
+We do this often in Chef to handle creating the same kind of resource
+without having to type the resource multiple times.
 
 # Where does Chef use Ruby?
 
@@ -220,11 +243,13 @@ Chef uses Ruby for a number of Domain Specific Languages.
 * Cookbook Metadata
 * Environments
 
-.notes This is an overview, not a comprehensive section on these topics, they have their own corresponding sections.
+.notes This is an overview, not a comprehensive section on these
+topics, they have their own corresponding sections.
 
 # Chef Ruby Objects
 
-We use a number of Chef's Ruby objects within Recipes. The three most common objects are:
+We use a number of Chef's Ruby objects within Recipes. The three most
+common objects are:
 
 * `Chef::Node`, via `node`
 * `Chef::Config`, a hash-like structure containing configuration.
@@ -232,7 +257,8 @@ We use a number of Chef's Ruby objects within Recipes. The three most common obj
 
 # Chef::Node
 
-The `node` object is available anywhere Ruby is used. Attributes are accessed like Ruby hash keys:
+The `node` object is available anywhere Ruby is used. Attributes are
+accessed like Ruby hash keys:
 
     @@@ ruby
     node['platform']
@@ -243,9 +269,11 @@ Some parts of the node object are accessed with method calls.
 
 # Chef::Config
 
-The `Chef::Config` object is available within recipes so behavior can be modified depending on how Chef itself is configured.
+The `Chef::Config` object is available within recipes so behavior can
+be modified depending on how Chef itself is configured.
 
-Commonly, we use `Chef::Config[:file_cache_path]` as a "temporary" location to download files such as software tarballs.
+Commonly, we use `Chef::Config[:file_cache_path]` as a "temporary"
+location to download files such as software tarballs.
 
     @@@ ruby
     remote_file "#{Chef::Config[:file_cache_path]}/mystuff.tar.gz" do
@@ -254,9 +282,12 @@ Commonly, we use `Chef::Config[:file_cache_path]` as a "temporary" location to d
 
 # Chef::Config
 
-Since `chef-solo` behaves differently, it may be desirable to account for it in recipes, particularly those that use Chef Server-specific features such as search.
+Since `chef-solo` behaves differently, it may be desirable to account
+for it in recipes, particularly those that use Chef Server-specific
+features such as search.
 
-The value `Chef::Config[:solo]` will only be true if Chef was invoked with `chef-solo`.
+The value `Chef::Config[:solo]` will only be true if Chef was invoked
+with `chef-solo`.
 
     @@@ ruby
     unless Chef::Config[:solo] # if we're not using solo...
@@ -265,7 +296,9 @@ The value `Chef::Config[:solo]` will only be true if Chef was invoked with `chef
 
 # Chef::Log
 
-Log messages using Chef's logger can be displayed with `Chef::Log`. The different levels of log output are specified by calling the appropriate method.
+Log messages using Chef's logger can be displayed with `Chef::Log`.
+The different levels of log output are specified by calling the
+appropriate method.
 
     Chef::Log.info("INFO level message")
     Chef::Log.debug("DEBUG level message")

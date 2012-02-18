@@ -13,11 +13,15 @@ This work is licensed under a Creative Commons Attribution Share Alike 3.0 Unite
 
 # Cookbooks Overview
 
-Cookbooks are the fundamental units of distribution in Chef. They are "packages" for Chef recipes and other helper components.
+Cookbooks are the fundamental units of file distribution in Chef. They
+are "packages" for Chef recipes and other helper components.
 
-They are designed to be sharable packages for managing infrastructure as code. Cookbooks can be shared within an organization, or with the Chef Community.
+They are designed to be sharable packages for managing infrastructure
+as code. Cookbooks can be shared within an organization, or with the
+Chef Community.
 
-Nodes managed by Chef download cookbooks from the Chef Server to apply their configuration.
+Nodes managed by Chef download cookbooks from the Chef Server to apply
+their configuration.
 
 # Cookbook Basics
 
@@ -27,14 +31,18 @@ Nodes managed by Chef download cookbooks from the Chef Server to apply their con
 
 Cookbooks are merely a structured set of directories in your Chef Repository.
 
-Create a new cookbook in the `cookbooks` directory. The content of the recipe and metadata.rb don't matter right now, they just need to exist.
+Create a new cookbook in the `cookbooks` directory. The content of the
+recipe and metadata.rb don't matter right now, they just need to
+exist.
 
     mkdir cookbooks/webserver
     mkdir cookbooks/webserver/recipes
     touch cookbooks/webserver/recipes/default.rb
     touch cookbooks/webserver/metadata.rb
 
-.notes It is worth noting that the metadata OR recipes can be absent, but not both. The cookbook must have one or the other for knife to upload it.
+.notes It is worth noting that the metadata OR recipes can be absent,
+but not both. The cookbook must have one or the other for knife to
+upload it.
 
 # Cookbook Components
 
@@ -46,7 +54,8 @@ The most commonly used cookbook components are:
 
 # Common Components: Metadata
 
-Chef Cookbook *Metadata* is written using a Ruby domain-specific language.
+Chef Cookbook *Metadata* is written using a Ruby domain-specific
+language.
 
 Metadata serves two purposes.
 
@@ -55,7 +64,7 @@ Metadata serves two purposes.
 
 # Metadata Documentation
 
-Cookbook metadata can contain documentation about the cookbook itself.
+Cookbook metadata contains documentation about the cookbook itself.
 
     maintainer       "Opscode, Inc."
     maintainer_email "cookbooks@opscode.com"
@@ -67,41 +76,59 @@ Cookbook metadata can contain documentation about the cookbook itself.
 
 Metadata is also used for dependency management.
 
-Cookbook dependencies are implied when using part(s) of one cookbook in another, such as recipe inclusion.
+Cookbooks are like OS packages in that they can be interrelated. You
+can use parts of one cookbook in another.
 
-Cookbook dependencies are explicitly defined in metadata with the `depends` field.
+Cookbook dependencies are assumed when using part(s) of one cookbook
+in another, such as including a recipe, or re-using a template.
+
+Cookbook dependencies are explicitly defined in metadata with the
+`depends` field.
+
+.notes Chef is not a mind-reader.
 
 # Metadata Version Management
 
-Related to dependency management is version management. Cookbooks can be versioned, and dependencies on versions can be declared.
+Related to dependency management is version management. Cookbooks can
+be versioned, and dependencies on versions can be declared.
 
-Cookbook versioning is enforced with dependencies if used, and in Chef Environments.
+Cookbook versioning is enforced with dependencies if used, and in Chef
+Environments.
 
-Specify a cookbook's version with the `version` field. It should be a quoted string in the form "X.Y.Z", e.g., "1.0.0" or "0.5.2".
+Specify a cookbook's version with the `version` field. It should be a
+quoted string in the form "X.Y.Z", e.g., "1.0.0" or "0.5.2".
 
 # Cookbook Dependencies
 
-The metadata defines the additional cookbooks required that might not appear in the run list explicitly.
+The metadata defines the additional cookbooks required that might not
+appear in the run list explicitly.
 
-When cookbooks are uploaded, the Ruby code is parsed by Knife and translated to JSON when it is stored on the Chef Server.
+When cookbooks are uploaded, the Ruby code is parsed by Knife and
+translated to JSON when it is stored on the Chef Server.
 
-This is a security feature, so the Chef Server does not execute user-defined Ruby code.
+This is a security feature, so the Chef Server does not execute
+user-defined Ruby code.
 
 # Common Components: Assets
 
-One of the most common things to manage with Chef are configuration files on the node's filesystem.
+One of the most common things to manage with Chef are configuration
+files on the node's filesystem.
 
 * `/etc/mysql/my.cnf`
 * `/var/www/.htaccess`
 * `C:\Program Files\My Application\Configuration.ini`
 
-Chef cookbooks can contain `files` and/or `templates` directories to contain the source files for these resources as we'll see later.
+Chef cookbooks can contain `files` and/or `templates` directories to
+contain the source files for these resources as we'll see later.
 
 # Common Components: Recipes
 
-*Recipes* are the work unit in Chef. They contain lists of resources that should be configured on the node to put it in the desired state to fulfill its job.
+*Recipes* are the work unit in Chef. They contain lists of resources
+ that should be configured on the node to put it in the desired state
+ to fulfill its job.
 
-Nodes have a run list, which is simply a list of the recipes that should be applied when Chef runs.
+Nodes have a run list, which is simply a list of the recipes that
+should be applied when Chef runs.
 
 The node will download all the cookbooks that appear in its run list.
 
@@ -111,7 +138,8 @@ The node will download all the cookbooks that appear in its run list.
 
 Recipes contain lists of resources.
 
-Resources are declarative abstract interfaces to OS resources like packages, services, config files and users.
+Resources are declarative abstract interfaces to OS resources like
+packages, services, config files and users.
 
 Information about the node itself is available via the `node` object.
 
@@ -124,7 +152,8 @@ Recipes are an internal Ruby domain-specific language (DSL).
 * You need a 3rd generation programming language.
 * You can't be limited by the language.
 
-.notes We will cover basics of Ruby in greater detail in a later section, "Just Enough Ruby for Chef"
+.notes We will cover basics of Ruby in greater detail in a later
+section, "Just Enough Ruby for Chef"
 
 # How Are Recipes Applied?
 
@@ -219,7 +248,8 @@ Each resource has a "name attribute."
 
 This corresponds to a parameter attribute as the default value.
 
-Parameter attributes all have default values internal to Chef. Specify your own to be explicit, or to change the default.
+Parameter attributes all have default values internal to Chef. Specify
+your own to be explicit, or to change the default.
 
 Resources also have a default action. The default value depends on the
 resource type.
@@ -231,9 +261,13 @@ Resources are data driven through their parameter attributes.
 * Packages have versions
 * Users have home directories, shells and numeric IDs.
 
-This data can come from multiple sources, either by writing in the code itself or an external source.
+This data can come from multiple sources, either by writing in the
+code itself or an external source.
 
 # Distributing Cookbooks
+
+Cookbooks are packages of source code and they can be distributed all
+over the place.
 
 * With version control
 * With nodes to be configured
@@ -241,17 +275,22 @@ This data can come from multiple sources, either by writing in the code itself o
 
 # Version Control
 
-Use a version control system for your Chef Repository where the cookbooks are stored.
+Use a version control system for your Chef Repository where the
+cookbooks are stored.
 
-Community best practice is Git. However, other DVCS are common. Use the preferred tool for your organization.
+Community best practice is Git. However, other DVCS are common. Use
+the preferred tool for your organization.
 
-It is beyond the scope of this course to discuss version control strategies in depth.
+It is beyond the scope of this course to discuss version control
+strategies in depth.
 
-Storing a cookbook in version control does not make it available to Chef. It must be uploaded to the Chef Server.
+Storing a cookbook in version control does not make it available to
+Chef. It must be uploaded to the Chef Server.
 
 # Nodes and Chef Server
 
-In order for nodes to be configured with Chef, the cookbooks they need must be uploaded to the Chef Server.
+In order for nodes to be configured with Chef, the cookbooks they need
+must be uploaded to the Chef Server.
 
     knife cookbook upload COOKBOOK
 
@@ -259,17 +298,23 @@ In order for nodes to be configured with Chef, the cookbooks they need must be u
 
 # Applying Cookbooks
 
-To run a recipe on a node with Chef, add the recipe to the node's run list.
+To run a recipe on a node with Chef, add the recipe to the node's run
+list.
 
-Recipes are stored in cookbook directories, and namespaced by the cookbook's directory name.
+Recipes are stored in cookbook directories, and namespaced by the
+cookbook's directory name.
 
-The cookbook and recipe names can contain alpha-numeric characters, including dash and underscore.
+The cookbook and recipe names can contain alpha-numeric characters,
+including dash and underscore.
 
-Recipes are stored in Ruby files, with the extension `.rb`. The `.rb` is ommitted when adding a recipe to a node.
+Recipes are stored in Ruby files, with the extension `.rb`. The `.rb`
+is ommitted when adding a recipe to a node.
 
 # Add Recipe to a Node
 
-When adding a recipe to a node, combine the cookbook name and the recipe name with `::`. If the `default` recipe is used, it is optional.
+When adding a recipe to a node, combine the cookbook name and the
+recipe name with `::`. If the `default` recipe is used, it is
+optional.
 
     recipe[webserver]
     recipe[webserver::default]
@@ -280,7 +325,8 @@ Are equivalent. To use a different recipe, specify it by name:
 
 # Add Recipe to a Node
 
-Use knife to add a recipe to an existing node's run list on the Chef Server.
+Use knife to add a recipe to an existing node's run list on the Chef
+Server.
 
     knife node run list add NODE 'recipe[webserver]'
 
@@ -290,7 +336,9 @@ Run Chef on the node and it will apply the recipe.
 
 # Add Recipe to a Node
 
-If the node does not exist on the Chef Server already, the run list can be specified by passing a JSON file with `chef-client -j FILE.json`.
+If the node does not exist on the Chef Server already, the run list
+can be specified by passing a JSON file with `chef-client -j
+FILE.json`.
 
     @@@ javascript
     {
@@ -301,7 +349,8 @@ If the node does not exist on the Chef Server already, the run list can be speci
 
 # Chef Community Cookbooks
 
-Opscode hosts the Chef Community site where Chef users share cookbooks:
+Opscode hosts the Chef Community site where Chef users share
+cookbooks:
 
 * [http://community.opscode.com/](http://community.opscode.com/)
 
@@ -321,7 +370,8 @@ Knife includes sub-commands for working with the site.
 
 * What are Chef cookbooks?
 * What do cookbooks contain?
-* Which part of a cookbook determines the version and how to handle dependencies?
+* Which part of a cookbook determines the version and how to handle
+  dependencies?
 * What two kinds of assets are distributed in cookbooks?
 * How do recipes get applied to a node?
 * What are the four components of a resource?

@@ -46,7 +46,7 @@ values.
 
 Use the validation key for the Chef Server to automatically create the
 new API client. It should be copied to the same directory as the
-`client.rb` file.
+`client.rb` file, and the filename should be `validation.pem`.
 
 ## Run Chef Client
 
