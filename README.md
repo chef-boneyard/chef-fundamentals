@@ -16,13 +16,14 @@ Requirements:
 
 * Ruby 1.8.7+
 * RubyGems 1.3.7+
+* Rake
 * libxml2 and libxslt development headers (e.g., libxml2-dev and
   libxslt-dev on Debian/Ubuntu).
 
 ```
 gem install bundler
 bundle install
-rake present
+rake present # runs bundle exec showoff serve in the slides dir
 ```
 
 Depending on how your local system's Ruby was installed, you may need
@@ -50,7 +51,11 @@ PDFs with showoff, the `pdfkit` gem is installed.
 Also, the instructor lab setup will use Chef and the Knife EC2 plugin,
 so those gems are included as well.
 
-Do not commit `Gemfile.lock` to the repository.
+*Do not* commit `Gemfile.lock` to the repository.
+
+**Note** The current release of ShowOff doesn't include some pull
+  requests adding features that we liked, so the showoff gem is
+  installed from a separate repository.
 
 # Slides Directory
 
