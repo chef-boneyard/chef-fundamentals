@@ -20,6 +20,8 @@ The order is structured by level of general interest.
 We will not have time to cover these in great detail. See the
 __Additional Resources__ list for more details.
 
+We may not have time to cover them all entirely.
+
 This section does not have a hands on exercise.
 
 # Questions
@@ -30,7 +32,8 @@ Answer outstanding questions from earlier sections.
 
 Data bags are containers of "items" that are plain JSON data.
 
-Items can contain any arbitrary key/value pairs, such as user information, application setup parameters or DNS entries.
+Items can contain any arbitrary key/value pairs, such as user
+information, application setup parameters or DNS entries.
 
 They are centrally available to recipes for processing.
 
@@ -62,6 +65,7 @@ common use cases we practice or have seen:
 * Application information
 * Hardware inventory
 * Authentication credentials
+
 # Encrypted Data Bags
 
 Data bags can be encrypted with a secret key.
@@ -85,7 +89,7 @@ You probably already had a key distribution problem (think SSL).
       "comment": "USERNAME",
       "uid": 2003,
       "shell": "/bin/bash",
-      "ssh_keys": "ssh-rsa SSH_PUBLIC_KEYp USERNAME@localhost"
+      "ssh_keys": "ssh-rsa SSH_PUBLIC_KEY USERNAME@localhost"
     }
     > knife data bag create users
     > knife data bag from file users USERNAME.json
@@ -98,6 +102,9 @@ Search can be done just like nodes or roles with knife or in a recipe.
 
     knife search BAG QUERY
     search(:bag, "QUERY")
+
+Encrypted data bags cannot be searched because the contents are...
+encrypted.
 
 # Search Data Bags: Knife
 
@@ -159,10 +166,9 @@ Version constraints can use operators to determine the version.
     < Less than
     >= Greater than or equal to
     <= Less than or equal to
-    ~> Approximately greater than
 
-    "~> 2.6" matches cookbooks >= 2.6.0 AND < 3.0.0
-    "~> 2.6.5" matches cookbooks >= 2.6.5 AND < 2.7.0
+Advanced operators are available similar to those of RubyGems, see the
+Version Constraint documentation.
 
 # Example Environment
 
@@ -170,7 +176,7 @@ Version constraints can use operators to determine the version.
     description "Systems in production"
     cookbook_versions(
       "apache2" => "1.0.8",
-      "mysql" => "1.0.0"
+      "mysql" = "1.0.0"
     )
 
 # Environments: Nodes
@@ -289,6 +295,7 @@ Cloud Computing providers like Amazon EC2.
 
 * http://wiki.opscode.com/display/chef/Data+Bags
 * http://wiki.opscode.com/display/chef/Environments
+* http://wiki.opscode.com/display/chef/Version+Constraints
 *
   http://wiki.opscode.com/display/chef/Lightweight+Resources+and+Providers+%28LWRP%29
 * http://wiki.opscode.com/display/chef/Knife+Plugins

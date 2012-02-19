@@ -17,7 +17,7 @@ Run list
 * recipes
 * roles
 
-Attributes
+Attributes applied to the nodes that have this role.
 
 * default
 * override

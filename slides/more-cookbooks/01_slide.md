@@ -88,16 +88,16 @@ Included recipes from other cookbooks require metadata dependency.
 
 # Cookbook Dependencies
 
-Cookbook dependencies are implied when using part(s) of one cookbook
-in another, such as recipe inclusion.
+Remember, cookbook dependencies are assumed when using part(s) of one
+cookbook in another, such as recipe inclusion.
+
+Cookbook dependencies are explicitly defined in metadata. Use the
+"depends" keyword. This will cause Chef to download the dependency
+cookbook from the server.
 
 Downloading a cookbook as a dependency from another does not cause it
 to be applied on the node. It merely makes the code/contents available
 for another cookbook to use it.
-
-Cookbook dependencies are explicitly defined in metadata.
-
-Use the "depends" keyword in the metadata.
 
 # Cookbook Metadata
 
@@ -190,6 +190,9 @@ Download the haproxy cookbook.
 
     > knife cookbook site download haproxy
     > tar -zxvf haproxy-1.0.4.tar.gz -C cookbooks
+
+We will explore the haproxy cookbook for this pattern because we'll
+revisit it in the next section on search.
 
 # haproxy default recipe
 

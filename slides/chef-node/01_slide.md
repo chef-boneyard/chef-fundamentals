@@ -200,6 +200,8 @@ We can also use node attributes directly.
 Node attributes used in a template can come from the cookbook itself,
 or one auto detected by chef such as "platform".
 
+.notes We do *not* need to use the `@` symbol on the node.
+
 # Cookbook Attributes
 
 Node attributes can come from cookbooks.
@@ -341,7 +343,7 @@ Retrieve the value of the node's environment with the
     @@@ruby
     node.chef_environment # => "_default"
 
-We will discuss Chef Environments in more detail later.
+We will discuss Chef Environments later.
 
 # Examining Chef::Node
 

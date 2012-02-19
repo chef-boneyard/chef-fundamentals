@@ -21,7 +21,7 @@ The search query language is modified SOLR Lucene.
 
 # Default Search Indexes
 
-Four search indexes are created by default.
+Four search indexes are created on the Chef Server by default.
 
 * node
 * client
@@ -112,40 +112,50 @@ Search for all nodes that have 2 CPUs or are 64bit.
 
 # Recipe Search
 
-Two kinds of search can be used in recipes.
+You can run a search and retrieve the results, assigning them to a
+local variable.
 
-* Aggregated
-* Block
+Or, you can run a search and iterate over the results dynamically.
 
-# Aggregate Search Results
+# Assign Results to Variable
 
-    pool = search("node", "role:webserver")
+    pool = search(:node, "role:webserver")
 
-Results can be aggregated and assigned to a local variable for later
-processing in a recipe.
+`pool` will be an array of the JSON representation of all the node
+objects that match the search.
 
-The entire JSON object from the server is returned.
+We can then use this node data in the recipe to configure resources
+dynamically.
 
 .notes that the entire object is returned in the results can be a
 significant use of system memory
 
-# Aggregate Results: Collect Values
+# Assign Results to Variable
+
+Sometimes we only want specific attributes of nodes that match the
+search query. As the `search` results are an array, we can generate
+another array based on a specific condition using the `#map` method
+(from Enumerable).
 
     ip_addrs = search(:node, "role:webserver").map {|n| n["ipaddress"]}
 
-Aggregated results can be passed a Ruby block with the "map" method
-and the value of a single attribute can be extracted.
+`ip_addrs` will be an array of the `ipaddress` attribute from all the
+node objects that match the search. Contrast to `pool` from before which
+contained the entire node objects.
 
-# Block Search
+# Iterating Over a Search
+
+We can iterate over the search results in real time because search
+takes a block as a parameter.
 
     @@@ruby
     search(:node, "role:webserver") do |match|
       puts match["ipaddress"]
     end
 
-Provide a code block to process the results directly.
-
-We'll see this more with Data Bags.
+Provide a Ruby block to process the results directly. We could do
+other things such as creating a resource for each result and pass the
+data from the objects returned into the resource's paramter attributes.
 
 # Common Search Usage
 
@@ -163,6 +173,20 @@ Knife has two built in subcommands that use search.
 
 * knife status
 * knife ssh
+
+# Knife Status
+
+Knife's status subcommand performs a search and prints out information
+about all the nodes, e.g.:
+
+    > knife status
+    1 hour ago, www1, www1.example.com, 10.1.1.20, ubuntu 10.04.
+    1 hour ago, www2, www2.example.com, 10.1.1.21, ubuntu 10.04.
+
+By default it searches for all the nodes, but you can pass it a
+query like with knife search.
+
+    > knife status "role:webserver"
 
 # Bootstrapping Chef
 
@@ -214,6 +238,9 @@ The
 [Default Bootstrap Template](https://github.com/opscode/chef/raw/master/chef/lib/chef/knife/bootstrap/chef-full.erb)
 (chef-full, as of Chef 0.10.10+) will install the Chef Full Stack package that we
 have been using. Other bootstrap templates are available.
+
+.notes Chef 0.10.10 may not be released yet, which means we can
+retrieve the raw file directly from the internets and run it as root.
 
 # Knife Bootstrap Customization
 

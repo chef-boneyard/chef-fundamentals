@@ -55,8 +55,8 @@ Open training materials are Creative Commons licensed and released periodically.
 
 * Version 1 is from April 2010.
 * Version 2 were used but not released.
-* Version 3 is current, this version.
-* Version 4 is under development.
+* Version 3 is the last version in Keynote/PDF.
+* Version 4 is current, this version.
 
 Sign up on the web site for updates.
 
@@ -83,6 +83,13 @@ We are working to expand our efforts in sponsoring Chef community events. Our co
 Announcements of upcoming events are posted to our blog and twitter ([@opscode](http://twitter.com/opscode)).
 
 * http://community.opscode.com
+
+# ChefConf
+
+Our first Chef users' conference is May 15-17, 2012, in Burlingame,
+CA.
+
+* http://chefconf.opscode.com
 
 # Plugins and RubyGems
 

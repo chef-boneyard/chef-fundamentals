@@ -23,19 +23,39 @@ privileged user (e.g., `sudo shef`).
 
 # Shef
 
-`shef`, the Chef Shell (or Console) operates under different contexts
-and the prompt indicates the context.
+`shef`, the Chef Shell (or Console) operates under different execution
+contexts and the prompt indicates the context.
 
-The "main" context:
+Shef starts in the "main" context. The prompt will look like this:
 
     chef >
-    chef > attributes
-    chef:attributes >
-    chef:attributes > recipe
-    chef:recipe >
+
+This is where general Chef Server API calls can be made through
+Shef-defined methods.
 
 The `help` command is available in all contexts and displays the
 built-in commands available.
+
+# Shef
+
+Two other contexts are available.
+
+`attributes` is the context of editing a "cookbook attributes" file.
+
+    chef > attributes
+    chef:attributes >
+
+`recipes` is the context of the Chef Recipe DSL.
+
+    chef > recipe
+    chef:recipe >
+
+We are going to write resources using the Recipe DSL, so ensure you
+are in the recipe context.
+
+.notes Using the recipe context allows direct demonstration of the
+"compile" vs "execute" phases of node convergence. We're not actually
+doing the "execute" part in these demonstrations.
 
 # Chef Resources
 
@@ -48,7 +68,7 @@ Chef Resources have four components.
 
 # Chef Resource
 
-Syntax example of Chef Resources
+Syntax example of Chef Resources:
 
     @@@ruby
     type "name"
@@ -60,11 +80,30 @@ Syntax example of Chef Resources
     end
 
 The values of parameters can be various Ruby data type objects
-depending on the specific resource.
+depending on the specific resource. If parameters are not specified,
+Chef will use its default value.
 
 The action, if specified, **must** begin with a colon (Ruby symbol).
 
+# Shef Simple Example
+
+    chef:recipe > file "/tmp/foo"
+    => <file[/tmp/foo] @name: "/tmp/foo" @noop: nil @before: nil @params:
+    {} @provider: nil @allowed_actions:
+    [:nothing, :create, :delete, :touch, :create_if_missing] @action:
+    "create" @updated: false @updated_by_last_action: false @supports:
+    {} @ignore_failure: false @retries: 0 @retry_delay: 2
+    @immediate_notifications: [] @delayed_notifications: []
+    @source_line: "(irb#1):1:in `irb_binding'" @resource_name: :file
+    @path: "/tmp/foo" @backup: 5 @cookbook_name: nil @recipe_name: nil
+    @enclosing_provider: nil>
+
+.notes We will come back to this very shortly.
+
 # Common Resources
+
+By the 80/20 rule, you'll use a small subset of the available Chef
+resources most of the time.
 
 * File management
 * Packages
@@ -91,12 +130,12 @@ When managing file contents, Chef uses SHA-256 checksums on the target
 file content to determine if a file should be updated. If the checksum
 of the content matches, Chef makes no further changes.
 
-SHA-256 was chosen because no known collisions have been found. MD5
-has known published collision attacks, as does SHA-0. SHA-1 has
-theoretical collisions found.
-
 `file` (with `content` parameter), `cookbook_file`, `remote_file` and
 `template` resources all use checksums.
+
+.notes SHA-256 was chosen because no known collisions have been found. MD5
+has known published collision attacks, as does SHA-0. SHA-1 has
+theoretical collisions found.
 
 # file
 
@@ -112,6 +151,8 @@ the system, e.g. "`/etc/passwd`."
 The default action is to create the file.
 
 # file example
+
+Type this into your Shef session (recipe context):
 
     @@@ruby
     file "/etc/passwd" do
@@ -130,6 +171,9 @@ The default action is to create the file.
 
 * content - a string to write to the file, overwrites existing content
 * backup - number of backups to keep, default is 5
+
+.notes the "content" parameter is useful to copy the content of one
+file to another as well, in an idempotent fashion.
 
 # cookbook_file
 
@@ -175,6 +219,10 @@ source URI.
 * source - the URI of the file to download
 * mode, owner, group - inherited from `file`
 * checksum - a portion or all of the SHA-256 checksum of the file
+
+.notes `remote_file` is not idempotent unless you give it a checksum, or
+otherwise guard the resource. We'll talk about ways to do that later
+on (`not_if`/`only_if`)
 
 # remote_file download location
 
@@ -240,6 +288,8 @@ Use Ruby code, e.g. conditionals:
     I'm on Debian.
     <% end -%>
 
+.notes Do not type this into Shef, as it will do us no good.
+
 # Data driven configuration
 
 Templates are dynamically rendered from node data and the variables
@@ -247,11 +297,13 @@ parameter.
 
 Common use cases:
 
-* Service configuration for *this* node's IP address
+* Service configuration for *this* node's IP address (`node['ipaddress']`)
 * Determine particular configuration values based on the node's
-  platform
+  platform (`node['platform']`)
 * Service configuration to connect to another node's IP address (via a
   search)
+
+.notes We will cover search and how do go about this in a later section.
 
 # link
 
@@ -271,6 +323,8 @@ The equivalent of running `ln -s /etc/hosts /tmp/hosts`:
 * target_file - the file name of the link
 * to - the real target file
 * type - `:hard` or `:symbolic` (must be a Ruby symbol)
+
+.notes Say, "You link the target file to a thing that already exists"
 
 # directory
 
@@ -308,6 +362,11 @@ The files copied can have their own file permissions set as part of
 the resource.
 
 The default action is to create the directory.
+
+.notes `remote_directory` is not the most efficient method to copy
+files, but it can be done in place of a better solution such as
+"rsync" or "bittorrent"; for bittorrent, perhaps suggest transmission
+cookbook.
 
 # remote_directory example
 
@@ -350,7 +409,8 @@ The default action is to install the named package.
     end
 
 * package_name - name attribute, name of the package
-* version - specific version to install
+* version - specific version to install, uses the latest version
+  detected by the provider (e.g., apt cache or yum repo data)
 
 # Additional package examples
 
@@ -363,9 +423,13 @@ The default action is to install the named package.
       action :upgrade
     end
 
-    package "xorg-server" do
+    package "portmap" do
       action :remove
     end
+
+.notes Be aware of removing packages that have dependencies, as Chef
+may not be able to determine all the correct dependency resolution on
+its own and other "package removal" resources may be required.
 
 # Package Providers
 
@@ -386,6 +450,10 @@ determined by the node's platform:
 * `gem_package` - RubyGems
 * `easy_install_package` - Python easy-install
 
+.notes dpkg requires that the file is downloaded to the local system.
+rpm can retrieve over HTTP just like the rpm command, but it will not
+follow redirects properly; e.g., EPEL RPMs.
+
 # Cookbook Package Resources
 
 * `homebrew_package` - homebrew cookbook, sets OS X default provider
@@ -395,7 +463,13 @@ determined by the node's platform:
 * `python_pip` - python cookbook, use pip instead of `easy-install`
 * `windows_package` - windows cookbook, for Windows systems
 
-Complete list: [http://wiki.opscode.com/display/chef/Opscode+LWRP+Resources](http://wiki.opscode.com/display/chef/Opscode+LWRP+Resources)
+Complete list provided by Opscode published cookbooks:
+[http://wiki.opscode.com/display/chef/Opscode+LWRP+Resources](http://wiki.opscode.com/display/chef/Opscode+LWRP+Resources)
+
+Download cookbooks from http://community.opscode.com/cookbooks
+
+.notes Trying to find cookbooks for these things on GitHub is prone to
+confusion. Use the Community site.
 
 # Users and Groups
 
@@ -431,6 +505,7 @@ The default action for both resources is to create the named group or user.
       home "/home/joe"
       gid "users"
       uid 1002
+      supports :manage_home => true
     end
 
 * username - name attribute, name of the user
@@ -439,6 +514,8 @@ The default action for both resources is to create the named group or user.
 * home - user's home directory
 * gid - user's primary group, can be name or numeric
 * uid - numeric user id
+* supports - (Array) indicate that the useradd command supports
+  managing the user home directory, e.g. "-m"
 
 # system user example
 
@@ -489,6 +566,9 @@ platform dependent commands.
 
 The service resource does not have a default action.
 
+.notes Why no default? Because Chef doesn't have a "reasonable" idea
+of what it means to say you have a service resource to manage.
+
 # service example
 
     @@@ruby
@@ -499,7 +579,7 @@ The service resource does not have a default action.
 
 * supports - a metaparameter specially supported by service providers,
   in this case indicates that the init script can take a "status"
-  command, :restart and :reload are also available.
+  command, `:restart` and `:reload` are also available.
 
 # Starting services
 
@@ -524,7 +604,7 @@ example:
 
 # Starting services
 
-A common way to start a service is to issue a restart action through
+A common way to start a service is to issue a `:restart` action through
 resource notification.
 
     @@@ruby
@@ -556,10 +636,13 @@ then `:action` will be sent to `type[their-name]`. The `:timing` can
 be `:delayed` (default if not specified) or
 `:immediately`. Notifications are queued, and happen only one time.
 
+.notes Child A, go tell this message (action) to your sibling
+(type[their name]), and do so right now (:timing). Or later on.
+
 # Starting services
 
 If the `template[/etc/apache2/apache2.conf]` resource changes, it will
-cause the `apache2` service to be restarted. If it were not already
+cause the `apache2` service to be restarted. If it were *not* already
 running, this usually means it will be started.
 
     @@@ruby
@@ -655,6 +738,9 @@ script resources that will use the specified interpreter.
       EOH
     end
 
+.notes This is useful as a technique to move existing "legacy" shell
+scripts and the like into Chef.
+
 # Idempotent commands
 
 By their nature, arbitrary commands and scripts are *not* idempotent,
@@ -690,7 +776,8 @@ the command is 0. A ruby block will be evaluated as ruby code for `true`/`false`
       action :nothing
     end
 
-.notes We use the :: in front of File due to Ruby namespacing.
+.notes We use the :: in front of File due to Ruby namespacing. A
+common guard is "grep -q" or even "grep -qx".
 
 # Uncommon Resources
 
@@ -701,6 +788,8 @@ the command is 0. A ruby block will be evaluated as ruby code for `true`/`false`
 * Special resources
 
 # Application deployment
+
+Full exploration of application deployment is beyond the scope of this course.
 
 * `deploy` - capistrano style deployment
 * `scm` - Git, Subversion supported (`git` and `subversion` resources)
@@ -738,6 +827,23 @@ the command is 0. A ruby block will be evaluated as ruby code for `true`/`false`
 * `breakpoint` - sets a breakpoint used by shef
 * `ruby_block` - executes a block of Ruby code, not the same as the
   ruby script provider
+
+.notes A ruby block can be used to promote execution from the compile
+phase into the "execution" phase. Between these two, students will see
+(and use) `ruby_block` most often.
+
+# Running Chef
+
+If we did kick off a Chef run (enter the execution phase), then all
+the resources entered to this point would be configured as we wrote
+them.
+
+Many of the resource examples we used are incomplete - we do not have
+source files for some of the templates and cookbook_files.
+
+Chef will halt execution when it encounters an unhandled exception.
+
+.notes the `shef` command to enter the execution phase is `run-chef`.
 
 # Summary
 

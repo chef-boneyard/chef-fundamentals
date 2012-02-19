@@ -23,7 +23,7 @@ Upload the `webserver` role to the Chef Server.
 
 ## Modify Node
 
-Use `knife` to remove the `fail2ban` recipe from the node's run list
+Use `knife` to remove the `webserver` recipe from the node's run list
 and add the `webserver` role.
 
 Re-run `chef-client` on the node.

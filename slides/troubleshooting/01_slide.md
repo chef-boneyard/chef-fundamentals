@@ -64,7 +64,6 @@ This is handled with the mixlib-log library.
 
 # Debug logging
 
-
     # With command-line arguments
     <command> -l debug
     <command> -L /tmp/debug.log
@@ -410,6 +409,9 @@ We can also cause Chef to bail out.
       raise
     end
 
+"raise" will raise an exception and cause Chef to exit, we can
+also use code to handle the error gracefully.
+
 # Chef::Application.fatal!
 
     @@@ruby
@@ -451,6 +453,38 @@ report/exception handler.
 These are both Arrays, to which new instantiation of the handler
 classes are added.
 
+# Simple Example Handler
+
+We're going to set up a very simple example that prints the name of
+the resources updated in the Chef run.
+
+The handler itself doesn't actually do anything, but it could.
+
+Handlers are written in Ruby and loaded by the `chef-client` when it runs.
+
+# Handler Example Code
+
+We'll put this in `/var/chef/handlers/simple_report_handler.rb`, but
+it can go anywhere.
+
+    @@@ruby
+    require 'chef/handler'
+    module SimpleReport
+      class UpdatedResources < Chef::Handler
+        def report
+          Chef::Log.info "Resources updated this run:"
+          run_status.updated_resources.each {|r| Chef::Log.info "  #{r.to_s}"}
+        end
+      end
+    end
+
+The handler should inherit `Chef::Handler`. It should define a 'report' method.
+
+Documentation is on the [Chef wiki](http://wiki.opscode.com/display/chef/Exception+and+Report+Handlers).
+
+.notes This specific handler can be installed with the ruby gem
+"chef-handler-updated-resources".
+
 # Handler Configuration
 
     @@@ruby
@@ -462,25 +496,8 @@ classes are added.
     report_handlers << SimpleReport::UpdatedResources.new
     exception_handlers << SimpleReport::UpdatedResources.new
 
-# Handler Example Code
-
-
-`/var/chef/handlers/simple_report_handler.rb`
-
-    @@@ruby
-    module MyOrg
-      class SimpleReport < Chef::Handler
-        def report
-        # ruby code that the handler performs goes here.
-        end
-      end
-    end
-
-The handler should inherit `Chef::Handler`
-
-It should define a 'report' method.
-
-Documentation is on the [Chef wiki](http://wiki.opscode.com/display/chef/Exception+and+Report+Handlers).
+.notes The 'require' statement does not use the .rb extension of the
+file.
 
 # Chef Handler Cookbook
 
@@ -495,13 +512,17 @@ Download it to your Chef Repository like any other cookbook:
 
 See the cookbook's README for documentation.
 
+.notes Opscode is working on API endpoints to send reports/exceptions,
+but this is not built into the Chef Client or the Chef Handler
+cookbook at this time.
+
 # Summary
 
 * Work with Chef's logger
 * Debug Chef's stack traces
 * Recognize HTTP status codes from the Chef Server
 * Gracefully handle errors in recipes
-* Understand Chef's exception handlers
+* Understand Chef's report/exception handlers
 
 # Questions
 
