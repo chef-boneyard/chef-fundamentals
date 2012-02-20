@@ -120,62 +120,62 @@ pre, code {
     background-color: #f2f1f0;
 }
 
-pre.sh_sourceCode .sh_keyword { color: darkblue; font-family:monospace; }   /* language keywords */
-pre.sh_sourceCode .sh_type { color: darkgreen; font-family:monospace; }     /* basic types */
-pre.sh_sourceCode .sh_usertype { color: teal; font-family:monospace; }      /* user defined types */
-pre.sh_sourceCode .sh_string { color: green; font-family: monospace; }      /* strings and chars */
-pre.sh_sourceCode .sh_regexp { color: orange; font-family: monospace; }     /* regular expressions */
-pre.sh_sourceCode .sh_specialchar { color: pink; font-family: monospace; }  /* e.g., \n, \t, \\ */
-pre.sh_sourceCode .sh_comment { color: gray; font-family:monospace; }       /* comments */
-pre.sh_sourceCode .sh_number { color: purple; font-family:monospace; }      /* literal numbers */
-pre.sh_sourceCode .sh_preproc { color: darkblue; font-family:monospace; }   /* e.g., #include, import */
-pre.sh_sourceCode .sh_symbol { color: black; font-family:monospace; }       /* e.g., <, >, + */
-pre.sh_sourceCode .sh_function { color: black; font-family:monospace; }     /* function calls and declarations */
-pre.sh_sourceCode .sh_cbracket { color: black; font-family:monospace; }     /* block brackets (e.g., {, }) */
-pre.sh_sourceCode .sh_todo { font-weight: bold; background-color: cyan; font-family:monospace; } /* TODO */
+pre.sh_sourceCode .sh_keyword { color: darkblue; font-family: Menlo, monospace; }   /* language keywords */
+pre.sh_sourceCode .sh_type { color: darkgreen; font-family: Menlo, monospace; }     /* basic types */
+pre.sh_sourceCode .sh_usertype { color: teal; font-family: Menlo, monospace; }      /* user defined types */
+pre.sh_sourceCode .sh_string { color: green; font-family: Menlo, monospace; }      /* strings and chars */
+pre.sh_sourceCode .sh_regexp { color: orange; font-family: Menlo, monospace; }     /* regular expressions */
+pre.sh_sourceCode .sh_specialchar { color: pink; font-family: Menlo, monospace; }  /* e.g., \n, \t, \\ */
+pre.sh_sourceCode .sh_comment { color: gray; font-family: Menlo, monospace; }       /* comments */
+pre.sh_sourceCode .sh_number { color: purple; font-family: Menlo, monospace; }      /* literal numbers */
+pre.sh_sourceCode .sh_preproc { color: darkblue; font-family: Menlo, monospace; }   /* e.g., #include, import */
+pre.sh_sourceCode .sh_symbol { color: black; font-family: Menlo, monospace; }       /* e.g., <, >, + */
+pre.sh_sourceCode .sh_function { color: black; font-family: Menlo, monospace; }     /* function calls and declarations */
+pre.sh_sourceCode .sh_cbracket { color: black; font-family: Menlo, monospace; }     /* block brackets (e.g., {, }) */
+pre.sh_sourceCode .sh_todo { font-weight: bold; background-color: cyan; font-family: Menlo, monospace; } /* TODO */
 
 /* Predefined variables and functions (for instance glsl) */
-pre.sh_sourceCode .sh_predef_var { color: darkblue; font-family:monospace; }
-pre.sh_sourceCode .sh_predef_func { color: darkblue; font-weight: bold; font-family:monospace; }
+pre.sh_sourceCode .sh_predef_var { color: darkblue; font-family: Menlo, monospace; }
+pre.sh_sourceCode .sh_predef_func { color: darkblue; font-weight: bold; font-family: Menlo, monospace; }
 
 /* for OOP */
-pre.sh_sourceCode .sh_classname { color: #F00; font-family:monospace; }
+pre.sh_sourceCode .sh_classname { color: #F00; font-family: Menlo, monospace; }
 
 /* line numbers (not yet implemented) */
-pre.sh_sourceCode .sh_linenum { color: black; font-family: monospace; }
+pre.sh_sourceCode .sh_linenum { color: black; font-family: Menlo, monospace; }
 
 /* Internet related */
-pre.sh_sourceCode .sh_url { color: blue; text-decoration: underline; font-family: monospace; }
+pre.sh_sourceCode .sh_url { color: blue; text-decoration: underline; font-family: Menlo, monospace; }
 
 /* for ChangeLog and Log files */
-pre.sh_sourceCode .sh_date { color: blue; font-weight: bold; font-family:monospace; }
-pre.sh_sourceCode .sh_time, pre.sh_sourceCode .sh_file { color: darkblue; font-weight: bold; font-family:monospace; }
-pre.sh_sourceCode .sh_ip, pre.sh_sourceCode .sh_name { color: darkgreen; font-family:monospace; }
+pre.sh_sourceCode .sh_date { color: blue; font-weight: bold; font-family: Menlo, monospace; }
+pre.sh_sourceCode .sh_time, pre.sh_sourceCode .sh_file { color: darkblue; font-weight: bold; font-family: Menlo, monospace; }
+pre.sh_sourceCode .sh_ip, pre.sh_sourceCode .sh_name { color: darkgreen; font-family: Menlo, monospace; }
 
 /* for Prolog, Perl... */
-pre.sh_sourceCode .sh_variable { color: darkgreen; font-family:monospace; }
+pre.sh_sourceCode .sh_variable { color: darkgreen; font-family: Menlo, monospace; }
 
 /* for LaTeX */
-pre.sh_sourceCode .sh_italics { color: darkgreen; font-style: italic; font-family:monospace; }
-pre.sh_sourceCode .sh_bold { color: darkgreen; font-weight: bold; font-family:monospace; }
-pre.sh_sourceCode .sh_underline { color: darkgreen; text-decoration: underline; font-family:monospace; }
-pre.sh_sourceCode .sh_fixed { color: green; font-family: monospace; }
-pre.sh_sourceCode .sh_argument { color: darkgreen; font-family:monospace; }
-pre.sh_sourceCode .sh_optionalargument { color: purple; font-family:monospace; }
-pre.sh_sourceCode .sh_math { color: orange; font-family:monospace; }
-pre.sh_sourceCode .sh_bibtex { color: blue; font-family:monospace; }
+pre.sh_sourceCode .sh_italics { color: darkgreen; font-style: italic; font-family: Menlo, monospace; }
+pre.sh_sourceCode .sh_bold { color: darkgreen; font-weight: bold; font-family: Menlo, monospace; }
+pre.sh_sourceCode .sh_underline { color: darkgreen; text-decoration: underline; font-family: Menlo, monospace; }
+pre.sh_sourceCode .sh_fixed { color: green; font-family: Menlo, monospace; }
+pre.sh_sourceCode .sh_argument { color: darkgreen; font-family: Menlo, monospace; }
+pre.sh_sourceCode .sh_optionalargument { color: purple; font-family: Menlo, monospace; }
+pre.sh_sourceCode .sh_math { color: orange; font-family: Menlo, monospace; }
+pre.sh_sourceCode .sh_bibtex { color: blue; font-family: Menlo, monospace; }
 
 /* for diffs */
-pre.sh_sourceCode .sh_oldfile { color: orange; font-family:monospace; }
-pre.sh_sourceCode .sh_newfile { color: darkgreen; font-family:monospace; }
-pre.sh_sourceCode .sh_difflines { color: blue; font-family:monospace; }
+pre.sh_sourceCode .sh_oldfile { color: orange; font-family: Menlo, monospace; }
+pre.sh_sourceCode .sh_newfile { color: darkgreen; font-family: Menlo, monospace; }
+pre.sh_sourceCode .sh_difflines { color: blue; font-family: Menlo, monospace; }
 
 /* for css */
-pre.sh_sourceCode .sh_selector { color: purple; font-family:monospace; }
-pre.sh_sourceCode .sh_property { color: blue; font-family:monospace; }
-pre.sh_sourceCode .sh_value { color: darkgreen; font-style: italic; font-family:monospace; }
+pre.sh_sourceCode .sh_selector { color: purple; font-family: Menlo, monospace; }
+pre.sh_sourceCode .sh_property { color: blue; font-family: Menlo, monospace; }
+pre.sh_sourceCode .sh_value { color: darkgreen; font-style: italic; font-family: Menlo, monospace; }
 
 /* other */
-pre.sh_sourceCode .sh_section { color: black; font-weight: bold; font-family:monospace; }
-pre.sh_sourceCode .sh_paren { color: red; font-family:monospace; }
-pre.sh_sourceCode .sh_attribute { color: darkgreen; font-family:monospace; }
+pre.sh_sourceCode .sh_section { color: black; font-weight: bold; font-family: Menlo, monospace; }
+pre.sh_sourceCode .sh_paren { color: red; font-family: Menlo, monospace; }
+pre.sh_sourceCode .sh_attribute { color: darkgreen; font-family: Menlo, monospace; }
