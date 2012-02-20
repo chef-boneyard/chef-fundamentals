@@ -9,6 +9,13 @@ task :present do
   sh "bundle exec showoff serve"
 end
 
+desc "Generate static HTML"
+task :static do
+  Dir.chdir("slides")
+  sh "bundle exec showoff static"
+  sh "zip static.zip static/*"
+end
+
 desc "Create the directory and initial slides (with SECTION=name)"
 task :mksection do
   section = ENV['SECTION']
