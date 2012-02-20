@@ -1,10 +1,11 @@
-# Chef Fundamentals
+# Welcome to Chef Fundamentals!
 
-Welcome to Chef Fundamentals!
+<center><img src="../images/oc-chef-logo.png" height="394" width="500" /></center>
 
-OPS150-04.01 - January, 2012
+<center>OPS150-04.01 - January, 2012</center>
 
-Created and Sponsored by Opscode, Inc.
+<center>Created and Sponsored by Opscode, Inc.</center>
+
 
 .notes These course materials are Copyright © 2010-2012 Opscode,
 Inc. All rights reserved.  This work is licensed under a Creative
