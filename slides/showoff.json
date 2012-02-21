@@ -5,8 +5,8 @@
     "introduction",
     "getting-started",
     "anatomy-of-a-chef-run",
-    "cookbooks-recipes-resources",
     "just-enough-ruby-for-chef",
+    "cookbooks-recipes-resources",
     /* Day 2 */
     "resources-in-depth",
     "troubleshooting",
