@@ -6,7 +6,6 @@
 
 <center>Created and Sponsored by Opscode, Inc.</center>
 
-
 .notes These course materials are Copyright © 2010-2012 Opscode,
 Inc. All rights reserved.  This work is licensed under a Creative
 Commons Attribution Share Alike 3.0 United States License. To view a
@@ -73,6 +72,9 @@ cover subject material that will be covered later.
 Extensive or detailed questions can be answered at the end of the
 relevant section, day or at the end of the course.
 
+.notes Strategies for breaks can include Pomodoros (25 mins w/ 5 min
+break), or simply running through each section.
+
 # Agenda
 
 * Introduction
@@ -81,6 +83,11 @@ relevant section, day or at the end of the course.
 * Cookbooks, Recipes and Resources
 * Just Enough Ruby for Chef
 * Resources in Depth
+
+.notes The course is taught in logical sections that follow this flow.
+We introduce topics in varying degree of detail and revisit them
+later. Most of the sections have hands on exercises, and we provided
+systems to use.
 
 # Agenda
 
