@@ -17,26 +17,44 @@ California, 94105, USA.
 # Logistics
 
 * Start and finish time
-* Breaks
+* Pomodoros
 * Lunch
-* Restrooms
-* Refreshments
-* Parking
+* Bathroom
+
+# Icebreaker
+
+Twitter is a popular microblogging community in which people share their 'status' in 160 or fewer characters.
+
+To make it easy to search for and locate interesting content, users tag their 'tweets' using 'hashtags'
+
+"Very excited to be in Berlin this week! #travel #sap #germany"
+
+Describe yourself in 3 hashtags.  In my case"
+
+* Family
+* Yoga
+* Ruby
+
+# Icebreaker - 3 'facts'
+
+Take it in turns to share three 'surprising facts' about yourself.  One must be a lie!
+
+Vote on which is the lie!
 
 # Instructor
 
-* Name
-* Company / Group
-* Experience w/ Configuration Management or Chef itself
-* Contact information
+* Stephen Nelson-Smith
+* Principal consultant, Atalanta Systems; Consulting engineer, Opscode
+* Puppet user 5+ yrs; Chef user 2+ yrs; 
+* stephen@atalanta-systems.com // @lordcope
 
 .notes Contact information should minimally include email address.
 
 # Students
 
-* Name
-* Company / Group
-* Experience w/ Configuration Management or Chef itself
+* What section of SAP do you work in?
+* How much previous experience of Chef?
+* What kind of daily exposure to Chef?
 * Objective for course
 
 # Course Objectives
@@ -94,18 +112,6 @@ relevant section, day or at the end of the course.
 .notes Additional topics include: Data bags, Environments, LWRPs,
 Plugins, Reporting. This also may include questions asked during the
 course that have not been covered.
-
-# Agenda: Hack Day
-
-Opscode public Chef Fundamentals training is often followed by a Hack Day.
-
-* Mini-tutorials/talks
-* Demonstrations
-* Collaboration and learning
-* Hacking on Chef, cookbooks and more!
-* Venue varies by location
-
-.notes Discuss any relevant hack day event logistics. If no hack day, skip.
 
 # Course Artifacts
 
