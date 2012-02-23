@@ -360,5 +360,5 @@ better, by applying them with a role appropriate to the task.
 More Cookbooks
 
 * Apply apt, chef-client, and fail2ban recipes via a base role
-* Add apache2 recipe to webserver role
+* Include apache2 recipe in webserver recipe
 * Download and examine the haproxy cookbook

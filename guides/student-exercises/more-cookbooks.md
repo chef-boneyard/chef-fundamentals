@@ -4,7 +4,7 @@ More Cookbooks
 ## Objectives
 
 * Apply apt, chef-client, and fail2ban recipes via a base role
-* Add apache2 recipe to webserver role
+* Include the apache2 recipe in the webserver recipe
 * Download and examine the haproxy cookbook
 
 ## Acceptance Criteria
@@ -32,9 +32,17 @@ In the roles directory, create a `base.rb` for the base role. It
 should have a run list containing the `apt`, `fail2ban` and
 `chef-client` recipes.
 
-## Add apache2 to webserver role
+    recipe[apt],
+    recipe[fail2ban],
+    recipe[chef-client]
 
-Add the `apache2` recipe to the `webserver` role's run list.
+## Add apache2 to webserver cookbook
+
+Use `include_recipe` in the `webserver` cookbook's default recipe to
+add the `apache2` default recipe.
+
+Update the `webserver` cookbook's `metadata.rb` file to depend on the
+`apache2` cookbook.
 
 ## Update the roles
 
@@ -53,7 +61,7 @@ directory. Examine its contents but do not upload it to the Chef
 Server yet. Do not apply it to the node's run list, that will be done
 in the next exercise.
 
-## Quesetions
+## Questions
 
 What knife command was used to download the cookbooks from the Chef
 Community Site?
