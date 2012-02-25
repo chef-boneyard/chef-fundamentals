@@ -34,7 +34,7 @@ run the presentation, though the rake task should handle this already.
 Two URLs are available:
 
 * http://localhost:9090 - "student" view of the slides
-* http://localhost:9090 - "presenter view of the slides
+* http://localhost:9090/presenter - "presenter" view of the slides
 
 When presenting the materials as an instructor, use the "presenter"
 view. This will also pop up a second browser window that will advance
