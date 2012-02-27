@@ -144,6 +144,10 @@ Opscode's Chef Fundamentals training materials are dual-licensed.
 * Apache License, Version 2.0 for supporting code and significant
   example code on slides.
 
+GitHub Repository:
+
+* [http://github.com/opscode/chef-fundamentals](http://github.com/opscode/chef-fundamentals)
+
 .notes Usually, "significant example code" is taken from source code
 in Opscode open source projects such as cookbooks.
 
@@ -160,6 +164,8 @@ introduced, let's introduce Chef.
 
 "Keep track of all the stuff you do to take a system from 'bare metal'
 to 'doing its job'." - Adam Jacob, Web Operations (O'Reilly, 2010)
+
+This is accomplished through a variety of methods.
 
 * Wiki notes, copy/paste
 * Scripting, ssh-in-a-for-loop
@@ -200,15 +206,15 @@ They need to be integrated together.
 
 # System Integration
 
-In a typical architecture, this is complex. Six systems talk to each
-other, and two of those are a complex subsystem of their own - HA
-database.
+In a typical architecture, this is complex. For example, our six
+systems talk to each other, and two of those are a complex subsystem
+of their own - HA database.
 
 <center><img src="../images/integrated-systems.png" /></center>
 
 # System Integration
 
-In modern infrastructures, applications are not simply three-tier
+In modern infrastructures, applications are not simply "N-tier"
 architectures anymore. Other components are added. Additional services
 are required to scale or add end-user features. We already have
 caching here, but wait, there's more:
@@ -274,21 +280,29 @@ configure the resource, but only if it needs to change.
     DEBUG: package[apache2] candidate version is 2.2.20-1ubuntu1.1
     DEBUG: package[apache2] is already installed - nothing to do
 
-.notes Chef providers handle the details of checking the current state
+Chef providers handle the details of checking the current state
 of the resource. Different platforms may have different providers for
 managing the same type of resource, yum vs apt, init vs upstart.
 
 # Convergent Nodes
 
-Chef runs on the system, configuring the *Node*. The node is the unit
-of authority about itself.
+Chef runs on the system, configuring the *Node*. The node is the
+initial unit of authority about itself.
+
+The node is responsible only for itself.
 
 In Chef, a single run should completely configure the system. If it
 does not, it is a bug (in your code, on the system, or in Chef
 itself).
 
-.notes We'll talk more about how Chef converges the node when we cover
+When Chef runs, it saves the node to the Chef Server, making that
+information available through a network-accessible API.
+
+We'll talk more about how Chef converges the node when we cover
 Anatomy of a Chef run.
+
+.notes Chef doesn't read minds, it tries to detect as much as it can
+about the node.
 
 # Chef: The Framework
 
@@ -328,6 +342,8 @@ to use in Resources.
 
 Arbitrary data about the infrastructure can be stored in *Data Bags*
 and accessed in recipes.
+
+Because Chef uses Ruby, you can create your own helpers, too.
 
 # Library and Primitives
 
@@ -374,8 +390,9 @@ Tying it all together are `roles` which are descriptions of the nodes.
 A `webserver` role contains the list of cookbooks and node-specific
 information required to fulfill serving HTTP traffic.
 
-Chef inspects the node's role to determine what it should be to do its
-job.
+The node has a list of roles and/or recipes that Chef should run to
+configure the node to do its job. Chef downloads only what it needs
+from the Chef Server.
 
 # Chef Summary: Configuration Management
 
