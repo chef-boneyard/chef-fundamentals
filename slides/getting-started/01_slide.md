@@ -444,7 +444,7 @@ The following command-line options correspond to the specified config file setti
     |----------------------|-----------------|
     | -S, --server URL     | chef_server_url |
     | -k, --key KEY        | client_key      |
-    | -u, --user USER      | node_name       |
+    | -N, --node-name NAME | node_name       |
 
 # Client Command-line Options
 
@@ -455,7 +455,6 @@ Other common command-line options used with `chef-client`:
     | -l, --log_level LEVEL | log_level    |
     | -L, --logfile LOGFILE | log_location |
     | -j JSON_ATTRIBUTES    | json_attribs |
-    | -N, --node-name NAME  | node_name    |
 
 # Client Command-line Options
 
@@ -466,6 +465,7 @@ The following options control how the `chef-client` process behaves.
     | -d, --daemonize       | Daemonize the process          |
     | -i, --interval INT    | Run every INT seconds          |
     | -s, --splay SECONDS   | Random splay added to interval |
+    | -u, --user USER       | User to run chef-client as     |
 
 # Full example client.rb
 
