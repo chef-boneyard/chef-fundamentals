@@ -107,5 +107,6 @@ them.
 
 ## Authors:
 
-Joshua Timberman <joshua@opscode.com>
-Aaron Peterson <aaron@opscode.com>
+* Joshua Timberman <joshua@opscode.com>
+* Aaron Peterson <aaron@opscode.com>
+* Stephen Nelson-Smith <stephen@atalanta-systems.com>
