@@ -63,7 +63,7 @@ ec2` command.
 
     knife ec2 server create \
       -f m1.small -I $lucid_small \
-      -x ubuntu -d fnd3-lab
+      -x ubuntu -d fnd3-lab -G ${labgroup}
 
 If another region is required, append "`--region REGION`" and "`-Z
 ZONE`" to specify the region and availability zone in that region.
