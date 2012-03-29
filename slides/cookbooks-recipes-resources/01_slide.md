@@ -334,6 +334,9 @@ Use quotes to prevent shell meta-character expansion.
 
 Run Chef on the node and it will apply the recipe.
 
+.notes On Windows, use cmd.exe not powershell, else an erroneous entry
+will be made (e.g., recipe[roles]).
+
 # Add Recipe to a Node
 
 If the node does not exist on the Chef Server already, the run list

@@ -153,6 +153,9 @@ The `$EDITOR` environment variable must be set, or specified with
 
     > knife node edit NODE -e vi
 
+.notes On Windows, use cmd.exe not powershell, else an erroneous entry
+will be made (e.g., recipe[roles]).
+
 # Apply role to Node
 
     @@@javascript

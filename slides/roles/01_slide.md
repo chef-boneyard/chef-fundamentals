@@ -167,6 +167,9 @@ Use knife:
 
     knife node run list add NODE 'role[base]'
 
+.notes On Windows, use cmd.exe not powershell, else an erroneous entry
+will be made (e.g., recipe[roles]).
+
 # Summary
 
 * Understand the components of a role
