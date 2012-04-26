@@ -14,11 +14,26 @@ Anatomy of a Chef Run
 
 ## Prepare Remote Target
 
+**Ubuntu**
+
 Your instructor will provide an IP address of an Ubuntu
 system. Connect to the system with the following credentials:
 
 * Username: ubuntu
 * Password: opstrain_0150
+
+**CentOS**
+
+You should have the Virtual Machine created in VMware (Player,
+Workstation, Fusion) on your workstation. The login credentials are:
+
+* Username: root
+* Password: opscodechef
+
+Log in and run `/sbin/ifconfig` or `/sbin/ip addr` to get the system's
+IP address.
+
+**All**
 
 You will need to install Chef on the system. Use the Full Stack
 installer.
@@ -40,7 +55,8 @@ location per platform:
 At a minimum, the configuration should include the Chef Server URI
 (`chef_server_url`), and the name of the validation API client
 (`validation_client_name`). Refer to your Knife configuration file for
-values.
+values of these settings. Also, set `node_name` to
+`"webserver.localdomain"`.
 
 ## Use Validation Key
 
@@ -53,6 +69,9 @@ new API client. It should be copied to the same directory as the
 Run `chef-client` on the local system with debug logging, and send the
 output to a file. Use the output file, along with the command-line
 tools to answer the following questions.
+
+**Ubuntu**: You'll need to either su to root or use sudo to execute
+`chef-client`.
 
 ## Questions
 

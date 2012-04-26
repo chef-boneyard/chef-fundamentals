@@ -35,14 +35,17 @@ Upload the role to the Chef Server.
 ## Knife bootstrap Second Target
 
 If Chef is not version 0.10.10 or higher, retrieve the chef-full
-bootstrap template and put it in `.chef/bootstrap` in your Chef
-Repository.
+bootstrap template and save it as `.chef/bootstrap/chef-full.erb` in
+your Chef Repository.
 
 https://raw.github.com/opscode/chef/master/chef/lib/chef/knife/bootstrap/chef-full.erb
 
-Your instructor will provide a second target system's IP address. Use
-the `knife bootstrap` command to automatically set up the system with
-the `base` and `load_balancer` roles with Chef.
+Your instructor will provide a second target system's IP address or
+you will use a second Virtual Machine. Use the `knife bootstrap`
+command to automatically set up the system with the `base` and
+`load_balancer` roles with Chef. When running the `knife bootstrap`
+command, specify the new system's node name with `-N NODENAME`, e.g.
+`-N load-balancer.localdomain`.
 
 Once complete, navigate to the public IP address of the load balancer
 system in your web browser on port 80. Then navigate to the same IP on

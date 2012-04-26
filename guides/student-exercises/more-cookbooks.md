@@ -3,13 +3,13 @@ More Cookbooks
 
 ## Objectives
 
-* Apply apt, chef-client, and fail2ban recipes via a base role
+* Apply apt or yum, chef-client, and fail2ban recipes via a base role
 * Include the apache2 recipe in the webserver recipe
 * Download and examine the haproxy cookbook
 
 ## Acceptance Criteria
 
-* "base" role is created with the apt, chef-client and fail2ban
+* "base" role is created with the apt or yum, chef-client and fail2ban
   recipes.
 * "base" role is applied to the remote target system.
 * Answer the questions
@@ -19,22 +19,39 @@ More Cookbooks
 Download the following cookbooks to the local repository and extract
 them in the `cookbooks` directory.
 
-* apt
 * chef-client
 * fail2ban
 * apache2
+
+If your target system is Ubuntu, also download and extract the `apt`
+cookbook.
+
+If your target system is CentOS, also download and extract the `yum`
+cookbook.
 
 With a single knife command, upload all four cookbooks.
 
 ## Create base role
 
+**Ubuntu**
+
+If your target system is Ubuntu, use `recipe[apt]`.
+
+**CentOS**
+
+If your target system is CentOS, use `recipe[yum::epel]`.
+
+**Role Run List**
+
 In the roles directory, create a `base.rb` for the base role. It
 should have a run list containing the `apt`, `fail2ban` and
 `chef-client` recipes.
 
-    recipe[apt],
+    recipe[apt] OR recipe[yum::epel]
     recipe[fail2ban],
     recipe[chef-client]
+
+Be sure to use only apt OR yum:epel.
 
 ## Add apache2 to webserver cookbook
 
