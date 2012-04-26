@@ -60,7 +60,6 @@ end
 
 desc "Generate HTML out of Markdown (Guides)"
 task :student_guide do
-  html_dir = File.join("guides", "html")
   guides_dir = File.join("guides", "student-exercises")
   sections = showoff_sections
   markdown = []
@@ -74,6 +73,16 @@ task :student_guide do
   end
 end
 
+desc "Generate HTML Student Prerequisites"
+task :student_prereq do
+  File.unlink(File.join(html_dir, "Student-Prerequisites.html"))
+  markdown = IO.read(File.join("guides", "prerequisites.md"))
+  FileUtils.mkdir_p(html_dir)
+  File.open(File.join(html_dir, "Student-Prerequisites.html"), "a+") do |h|
+    h.puts Redcarpet::Markdown.new(Redcarpet::Render::HTML).render(markdown)
+  end
+end
+
 desc "Count the number of slides per section"
 task :slide_counter do
   sections = showoff_sections
@@ -81,6 +90,10 @@ task :slide_counter do
   sections.each do |section|
     puts "- #{section}: #{line_count(File.join("slides", section, "01_slide.md"))}"
   end
+end
+
+def html_dir
+  File.join(File.dirname(__FILE__), "guides", "html")
 end
 
 def line_count(slides)
