@@ -54,6 +54,19 @@ ID here:
 
 And select, "Command Line Tools for Xcode" to download the dmg.
 
+## Additional Requirements
+
+The instructor may provide virtual machine image(s) in the form of a
+VMDK format disk image which will be the target system(s) to configure
+with Chef during the hands on exercises. This can be imported into
+VMware Fusion, Player or Workstation, or otherwise indicated by the
+instructor. The image should be downloaded before the course starts,
+and imported into the virtual machine hypervisor as indicated by the
+instructor.
+
+They will also provide additional details such as the platform of the
+virtual machine, and the login information.
+
 # Chef Server Requirements
 
 Students may already have a Chef Server, whether it is Opscode Hosted
