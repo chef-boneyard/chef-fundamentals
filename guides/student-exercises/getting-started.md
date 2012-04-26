@@ -43,6 +43,9 @@ Subversion or any other version control system you wish.
 
 ## Create Opscode Hosted Chef Account
 
+_This is only required if you're not using an internal Private Chef
+server for the exercises._
+
 Create a user account for Opscode Hosted Chef, then sign in and create
 an organization. Remember that the organization short name must be
 ASCII alpha-numeric, no spaces (dashes and underscores **are** allowed).
@@ -57,6 +60,10 @@ validation key file to the same directory.
 
 Verify connectivity to the Chef Server for your user with knife on the
 local workstation.
+
+    > knife client list
+
+Should list at least the validator client name for the organization.
 
 ## Questions
 
