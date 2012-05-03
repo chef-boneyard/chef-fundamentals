@@ -54,4 +54,4 @@ $(".content").bind("showoff:show", function (event) {
     }
   });
 });
-}, 500);
+}, 3000);
