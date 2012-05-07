@@ -316,27 +316,6 @@ Common use cases:
 
 .notes We will cover search and how do go about this in a later section.
 
-# link
-
-Manage hard or symbolic links with the `link` resource.
-
-The default action is to create the link.
-
-# link example
-
-The equivalent of running `ln -s /etc/hosts /tmp/hosts`:
-
-    @@@ruby
-    link "/tmp/hosts" do
-      to "/etc/hosts"
-    end
-
-* target_file - the file name of the link
-* to - the real target file
-* type - `:hard` or `:symbolic` (must be a Ruby symbol)
-
-.notes Say, "You link the target file to a thing that already exists"
-
 # directory
 
 Create a directory with the `directory` resource. It is the basis for
@@ -363,38 +342,6 @@ The default action is to create the specified directory.
 * mode, owner, group - work like the `file` resource (but directory
   does not inherit from `file`)
 * recursive - recursively create the directory tree, like `mkdir -p`
-
-# remote_directory
-
-Transfers a directory of files from the cookbook's `files/default`
-directory.
-
-The files copied can have their own file permissions set as part of
-the resource.
-
-The default action is to create the directory.
-
-.notes `remote_directory` is not the most efficient method to copy
-files, but it can be done in place of a better solution such as
-"rsync" or "bittorrent"; for bittorrent, perhaps suggest transmission
-cookbook.
-
-# remote_directory example
-
-    @@@ruby
-    remote_directory "/var/www/sites/mysite" do
-      source "my_app"
-      owner "www-data"
-      files_owner "my-app"
-      files_group "www-data"
-      recursive true
-    end
-
-* source - the directory name in `files/default` in the cookbook
-* cookbook - optionally specify a different cookbook
-* files_owner - set the owner of the individual files
-* files_group - set the group of the individual files
-* recursive - this will create the directory structure for the target
 
 # Packages
 
