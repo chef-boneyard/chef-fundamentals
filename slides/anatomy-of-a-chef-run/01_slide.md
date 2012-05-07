@@ -12,7 +12,7 @@ This work is licensed under a Creative Commons Attribute Share Alike 3.0 United 
 
 # Anatomy of a Chef Run
 
-<center><img src="../images/anatomy-of-chef-run-0.png" width="424" height="624" /></center>
+<center><img src="../images/anatomy-of-chef-run/anatomy-of-chef-run-full.png" /></center>
 
 .notes This diagram represents the process of running chef.
 
@@ -120,7 +120,7 @@ Chef expands the node's run list down to the recipes. The roles and recipes get 
 
 # Anatomy of a Chef Run
 
-<center><img src="../images/anatomy-of-chef-run-2.png" width="424" height="624" /></center>
+<center><img src="../images/anatomy-of-chef-run/anatomy-of-chef-run-005.png" /></center>
 
 .notes This diagram represents the process of running chef.
 
@@ -182,7 +182,7 @@ Once the cookbooks are synchronized to the local system, their components are lo
 
 # Anatomy of a Chef Run
 
-<center><img src="../images/anatomy-of-chef-run-3.png" width="424" height="624" /></center>
+<center><img src="../images/anatomy-of-chef-run/anatomy-of-chef-run-006.png" /></center>
 
 .notes This diagram represents the process of running chef.
 
@@ -236,7 +236,25 @@ Chef walks the Resource Collection in order.
 
 # Anatomy of a Chef Run
 
-<center><img src="../images/anatomy-of-chef-run-4.png" width="424" height="624" /></center>
+<center><img src="../images/anatomy-of-chef-run/anatomy-of-chef-run-007.png" /></center>
+
+.notes This diagram represents the process of running chef.
+
+# Anatomy of a Chef Run
+
+<center><img src="../images/anatomy-of-chef-run/anatomy-of-chef-run-008.png" /></center>
+
+.notes This diagram represents the process of running chef.
+
+# Anatomy of a Chef Run
+
+<center><img src="../images/anatomy-of-chef-run/anatomy-of-chef-run-009.png" /></center>
+
+.notes This diagram represents the process of running chef.
+
+# Anatomy of a Chef Run
+
+<center><img src="../images/anatomy-of-chef-run/anatomy-of-chef-run-010.png" /></center>
 
 .notes This diagram represents the process of running chef.
 
@@ -266,7 +284,7 @@ Abnormal exit from unhandled exception:
 
 # Anatomy of a Chef Run
 
-<center><img src="../images/anatomy-of-chef-run-5.png" width="424" height="624" /></center>
+<center><img src="../images/anatomy-of-chef-run/anatomy-of-chef-run-011.png" /></center>
 
 .notes This diagram represents the process of running chef.
 
