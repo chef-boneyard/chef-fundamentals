@@ -3,6 +3,7 @@
 Section Objectives:
 
 * Understand the components of resources.
+* Know the commonly used resources in Chef.
 * Write recipes using common resources.
 
 .notes These course materials are Copyright © 2010-2012 Opscode, Inc. All rights reserved.
@@ -20,6 +21,9 @@ not to configure specific things on the system.
 Students should be logged into the provided remote target instance
 rather than their local workstation. `shef` should be started as a
 privileged user (e.g., `sudo shef`).
+
+.notes Shef in Windows powershell or cmd.exe, backspace doesn't behave
+precisely as expected.
 
 # Shef
 
@@ -167,6 +171,10 @@ Type this into your Shef session (recipe context):
 * mode - octal mode of the file, specify as a number with a leading 0,
   or as a string, default is the umask of the chef process
 
+.notes owner, group, mode on Windows do not work on Windows before
+Chef 0.10.10, and full inheritance and ACL support will be available
+after that release.
+
 # file parameters
 
 * content - a string to write to the file, overwrites existing content
@@ -182,6 +190,9 @@ Use `cookbook_file` to transfer files from the cookbook to the node.
 * static configuration files
 * small binary files
 * inherits from `file`, so permission parameters can be used.
+
+.notes Do not store and transfer large files in the cookbook, this is
+for static content like scripts (e.g. plugins)
 
 # cookbook_file example
 
@@ -401,6 +412,8 @@ The default action is to install the named package.
 
 # package examples
 
+Type this into Shef (recipe context):
+
     @@@ruby
     package "apache2"
 
@@ -486,6 +499,8 @@ The default action for both resources is to create the named group or user.
 
 # group example
 
+Type this into Shef (recipe context):
+
     @@@ruby
     group "admins" do
       gid 999
@@ -518,6 +533,8 @@ The default action for both resources is to create the named group or user.
   managing the user home directory, e.g. "-m"
 
 # system user example
+
+Type this into Shef (recipe context):
 
     @@@ruby
     user "myapp" do
@@ -570,6 +587,8 @@ The service resource does not have a default action.
 of what it means to say you have a service resource to manage.
 
 # service example
+
+Type this into Shef (recipe context):
 
     @@@ruby
     service "apache2" do
@@ -701,6 +720,8 @@ resources (`bash`, `csh`, `perl`, `python` and `ruby`).
 The default action for execute and script resources is to run the command/script.
 
 # execute examples
+
+Type this into Shef (recipe context):
 
     @@@ruby
     execute "apt-get update"
@@ -843,11 +864,12 @@ source files for some of the templates and cookbook_files.
 
 Chef will halt execution when it encounters an unhandled exception.
 
-.notes the `shef` command to enter the execution phase is `run-chef`.
+.notes the `shef` command to enter the execution phase is `run_chef`.
 
 # Summary
 
 * Understand the components of resources.
+* Know the commonly used resources in Chef.
 * Write recipes using common resources.
 
 # Questions

@@ -28,8 +28,6 @@ Four search indexes are created on the Chef Server by default.
 * role
 * environment
 
-# Search Indexes
-
 When data bags are created, a search index is also created, and the
 index is the same name as the bag.
 
@@ -49,6 +47,7 @@ is abbreviated.
 # Knife Search
 
     knife search node "platform:ubuntu"
+    knife search node "platform:centos"
     knife search node "platform:ubuntu" -r
     knife search node "role:webserver"
 
@@ -312,6 +311,10 @@ bootstrap" command.
     )
 
 The `haproxy::app_lb` recipe will perform a search for web servers.
+
+.notes Modify the app_lb recipe to remove
+template[/etc/default/haproxy] resource if the exercise is on RHEL or
+CentOS platforms.
 
 # Bootstrap Load Balancer
 
