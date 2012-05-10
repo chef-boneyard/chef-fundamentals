@@ -41,11 +41,21 @@ node from its attributes. Minimum:
   `node['platform_version']`)
 * Default IP address (`node['ipaddress']`)
 * Fully qualified domain name (`node['fqdn']`)
-* EC2 public IP address (`node['ec2']['public_ipv4']`)
+* EC2 public IP address (`node['ec2']['public_ipv4']`) (if it is an
+  EC2 node)
 * The node's run list (`node.run_list.to_s`)
 
 The file we're editing is HTML, but don't worry about HTML tags and
-formatting, you may wrap the text in `<pre>` / `</pre>`.
+formatting, you may wrap the text in `<pre>` / `</pre>`. For example:
+
+    @@@html
+    <pre>
+    Platform: <%= node['platform'] %>
+    Platform Version: <%= node['platform_version'] %>
+    Default IP Address: <%= node['ipaddress'] %>
+    Fully Qualified Domain Name: <%= node['fqdn'] %>
+    Node's Run List: <%= node.run_list.to_s %>
+    </pre>
 
 Create the `metadata.rb` file with the cookbook's initial version. Use
 any version number you like using the form X.Y.Z, e.g., "1.0.0" or
