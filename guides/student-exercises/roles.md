@@ -13,7 +13,7 @@ Roles
 * `webserver` role containing `webserver`
 * Target system's node uses the `webserver` role in its run list
 
-## Create Base Role
+## Create Webserver Role
 
 Create a directory to store roles in the Chef Repository. It should be
 named `roles`. Create a role named `webserver` as a Ruby DSL file in the
