@@ -3,6 +3,7 @@
 Section Objectives:
 
 * Understand the components of resources.
+* Know the commonly used resources in Chef.
 * Write recipes using common resources.
 
 .notes These course materials are Copyright © 2010-2012 Opscode, Inc. All rights reserved.
@@ -20,6 +21,9 @@ not to configure specific things on the system.
 Students should be logged into the provided remote target instance
 rather than their local workstation. `shef` should be started as a
 privileged user (e.g., `sudo shef`).
+
+.notes Shef in Windows powershell or cmd.exe, backspace doesn't behave
+precisely as expected.
 
 # Shef
 
@@ -167,6 +171,10 @@ Type this into your Shef session (recipe context):
 * mode - octal mode of the file, specify as a number with a leading 0,
   or as a string, default is the umask of the chef process
 
+.notes owner, group, mode on Windows do not work on Windows before
+Chef 0.10.10, and full inheritance and ACL support will be available
+after that release.
+
 # file parameters
 
 * content - a string to write to the file, overwrites existing content
@@ -182,6 +190,9 @@ Use `cookbook_file` to transfer files from the cookbook to the node.
 * static configuration files
 * small binary files
 * inherits from `file`, so permission parameters can be used.
+
+.notes Do not store and transfer large files in the cookbook, this is
+for static content like scripts (e.g. plugins)
 
 # cookbook_file example
 
@@ -305,27 +316,6 @@ Common use cases:
 
 .notes We will cover search and how do go about this in a later section.
 
-# link
-
-Manage hard or symbolic links with the `link` resource.
-
-The default action is to create the link.
-
-# link example
-
-The equivalent of running `ln -s /etc/hosts /tmp/hosts`:
-
-    @@@ruby
-    link "/tmp/hosts" do
-      to "/etc/hosts"
-    end
-
-* target_file - the file name of the link
-* to - the real target file
-* type - `:hard` or `:symbolic` (must be a Ruby symbol)
-
-.notes Say, "You link the target file to a thing that already exists"
-
 # directory
 
 Create a directory with the `directory` resource. It is the basis for
@@ -353,38 +343,6 @@ The default action is to create the specified directory.
   does not inherit from `file`)
 * recursive - recursively create the directory tree, like `mkdir -p`
 
-# remote_directory
-
-Transfers a directory of files from the cookbook's `files/default`
-directory.
-
-The files copied can have their own file permissions set as part of
-the resource.
-
-The default action is to create the directory.
-
-.notes `remote_directory` is not the most efficient method to copy
-files, but it can be done in place of a better solution such as
-"rsync" or "bittorrent"; for bittorrent, perhaps suggest transmission
-cookbook.
-
-# remote_directory example
-
-    @@@ruby
-    remote_directory "/var/www/sites/mysite" do
-      source "my_app"
-      owner "www-data"
-      files_owner "my-app"
-      files_group "www-data"
-      recursive true
-    end
-
-* source - the directory name in `files/default` in the cookbook
-* cookbook - optionally specify a different cookbook
-* files_owner - set the owner of the individual files
-* files_group - set the group of the individual files
-* recursive - this will create the directory structure for the target
-
 # Packages
 
 Package management is typically handled by the configuration
@@ -400,6 +358,8 @@ management providers for various platforms.
 The default action is to install the named package.
 
 # package examples
+
+Type this into Shef (recipe context):
 
     @@@ruby
     package "apache2"
@@ -486,6 +446,8 @@ The default action for both resources is to create the named group or user.
 
 # group example
 
+Type this into Shef (recipe context):
+
     @@@ruby
     group "admins" do
       gid 999
@@ -518,6 +480,8 @@ The default action for both resources is to create the named group or user.
   managing the user home directory, e.g. "-m"
 
 # system user example
+
+Type this into Shef (recipe context):
 
     @@@ruby
     user "myapp" do
@@ -570,6 +534,8 @@ The service resource does not have a default action.
 of what it means to say you have a service resource to manage.
 
 # service example
+
+Type this into Shef (recipe context):
 
     @@@ruby
     service "apache2" do
@@ -701,6 +667,8 @@ resources (`bash`, `csh`, `perl`, `python` and `ruby`).
 The default action for execute and script resources is to run the command/script.
 
 # execute examples
+
+Type this into Shef (recipe context):
 
     @@@ruby
     execute "apt-get update"
@@ -843,11 +811,12 @@ source files for some of the templates and cookbook_files.
 
 Chef will halt execution when it encounters an unhandled exception.
 
-.notes the `shef` command to enter the execution phase is `run-chef`.
+.notes the `shef` command to enter the execution phase is `run_chef`.
 
 # Summary
 
 * Understand the components of resources.
+* Know the commonly used resources in Chef.
 * Write recipes using common resources.
 
 # Questions

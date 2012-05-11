@@ -142,6 +142,8 @@ Installation on Windows is done by downloading the MSI and installing it.
 
 Server versions are directly tested, but the MSI is known to install and work fine on desktop versions of Windows such as Vista and 7.
 
+.notes Do this now. Download the MSI and install it.
+
 # What You Get: Linux/Unix
 
 Chef binaries are in `/opt/opscode/bin`. The package installation symlinks them in `/usr/bin` so they are in the default `$PATH`.
@@ -181,6 +183,11 @@ Non-Chef tools:
 * Text editors (Emacs, Vim, Notepad++)
 * Version control systems (Git, Subversion, Perforce)
 * Ruby programming language
+
+.notes Coverage of these tools is outside the scope of the class.
+Students are assumed to have knowledge and familiarity with the shell,
+text editor and version control system of their choice sufficient for
+working in the hands on exercises.
 
 # Chef Tools
 
@@ -295,7 +302,7 @@ The default configuration file for Knife is `.chef/knife.rb`; knife looks for it
     $PWD/".."/.chef/knife.rb
     ~/.chef/knife.rb
 
-Opscode Hosted Chef provides a pregenerated `knife.rb` you can use.
+Opscode Hosted/Private Chef provides a pregenerated `knife.rb` you can use.
 
 # Knife Configuration Options
 
@@ -510,6 +517,9 @@ The default configuration file is `/etc/chef/solo.rb`.
     | -r, --recipe-url URL  | recipe_url    |
 
 These are similar to `chef-client`, with the addition of `-r`.
+
+.notes This concludes the material that covers chef-solo, we're going
+to work with a Chef Server for the remainder of the course.
 
 # Shef
 

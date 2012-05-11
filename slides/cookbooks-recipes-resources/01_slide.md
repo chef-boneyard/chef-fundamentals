@@ -163,6 +163,12 @@ This run list can include recipes that also include other recipes.
 
 These are applied to the node in the order listed.
 
+    @@@javascript
+    "run_list": [
+      "recipe[apache2]",
+      "recipe[webserver]"
+    ]
+
 # Chef Recipes
 
 Recipes are processed in the order they are written.
@@ -322,6 +328,9 @@ optional.
 Are equivalent. To use a different recipe, specify it by name:
 
     recipe[webserver::different-recipe]
+
+.notes Chef deduplicates recipes, but there's a bug about using
+webserver and webserver::default and both being included
 
 # Add Recipe to a Node
 

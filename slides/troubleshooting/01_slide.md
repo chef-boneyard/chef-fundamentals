@@ -95,7 +95,7 @@ It doesn't know if the error is something serious that can cause state issues th
 
 It is up to you to fix the error and re-run Chef.
 
-Stack traces are left behind in a file, by default
+Stack traces are written to a file, by default
 `/var/chef/cache/chef-stacktrace.out`. The directory location is
 `file_cache_path` in `/etc/chef/client.rb`.
 
@@ -164,13 +164,6 @@ the non-unique part will be truncated.
 Clearly from the first message, this is a template error.
 
 What template is this from?
-
-# Template Error
-
-The last part of the stack trace comes from dumping the exception from
-the exception handler.
-
-We need to scroll up in the output to find what template and where.
 
 # Template Error
 
@@ -272,14 +265,6 @@ Search query syntax follows SOLR Lucene
 If there's a syntax error, we'll see a 500 from the server.
 
 To find where the query is in the recipe, look for the line above.
-
-# Invalid Search
-
-    % sudo sed -n 25p cookbooks/getting-started/recipes/default.rb
-
-We can view the specific line in the cookbook on the node with sed.
-
-Or just view it in your local repository with your favorite editor.
 
 # Fixing Recipe Errors
 
@@ -398,7 +383,7 @@ Recipes are "just Ruby".
 
 Normally we can use a begin/rescue block to handle errors.
 
-We can also cause Chef to bail out.
+We can also tell Chef explicitly to exit the run.
 
 # begin..rescue
 

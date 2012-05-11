@@ -103,18 +103,6 @@ systems to use.
 Plugins, Reporting. This also may include questions asked during the
 course that have not been covered.
 
-# Agenda: Hack Day
-
-Opscode public Chef Fundamentals training is often followed by a Hack Day.
-
-* Mini-tutorials/talks
-* Demonstrations
-* Collaboration and learning
-* Hacking on Chef, cookbooks and more!
-* Venue varies by location
-
-.notes Discuss any relevant hack day event logistics. If no hack day, skip.
-
 # Course Artifacts
 
 At the end of the class you will have:

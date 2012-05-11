@@ -33,16 +33,6 @@ example, "`apache2-1.0.8.tar.gz`".
     > tar -zxvf apache2-1.0.8.tar.gz -C cookbooks/
     > ls cookbooks/apache2
 
-# Use Your VCS
-
-Knife currently integrates with Git in the "cookbook site install"
-command.
-
-You can use any version control system you like.
-
-There will be additional steps required to untar cookbooks,
-branch/merge, etc, depending on your tool.
-
 # Examine the Cookbooks
 
 Remember, you're probably going to run Chef on the nodes as a
@@ -88,11 +78,12 @@ Included recipes from other cookbooks require metadata dependency.
 
 # Cookbook Dependencies
 
-Remember, cookbook dependencies are assumed when using part(s) of one
-cookbook in another, such as recipe inclusion.
+Remember, cookbook dependencies are *assumed* when using part(s) of one
+cookbook in another, such as recipe inclusion, but they are not
+created automatically.
 
 Cookbook dependencies are explicitly defined in metadata. Use the
-"depends" keyword. This will cause Chef to download the dependency
+"`depends`" keyword. This will cause Chef to download the dependency
 cookbook from the server.
 
 Downloading a cookbook as a dependency from another does not cause it
@@ -137,6 +128,9 @@ For example, the default action in the `fail2ban` package resource is
 upgrade, so apt will ensure we always have the latest version
 including security fixes.
 
+.notes Other platforms (e.g. RHEL family) might have a yum-related
+recipe instead of apt. Like yum::epel
+
 # Apply Role to Node
 
 Applying the role to the node can be done with knife.
@@ -154,7 +148,8 @@ The `$EDITOR` environment variable must be set, or specified with
     > knife node edit NODE -e vi
 
 .notes On Windows, use cmd.exe not powershell, else an erroneous entry
-will be made (e.g., recipe[roles]).
+will be made (e.g., recipe[roles]). The %EDITOR% variable can be set
+to, e.g. set EDITOR="C:\Program Files\Windows NT\Accessories\wordpad.exe"
 
 # Apply role to Node
 
@@ -187,6 +182,9 @@ Many things automated with Chef follow a pattern:
 
 Let's walk through another example of this pattern.
 
+.notes The haproxy cookbook is used to follow the *pattern*; the
+implementation details are moot.
+
 # haproxy Cookbook
 
 Download the haproxy cookbook.
@@ -196,6 +194,10 @@ Download the haproxy cookbook.
 
 We will explore the haproxy cookbook for this pattern because we'll
 revisit it in the next section on search.
+
+.notes In the next section on search we'll look at the parts of the
+haproxy cookbook that are modified to adapt the recipe for this
+flexibility.
 
 # haproxy default recipe
 
@@ -221,7 +223,7 @@ many platforms.
       action :install
     end
 
-.notes On RHEL, it is available from EPEL.
+.notes On RHEL, it is available from EPEL, use yum::epel in the base role.
 
 # haproxy default template
 
@@ -236,7 +238,9 @@ On Debian/Ubuntu, the service is controlled by a config file
       mode 0644
     end
 
-.notes Due to this specific file, the recipe won't work on RHEL systems.
+.notes Due to this specific file, the recipe won't work on RHEL
+systems. If the exercises are done on RHEL systems, then we can
+comment this out when it is used.
 
 # haproxy default template
 
@@ -321,6 +325,8 @@ set by the cookbook. Excerpts from the template:
     default['haproxy']['enable_admin'] = true
     default['haproxy']['balance_algorithm'] = "roundrobin"
 
+.notes This syntax is because we access the attributes *like* a Hash.
+
 # haproxy modifying attributes
 
 We can modify the attributes directly editing the cookbook, or even
@@ -338,6 +344,9 @@ better, by applying them with a role appropriate to the task.
         "enable_admin" => false
       }
     )
+
+.notes This syntax is because we are creating the attributes *as* a
+Hash.
 
 # Summary
 
