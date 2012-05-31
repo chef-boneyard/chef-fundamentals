@@ -2,18 +2,14 @@
   "name": "Chef Fundamentals",
   "sections": [
     /* Day 1 */
-    "introduction",
-    "getting-started",
-    "anatomy-of-a-chef-run",
-    "cookbooks-recipes-resources",
-    "just-enough-ruby-for-chef",
+    // Will use the Workshop for Sysadmin Material
     /* Day 2 */
+    "just-enough-ruby-for-chef",
+    "cookbooks-recipes-resources",
     "resources-in-depth",
-    "troubleshooting",
-    "roles",
     "chef-node",
     /* Day 3 */
-    "more-cookbooks",
+    "troubleshooting",
     "multiple-nodes-and-search",
     "additional-topics",
     "chef-development"
