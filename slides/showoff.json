@@ -4,14 +4,13 @@
     /* Day 1 */
     // Will use the Workshop for Sysadmin Material
     /* Day 2 */
-    "just-enough-ruby-for-chef",
     "cookbooks-recipes-resources",
+    "just-enough-ruby-for-chef",
     "resources-in-depth",
     "chef-node",
     /* Day 3 */
-    "troubleshooting",
     "multiple-nodes-and-search",
-    "lwrp-introduction"
+    "lwrp-introduction",
     "additional-topics",
     "chef-development"
   ],
