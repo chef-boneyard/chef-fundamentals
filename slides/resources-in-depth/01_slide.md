@@ -61,15 +61,6 @@ are in the recipe context.
 "compile" vs "execute" phases of node convergence. We're not actually
 doing the "execute" part in these demonstrations.
 
-# Chef Resources
-
-Chef Resources have four components.
-
-* Type
-* Name
-* Parameters/attributes
-* Action
-
 # Chef Resource
 
 Syntax example of Chef Resources:
@@ -106,7 +97,7 @@ The action, if specified, **must** begin with a colon (Ruby symbol).
 
 # Common Resources
 
-By the 80/20 rule, you'll use a small subset of the available Chef
+By the "80/20 rule", you'll use a small subset of the available Chef
 resources most of the time.
 
 * File management
@@ -159,7 +150,7 @@ The default action is to create the file.
 Type this into your Shef session (recipe context):
 
     @@@ruby
-    file "/etc/passwd" do
+    file "/tmp/shef_created_this" do
       owner "root"
       group "root"
       mode 0644
@@ -196,6 +187,8 @@ for static content like scripts (e.g. plugins)
 
 # cookbook_file example
 
+Do not type this resource into Shef, as it will fail to converge.
+
     @@@ruby
     cookbook_file "/usr/local/bin/cpan_install" do
       source "cpan_install"
@@ -218,6 +211,8 @@ The default action is to create the target file by downloading the
 source URI.
 
 # remote_file example
+
+Type the following in your Shef session (recipe context):
 
     @@@ruby
     remote_file "/tmp/chef-install.sh" do
@@ -267,6 +262,8 @@ The default action will create the target file rendered from the
 template.
 
 # template example
+
+Do not type this resource into Shef, as it will fail to converge.
 
     @@@ruby
     template "/var/www/index.html" do
@@ -328,6 +325,8 @@ The default action is to create the specified directory.
 
 # directory example
 
+Type this into your Shef session (recipe context):
+
     @@@ruby
     directory "/var/cache/chef" do
       mode 0755
@@ -359,10 +358,14 @@ The default action is to install the named package.
 
 # package examples
 
-Type this into Shef (recipe context):
+Type this into your Shef session (recipe context):
 
     @@@ruby
-    package "apache2"
+    package "apache2" do
+      action :install
+    end
+
+Do not type this one in, as the package version may change.
 
     package "apache2" do
       version "2.2.14-5ubuntu8.7"
@@ -374,6 +377,8 @@ Type this into Shef (recipe context):
 
 # Additional package examples
 
+Do not type this resource into Shef, as it will fail to converge.
+
     @@@ruby
     package "apache2" do
       package_name "httpd"
@@ -382,6 +387,8 @@ Type this into Shef (recipe context):
     package "apache2" do
       action :upgrade
     end
+
+Type this into your Shef session (recipe context):
 
     package "portmap" do
       action :remove
@@ -446,7 +453,7 @@ The default action for both resources is to create the named group or user.
 
 # group example
 
-Type this into Shef (recipe context):
+Type this into your Shef session (recipe context):
 
     @@@ruby
     group "admins" do
@@ -459,6 +466,8 @@ Type this into Shef (recipe context):
 * append - the members will be appended to an existing group
 
 # user example
+
+Type this into your Shef session (recipe context):
 
     @@@ruby
     user "joe" do
@@ -481,7 +490,7 @@ Type this into Shef (recipe context):
 
 # system user example
 
-Type this into Shef (recipe context):
+Type this into your Shef session (recipe context):
 
     @@@ruby
     user "myapp" do
@@ -506,6 +515,8 @@ underlying OS. For example, generate an MD5 hashed password with openssl:
     openssl passwd -1 "theplaintextpassword"
 
 # user password example
+
+Do not type this into Shef.
 
     @@@ruby
     user "joe" do
@@ -535,7 +546,7 @@ of what it means to say you have a service resource to manage.
 
 # service example
 
-Type this into Shef (recipe context):
+Type this into your Shef session (recipe context):
 
     @@@ruby
     service "apache2" do
@@ -668,10 +679,14 @@ The default action for execute and script resources is to run the command/script
 
 # execute examples
 
-Type this into Shef (recipe context):
+Type this into your Shef session (recipe context):
 
     @@@ruby
-    execute "apt-get update"
+    execute "apt-get update" do
+      ignore_failure true
+    end
+
+Do not type this resource into Shef, as it will fail to converge.
 
     execute "configure software" do
       command "./configure"
@@ -685,6 +700,8 @@ Type this into Shef (recipe context):
 * group - group to run the command
 * environment - hash of environment variables to set
 * returns - valid command return codes, can be an array
+* ignore_failure - meta-parameter that doesn't exit the Chef run if
+  the resource fails to be configured
 
 # scripts
 
@@ -749,11 +766,16 @@ common guard is "grep -q" or even "grep -qx".
 
 # Uncommon Resources
 
+We're going to discuss a number of additional resources available, but
+we won't explore them in this course. They are documented on the Chef Wiki.
+
 * Application deployment
 * Interacting with other services
 * Filesystem management
 * Network configuration
 * Special resources
+
+Documentation: http://wiki.opscode.com/display/Chef/Resources
 
 # Application deployment
 
@@ -840,3 +862,21 @@ Resources In Depth
 
 * Understand components of resources
 * Write resources into shef and observe the outcome
+
+# Interacting with Resources
+
+Interact with the Ruby object of a resource by loading it with the
+`resources()` method. With no parameters, `resources()` displays an
+array of resources in the Resource Collection.
+
+    chef:recipe > resources
+    ["file[/tmp/shef_created_this]"]
+    chef:recipe > my_resource = resources("file[/tmp/shef_created_this]")
+    chef:recipe > my_resource.name
+     => "/tmp/shef_created_this"
+    chef:recipe > my_resource.path
+     => "/tmp/shef_created_this"
+    chef:recipe > my_resource.action
+     => "create"
+    chef:recipe > my_resource.allowed_actions
+     => [:nothing, :create, :delete, :touch, :create_if_missing]

@@ -13,7 +13,7 @@ This work is licensed under a Creative Commons Attribution Share Alike 3.0 Unite
 
 # Cookbooks Overview
 
-Cookbooks are the fundamental units of file distribution in Chef. They
+Cookbooks are the fundamental unit of file distribution for Chef. They
 are "packages" for Chef recipes and other helper components.
 
 They are designed to be sharable packages for managing infrastructure
@@ -71,6 +71,7 @@ Cookbook metadata contains documentation about the cookbook itself.
     license          "apachev2"
     description      "Configures web servers"
     long_description "Configures web servers with a cool recipe"
+    version          "1.0.0"
 
 # Metadata Dependency Management
 
@@ -200,6 +201,26 @@ Become Chef resources:
     @@@ruby
     package "apache2"
     user "application"
+
+# Resources
+
+This script:
+
+    @@@sh
+    mkdir /tmp/foo
+    touch /tmp/foo/bar
+    chmod baz:qux /tmp/foo/bar
+
+Can be Chef resources:
+
+    @@@ruby
+    directory "/tmp/foo"
+
+    file "/tmp/foo/bar" do
+      owner "baz"
+      group "qux"
+      action :touch
+    end
 
 # Resources
 
@@ -403,3 +424,85 @@ Cookbooks, Recipes and Resources
 * Create a new cookbook
 * Write a simple recipe with two resources
 * Run Chef with the cookbook on a node
+
+# Create Webserver Cookbook
+
+In the top-level of the Chef repository, create the following
+directory:
+
+    cookbooks/webserver/recipes
+
+Create the metadata and default recipe.
+
+    cookbooks/webserver/recipes/default.rb
+    cookbooks/webserver/metadata.rb
+
+Create the templates directory and template file.
+
+    cookbooks/webserver/templates/default
+    cookbooks/webserver/templates/default/index.html
+
+# Metadata contents
+
+Use the following for the metadata.rb content:
+
+    maintainer "YOUR NAME"
+    version "1.0.0"
+
+# Recipe contents
+
+This is the content of `cookbooks/webserver/recipes/default.rb`.
+
+    @@@ruby
+    package "apache2" do
+      action :install
+    end
+
+    service "apache2" do
+      action [:enable, :start]
+    end
+
+    directory "/var/www" do
+      owner "www-data"
+      group "www-data"
+    end
+
+    template "/var/www/index.html" do
+      source "index.html.erb"
+      owner "www-data"
+      group "www-data"
+      mode 00644
+    end
+
+# Create a template file
+
+This is the content of `cookbooks/webserver/templates/default/index.html.erb`
+
+    @@@html
+    <pre>
+    Platform: <%= node['platform'] %>
+    Platform Version: <%= node['platform_version'] %>
+    Default IP Address: <%= node['ipaddress'] %>
+    Fully Qualified Domain Name: <%= node['fqdn'] %>
+    Node's Run List: <%= node.run_list.to_s %>
+    </pre>
+
+# Upload, Run Chef
+
+Upload the cookbook.
+
+    knife cookbook upload webserver
+
+Add the recipe to the node's run list. Replace `NODE_NAME` with your
+node's name.
+
+    knife node run list NODE_NAME 'recipe[webserver]'
+
+Run chef-client on the node. When complete, view the node on the Chef
+Server.
+
+    knife node show NODE_NAME
+
+# Exercise Complete
+
+Questions?

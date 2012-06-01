@@ -470,3 +470,57 @@ Chef Node
 * View the node object on the Chef Server with knife
 * Create new attributes on the node with a cookbook and role.
 * Use node attributes in a conditional in the recipe.
+
+# Cookbook Attributes
+
+Create the attributes file in the webserver cookbook.
+
+    cookbooks/webserver/attributes/default.rb
+
+It should have the following line:
+
+    default['webserver']['origin'] = "Cookbook"
+
+Upload the cookbook, and run Chef on the node. View the node's
+attribute with:
+
+    knife node show NODE_NAME -a webserver.origin
+
+# Role Attributes
+
+Create a "webserver" role.
+
+    @@@ruby
+    name "webserver"
+    run_list("recipe[webserver]")
+    default_attributes(
+      "webserver" => {
+        "origin" => "Role"
+      }
+    )
+
+Upload the role with knife and run Chef on the node. View the node's
+attribute with:
+
+    knife node show NODE_NAME -a webserver.origin
+
+# Attributes in a Recipe
+
+In the webserver default recipe, create a conditional based on the
+node's platform.
+
+    @@@ruby
+    if node['platform'] == "ubuntu"
+      log "I'm on Ubuntu #{node['platform_version']}"
+    else
+      log "I'm on #{node['platform']} #{node['platform_version']}"
+    end
+
+    node.set['webserver']['origin'] = "Recipe"
+    log "The webserver origin attribute is #{node['webserver']['origin']}"
+
+Upload the cookbook and run Chef. It should display two log lines.
+
+View the node's attribute with:
+
+    knife node show NODE_NAME -a webserver.origin
