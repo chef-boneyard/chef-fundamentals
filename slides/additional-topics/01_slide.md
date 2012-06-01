@@ -5,7 +5,6 @@ Section Objectives:
 * Questions from earlier sections
 * Data bags
 * Environments
-* Lightweight Resources/Providers
 * Knife Plugins
 
 .notes These course materials are Copyright © 2010-2012 Opscode, Inc. All rights reserved.
