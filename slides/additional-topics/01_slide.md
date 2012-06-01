@@ -236,38 +236,6 @@ environment:
     @@@ruby
     search(:node, "chef_environment:#{node.chef_environment}")
 
-# LWRPs
-
-LWRPs are "Lightweight Resources and Providers".
-
-They are custom resources and providers that go in a cookbook.
-
-They introduce a new DSL that is lighter weight than the full Ruby
-classes Chef uses in the core library for resources and providers.
-
-# LWRPs in a Cookbook
-
-Lightweight resources and providers are automatically loaded from the
-`resources` and `providers` directories from the cookbook.
-
-They are named by joining the cookbook name and the file name. For
-example, the `apt` cookbook contains:
-
-    apt/resources
-    -> repository.rb
-
-    apt/providers
-    -> repository.rb
-
-The resource used in a recipe is `apt_repository`. If the Ruby file
-name is `default.rb` then just the cookbook name is used.
-
-# When to Use LWRPs
-
-Use custom lightweight resources and providers when you want to create
-a new resource that doesn't exist in Chef, or to modularize reuse of a
-number of resources.
-
 # Knife Plugins
 
 Knife is a plugin-based system.

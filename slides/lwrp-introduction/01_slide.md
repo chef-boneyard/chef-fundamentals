@@ -11,6 +11,15 @@ Section Objectives:
 .notes These course materials are Copyright © 2010-2012 Opscode, Inc. All rights reserved.
 This work is licensed under a Creative Commons Attribution Share Alike 3.0 United States License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/us; or send a letter to Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA.
 
+# LWRPs
+
+LWRPs are "Lightweight Resources and Providers".
+
+They are custom resources and providers that go in a cookbook.
+
+They introduce a new DSL that is lighter weight than the full Ruby
+classes Chef uses in the core library for resources and providers.
+
 # When to use LWRPs
 
 Lightweight Resources and Providers are used when you want to abstract
