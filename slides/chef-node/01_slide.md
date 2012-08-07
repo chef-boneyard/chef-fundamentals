@@ -112,7 +112,7 @@ Access node attributes like Ruby hash keys.
 
     @@@ruby
     node["fqdn"] # => "www1.example.com"
-    node["chef_packages]["chef"]["version"] # => "0.10.8"
+    node["chef_packages"]["chef"]["version"] # => "0.10.8"
 
 # Attribute Conditionals
 
