@@ -14,13 +14,13 @@ This work is licensed under a Creative Commons Attribute Share Alike 3.0 United 
 
 Opscode supports Chef Clients on the following platforms:
 
-* Ubuntu (10.04, 10.10, 11.04, 11.10)
+* Ubuntu (10.04, 10.10, 11.04, 11.10, 12.04)
 * Debian (5.0, 6.0)
 * RHEL & CentOS (5.x, 6.x)
 * Fedora 10+
-* Mac OS X (10.4, 10.5, 10.6)
+* Mac OS X (10.4, 10.5, 10.6, 10.7, 10.8)
 * Windows 7
-* Windows Server 2003 R2, 2008 R2
+* Windows Server 2003, 2003 R2, 2008, 2008 R2
 
 # Additional Platforms
 
