@@ -1,5 +1,0 @@
-bash -c '
-apt-get install -y mkpasswd
-usermod -p "$(echo opstrain_0150 | mkpasswd -m sha-512 -s)" ubuntu
-sed -i "s/^PasswordAuthentication no$/PasswordAuthentication yes/" /etc/ssh/sshd_config && /etc/init.d/ssh restart
-'
